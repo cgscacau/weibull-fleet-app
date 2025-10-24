@@ -1,0 +1,60 @@
+asset_id,component,subsystem,fleet,install_date,failure_date,operating_hours,censored,failure_mode,environment,operator,maintenance_type,cost,downtime_hours
+CAT777-5506,Transmissão,Powertrain,CAT777,2024-06-09,,478.9,True,,Mina B,Operador_18,,,
+VolvoEC750-7912,Transmissão,Powertrain,Volvo EC750,2025-08-19,,1489.3,True,,Mina A,Operador_18,,,
+VolvoEC750-3803,Transmissão,Powertrain,Volvo EC750,2022-10-26,,640.5,True,,Mina B,Operador_21,,,
+VolvoEC750-5371,Transmissão,Powertrain,Volvo EC750,2023-11-27,2023-12-11,7769.8,False,Desgaste de engrenagens,Mina A,Operador_24,preditiva,16770.50145675982,13.012894487106562
+CAT777-4750,Transmissão,Powertrain,CAT 777,2025-06-07,2025-06-14,3806.9,False,Desgaste de engrenagens,Mina A,Operador_09,preditiva,18768.730492354418,13.863146490684601
+CAT785-3724,Transmissão,Powertrain,CAT 785,2023-07-14,2023-07-19,2846.2,False,Desgaste de engrenagens,Porto D,Operador_06,preventiva,14419.398405162838,10.58927866693189
+CAT789-7658,Transmissão,Powertrain,CAT789,2024-12-11,2024-12-14,1996.6,False,Desgaste de engrenagens,Mina B,Operador_14,corretiva,16014.245970763865,22.338720495314004
+KomatsuPC930-7790,Transmissão,Powertrain,Komatsu PC930,2024-09-20,2024-09-22,90.29328531998941,False,Sobrecarga,Porto D,Operador_23,corretiva,22433.9384359023,20.92969243929547
+KomatsuPC930-4585,Transmissão,Powertrain,Komatsu PC930,2024-10-28,,2074.2,True,,Porto D,Operador_15,,,
+VolvoEC750-1672,Transmissão,Powertrain,Volvo EC750,2023-11-12,2023-11-16,2109.5,False,Sobrecarga,Porto D,Operador_11,corretiva,22046.180642996198,20.091280197981277
+KomatsuPC930-6934,Transmissão,Powertrain,Komatsu PC930,2023-03-27,2023-04-02,3329.4,False,Sobrecarga,Mina B,Operador_09,preditiva,21673.792969260805,13.839803941861627
+CAT785-4457,Transmissão,Powertrain,CAT 785,2024-04-30,,1259.0,True,,Mina A,Operador_01,,,
+KomatsuPC930-6700,Transmissão,Powertrain,Komatsu PC930,2023-07-10,2023-07-19,4933.3,False,Desgaste de engrenagens,Pedreira C,Operador_11,preventiva,20643.063065850893,8.340791497952026
+CAT777-8269,Transmissão,Powertrain,CAT 777,2024-11-17,2024-11-25,4372.7,False,Desgaste de engrenagens,Pedreira C,Operador_10,preventiva,17773.569807977834,5.2025355053867655
+CAT785-9807,Transmissão,Powertrain,CAT 785,2025-01-19,2025-01-23,20057.68681172883,False,Sobrecarga,Porto D,Operador_23,preditiva,18172.14078073251,18.32991832483695
+KomatsuPC930-8344,Transmissão,Powertrain,Komatsu PC930,2023-10-13,2023-10-18,2507.0,False,Sobrecarga,Mina A,Operador_02,preditiva,21449.042963823416,21.07357997071644
+CAT777-6277,Transmissão,Powertrain,CAT 777,2024-12-24,,2716.1,True,,Mina A,Operador_23,,,
+CAT789-8043,Transmissão,Powertrain,CAT 789,2025-03-10,2025-03-14,2242.0,False,Sobrecarga,Pedreira C,Operador_22,preventiva,14808.756263439847,10.695794713927837
+CAT785-9095,Transmissão,Powertrain,CAT 785,2023-03-18,2023-03-24,3649.9,False,Sobrecarga,Porto D,Operador_21,preditiva,17308.874174790246,23.361407412579528
+VolvoEC750-3827,Transmissão,Powertrain,Volvo EC750,2025-08-04,2025-08-05,713.8,False,Sobrecarga,Mina B,Operador_17,preditiva,15828.715871833872,10.202743606229197
+CAT789-4950,Transmissão,Powertrain,CAT 789,2025-03-25,,347.7,True,,Pedreira C,Operador_21,,,
+CAT789-5264,Transmissão,Powertrain,CAT 789,2023-04-24,2023-04-30,3549.6,False,Vazamento hidráulico,Mina B,Operador_07,corretiva,15621.555759574747,3.629144861883961
+CAT789-8366,Transmissão,Powertrain,CAT 789,2024-06-03,,1038.8,True,,Mina B,Operador_20,,,
+VolvoEC750-4804,Transmissão,Powertrain,Volvo EC750,2025-08-08,2025-08-15,3877.6,False,Desgaste de engrenagens,Mina B,Operador_13,preventiva,16076.804687302401,18.47807043170102
+KomatsuPC930-1519,Transmissão,Powertrain,Komatsu PC930,2024-03-15,,574.1,True,,Porto D,Operador_24,,,
+KomatsuPC930-6246,Transmissão,Powertrain,Komatsu PC930,2024-09-02,2024-09-03,393.4,False,Desgaste de engrenagens,Pedreira C,Operador_24,corretiva,14545.979109011345,14.172854397927832
+VolvoEC750-6666,Transmissão,Powertrain,Volvo EC750,2025-07-06,2025-07-14,4854.7,False,Vazamento hidráulico,Mina A,Operador_20,preditiva,22993.725572231993,10.727467084797109
+VolvoEC750-5839,Transmissão,Powertrain,Volvo EC750,2024-06-06,,286.1,True,,Mina A,Operador_21,,,
+VolvoEC750-6315,Transmissão,Powertrain,Volvo EC750,2023-08-27,2023-08-31,2521.2,False,Desgaste de engrenagens,Mina A,Operador_24,preditiva,22546.86816882023,23.51980740830552
+CAT777-6620,Transmissão,Powertrain,CAT 777,2025-03-14,2025-03-26,6767.1,False,Sobrecarga,Mina B,Operador_06,preditiva,15841.221400938235,14.316676954776987
+CAT785-8230,Transmissão,Powertrain,CAT 785,2023-04-03,2023-04-16,7155.7,False,Sobrecarga,Mina A,Operador_05,preditiva,17116.789539387803,21.237314123809057
+CAT789-7022,Transmissão,Powertrain,CAT 789,2024-02-19,2024-03-01,6563.4,False,Desgaste de engrenagens,Mina B,,preditiva,15685.677601514044,13.67118208402698
+CAT777-3293,Transmissão,Powertrain,CAT 777,2025-02-13,2025-02-18,2732.4,False,Desgaste de engrenagens,Porto D,Operador_08,preventiva,20201.585113691082,7.4596745980883075
+KomatsuPC930-5625,Transmissão,Powertrain,Komatsu PC930,2024-01-26,,1445.3,True,,Pedreira C,Operador_10,,,
+CAT777-2056,Transmissão,Powertrain,CAT 777,2024-09-14,2024-09-23,5041.3,False,Vazamento hidráulico,Porto D,,corretiva,22880.525949217037,3.114029420135634
+VolvoEC750-2525,Transmissão,Powertrain,Volvo EC750,2023-12-01,2023-12-11,5758.9,False,Sobrecarga,Porto D,Operador_06,preditiva,22407.77943363639,5.45628310127725
+CAT789-4367,Transmissão,Powertrain,CAT 789,2024-09-29,2024-10-10,6688.1,False,Sobrecarga,Porto D,Operador_18,preventiva,20345.38103441676,8.542814248994455
+CAT777-7437,Transmissão,Powertrain,CAT 777,2023-01-22,,116.9,True,,Mina B,Operador_22,,,
+CAT777-2654,Transmissão,Powertrain,CAT 777,2024-03-17,2024-03-19,840.8,False,Sobrecarga,Pedreira C,Operador_16,preditiva,19880.659367571916,2.8242447509496955
+KomatsuPC930-6449,Transmissão,Powertrain,Komatsu PC930,2024-10-26,2024-10-31,2977.8,False,Vazamento hidráulico,Pedreira C,Operador_07,corretiva,19586.51024163033,5.485572582264959
+CAT785-8105,Transmissão,Powertrain,CAT 785,2023-05-28,2023-06-10,7601.5,False,Desgaste de engrenagens,Porto D,Operador_02,preditiva,16194.728261053053,10.208230919402162
+KomatsuPC930-9246,Transmissão,Powertrain,Komatsu PC930,2024-02-05,,195.7,True,,Mina B,Operador_15,,,
+VolvoEC750-5140,Transmissão,Powertrain,Volvo EC750,2023-02-25,2023-03-09,7236.9,False,Desgaste de engrenagens,Mina B,Operador_10,preventiva,20354.9811848165,16.57462524955573
+CAT789-4787,Transmissão,Powertrain,CAT 789,2023-04-02,2023-04-08,3551.1,False,Desgaste de engrenagens,Pedreira C,Operador_02,preventiva,17641.931976484993,16.888863704201253
+KomatsuPC930-8324,Transmissão,Powertrain,Komatsu PC930,2024-01-15,2024-01-22,3962.5,False,Desgaste de engrenagens,Mina A,Operador_04,preventiva,18111.046929079945,14.25688225090633
+VolvoEC750-4675,Transmissão,Powertrain,Volvo EC750,2023-08-19,2023-08-28,5357.9,False,Sobrecarga,Mina B,Operador_10,preditiva,20380.442117324612,22.38266584571315
+CAT789-9608,Transmissão,Powertrain,Cat789,2024-07-30,2024-08-16,9873.6,False,Desgaste de engrenagens,Mina B,Operador_14,preditiva,19233.323572805177,4.022802186659462
+KomatsuPC930-5203,Transmissão,Powertrain,Komatsu PC930,2024-03-23,2024-03-26,1694.9,False,Vazamento hidráulico,Mina A,,preditiva,18410.012078145464,2.9647365400310384
+CAT785-4492,Transmissão,Powertrain,CAT 785,2023-06-08,2023-06-11,1644.1,False,Sobrecarga,Mina A,Operador_25,preventiva,20219.050433865108,22.674524453182897
+VolvoEC750-4729,Transmissão,Powertrain,Volvo EC750,2024-05-12,2024-05-15,2014.4,False,Vazamento hidráulico,Porto D,Operador_11,corretiva,17905.516805199448,4.602726755785615
+CAT789-2608,Transmissão,Powertrain,CAT 789,2024-09-14,2024-09-18,2496.6,False,Sobrecarga,Porto D,Operador_21,corretiva,15300.405515478806,15.629347097395325
+CAT785-8317,Transmissão,Powertrain,CAT 785,2024-11-26,2024-12-06,5811.6,False,Vazamento hidráulico,Mina A,Operador_18,preditiva,20673.51667852014,17.549378537723136
+KomatsuPC930-1108,Transmissão,Powertrain,Komatsu PC930,2025-07-29,2025-08-09,6377.8,False,Sobrecarga,Porto D,Operador_09,preventiva,16045.84676816726,18.81377115959041
+CAT777-3654,Transmissão,Powertrain,CAT 777,2023-11-20,2023-11-30,5954.3,False,Sobrecarga,Mina B,Operador_09,preditiva,20201.798638396693,7.9674582297296785
+CAT789-5410,Transmissão,Powertrain,CAT 789,2025-02-09,2025-02-23,8106.0,False,Desgaste de engrenagens,Porto D,Operador_01,preventiva,16354.692766645669,11.245346597244493
+CAT785-7304,Transmissão,Powertrain,CAT 785,2023-04-30,2023-05-04,2059.9,False,Vazamento hidráulico,Mina B,Operador_24,corretiva,19090.252080515555,23.60654873092351
+KomatsuPC930-1994,Transmissão,Powertrain,Komatsu PC930,2023-10-15,2023-10-24,5107.6,False,Desgaste de engrenagens,Porto D,Operador_20,preventiva,19161.187481625962,18.154607441637953
+CAT777-4982,Transmissão,Powertrain,CAT 777,2024-12-25,,1329.2,True,,Pedreira C,Operador_15,,,
+CAT777-2784,Transmissão,Powertrain,CAT 777,2023-06-23,,809.3,True,,Mina B,Operador_23,,,

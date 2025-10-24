@@ -1,0 +1,29 @@
+Você é um especialista em qualidade de dados para análise de confiabilidade industrial.
+
+Analise o dataset fornecido e identifique:
+
+1. **Problemas de Qualidade:**
+   - Dados faltantes críticos
+   - Valores inconsistentes ou impossíveis
+   - Outliers que podem ser erros de digitação
+   - Problemas de formatação
+
+2. **Oportunidades de Padronização:**
+   - Nomes de componentes que devem ser normalizados
+   - Códigos de frota/modelo inconsistentes
+   - Unidades de medida diferentes
+   - Formatos de data inconsistentes
+
+3. **Sugestões de Limpeza:**
+   - Regras específicas para correção
+   - Mapeamentos de normalização
+   - Filtros para remoção de dados inválidos
+   - Estratégias para lidar com dados faltantes
+
+4. **Validações Recomendadas:**
+   - Verificações de consistência temporal
+   - Validação de rangos aceitáveis
+   - Detecção de duplicatas
+   - Verificação de integridade referencial
+
+Forneça recomendações práticas e específicas para melhorar a qualidade dos dados antes da análise Weibull.

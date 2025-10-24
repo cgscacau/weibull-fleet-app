@@ -1,0 +1,48 @@
+asset_id,component,subsystem,fleet,install_date,failure_date,operating_hours,censored,failure_mode,environment,operator,maintenance_type,cost,downtime_hours
+CAT785-5371,Bateria,Elétrico,CAT 785,2024-12-01,2024-12-06,2628.2,False,Sulfatação,Mina A,Operador_08,corretiva,543.7319862593091,12.126671162936725
+KomatsuPC930-4249,Bateria,Elétrico,Komatsu PC930,2025-05-21,,2422.9,True,,Mina B,Operador_20,,,
+KomatsuPC930-8699,Bateria,Elétrico,Komatsu PC930,2024-03-06,2024-03-10,2261.1,False,Célula danificada,Mina A,Operador_15,corretiva,514.6616070160296,22.326042978616073
+VolvoEC750-1601,Bateria,Elétrico,Volvo EC750,2023-04-06,2023-04-10,2174.1,False,Sulfatação,Mina A,Operador_17,corretiva,507.97358695870406,13.93705907585829
+CAT777-4073,Bateria,Elétrico,CAT 777,2022-11-27,2022-11-29,879.2,False,Sulfatação,Pedreira C,Operador_25,corretiva,405.80060362881164,14.082832059877298
+CAT777-4681,Bateria,Elétrico,CAT 777,2025-03-05,2025-03-08,1476.7,False,Descarga profunda,Porto D,Operador_16,preditiva,425.66885105890185,17.51905585836878
+KomatsuPC930-8736,Bateria,Elétrico,Komatsu PC930,2024-06-11,2024-06-17,3430.6,False,Célula danificada,Porto D,Operador_17,preditiva,557.8484074079572,21.00859255742894
+CAT785-9115,Bateria,Elétrico,CAT 785,2025-08-09,2025-08-13,2075.1,False,Descarga profunda,Mina B,Operador_15,corretiva,478.3389945317014,12.05241763843333
+CAT785-3116,Bateria,Elétrico,CAT 785,2023-09-06,2023-09-11,2671.9,False,Sulfatação,Mina B,Operador_03,preventiva,553.8969814550824,2.9306497543814105
+VolvoEC750-7126,Bateria,Elétrico,Volvo EC750,2024-06-28,2024-07-05,4114.5,False,Descarga profunda,Porto D,Operador_11,corretiva,548.8146647126114,16.299135054471996
+CAT789-5566,Bateria,Elétrico,CAT 789,2024-05-30,,540.7,True,,Mina A,Operador_18,,,
+CAT789-8430,Bateria,Elétrico,CAT 789,2025-05-27,,369.0,True,,Mina A,Operador_11,,,
+CAT785-3616,Bateria,Elétrico,Caterpillar 785,2023-12-23,,248.4,True,,Pedreira C,Operador_15,,,
+CAT777-4189,Bateria,Elétrico,CAT777,2023-10-12,,894.5,True,,Pedreira C,Operador_09,,,
+CAT785-4968,Bateria,Elétrico,CAT 785,2025-08-20,,776.7,True,,Mina A,Operador_14,,,
+CAT789-7266,Bateria,Elétrico,cat 789,2023-04-19,2023-04-24,3090.7,False,Célula danificada,Porto D,Operador_18,corretiva,507.045172144208,9.650937517061305
+VolvoEC750-1256,Bateria,Elétrico,Volvo EC750,2024-06-18,,1546.7,True,,Mina B,Operador_22,,,
+VolvoEC750-9683,Bateria,Elétrico,Volvo EC750,2025-01-22,2025-01-27,2658.2,False,Célula danificada,Porto D,Operador_03,preventiva,550.6050118319126,4.0342079235910004
+CAT777-5903,Bateria,Elétrico,CAT 777,2024-11-25,2024-12-01,3536.8,False,Célula danificada,Mina B,Operador_18,preventiva,446.36539816865394,18.27439376025582
+VolvoEC750-1602,Bateria,Elétrico,Volvo EC750,2023-10-18,,426.9,True,,Mina A,Operador_06,,,
+KomatsuPC930-1072,Bateria,Elétrico,Komatsu PC930,2024-08-10,2024-08-17,3950.7,False,Descarga profunda,Mina B,Operador_19,corretiva,539.8880302995096,13.81155823255417
+KomatsuPC930-8405,Bateria,,Komatsu PC930,2025-05-22,2025-05-25,1486.2,False,Célula danificada,Mina A,Operador_12,preventiva,573.807167744711,9.200364163540467
+CAT785-1948,Bateria,Elétrico,CAT 785,2024-06-10,2024-06-13,1463.9,False,Célula danificada,Mina A,Operador_20,corretiva,429.5902643715434,18.317257199266194
+CAT789-3946,Bateria,,CAT 789,2025-08-31,2025-09-01,630.6,False,Sulfatação,Pedreira C,Operador_02,preventiva,479.1222656922222,18.870527705906003
+CAT789-3846,Bateria,Elétrico,CAT 789,2024-10-28,2024-11-03,3424.5,False,Célula danificada,Mina B,Operador_12,preditiva,366.34647818861083,17.4123376737312
+CAT789-5825,Bateria,Elétrico,CAT 789,2025-02-05,2025-02-08,1880.6,False,Célula danificada,Mina B,Operador_13,preditiva,367.2861171585947,15.252550683921367
+CAT785-7783,Bateria,Elétrico,CAT 785,2023-01-18,2023-01-20,1104.6,False,Sulfatação,Porto D,Operador_19,preditiva,530.6047973007791,6.962820005256258
+CAT785-3422,Bateria,Elétrico,CAT 785,2024-05-13,2024-05-16,1719.8,False,Descarga profunda,Pedreira C,Operador_03,preventiva,485.18194589320484,14.14519221465878
+CAT777-1500,Bateria,Elétrico,CAT 777,2024-06-15,2024-06-17,1120.8,False,Sulfatação,Pedreira C,Operador_19,preditiva,438.69597787004733,5.597299519392719
+CAT777-4742,Bateria,Elétrico,CAT 777,2024-07-21,2024-07-23,986.9,False,Célula danificada,Mina B,Operador_06,corretiva,442.4830765649659,16.31188836266694
+CAT777-2556,Bateria,Elétrico,CAT 777,2025-07-22,2025-07-24,1185.9,False,Descarga profunda,Mina A,Operador_11,preventiva,561.2687139100266,23.01196144282635
+KomatsuPC930-1753,Bateria,Elétrico,Komatsu PC930,2025-06-16,2025-06-19,1869.1,False,Célula danificada,Pedreira C,Operador_17,preditiva,489.74602682776043,14.430268965122611
+CAT777-5166,Bateria,Elétrico,CAT 777,2024-09-17,,833.5,True,,Mina B,Operador_07,,,
+KomatsuPC930-6122,Bateria,Elétrico,Komatsu PC930,2025-07-05,2025-07-08,1765.9,False,Sulfatação,Mina A,Operador_08,preditiva,518.5415405008772,16.247912482100013
+CAT785-1079,Bateria,Elétrico,CAT 785,2024-01-21,2024-01-26,2851.7,False,Célula danificada,Mina B,Operador_14,preventiva,549.0247632256475,4.954728312423555
+VolvoEC750-5155,Bateria,Elétrico,Volvo EC750,2024-05-06,2024-05-12,3687.2,False,Célula danificada,Porto D,Operador_13,corretiva,452.97633561658574,19.243345173197824
+CAT785-4767,Bateria,Elétrico,CAT 785,2024-01-16,2024-01-23,3952.2,False,Descarga profunda,Porto D,Operador_23,preventiva,415.8579621064674,4.046207463566018
+KomatsuPC930-4614,Bateria,Elétrico,Komatsu PC930,2024-05-03,2024-05-05,892.7,False,Célula danificada,Mina A,Operador_23,preditiva,421.16965125540116,16.266054901066358
+CAT777-9899,Bateria,Elétrico,CAT 777,2023-03-06,,916.0,True,,Mina B,Operador_01,,,
+CAT777-5993,Bateria,Elétrico,CAT 777,2022-11-15,2022-11-19,2177.0,False,Sulfatação,Mina A,Operador_17,preditiva,409.6793643345642,3.111435911208205
+KomatsuPC930-9269,Bateria,Elétrico,Komatsu PC930,2025-04-22,2025-04-27,2763.0,False,Descarga profunda,Mina B,Operador_05,preventiva,378.5726503436811,14.571692991233846
+VolvoEC750-4212,Bateria,Elétrico,Volvo EC750,2022-11-15,2022-11-19,2159.5,False,Sulfatação,Mina B,Operador_11,preditiva,567.9310682013936,3.971082258788175
+KomatsuPC930-6984,Bateria,Elétrico,Komatsu PC930,2023-11-10,2023-11-13,2010.9,False,Descarga profunda,Mina B,Operador_25,preventiva,398.08243440256774,9.693760794079763
+CAT785-7237,Bateria,Elétrico,CAT 785,2022-12-17,2022-12-18,738.0,False,Célula danificada,Mina A,Operador_18,corretiva,401.9439121689418,13.014318103115334
+CAT789-6395,Bateria,Elétrico,CAT 789,2023-04-18,2023-04-20,1209.5,False,Célula danificada,Mina B,Operador_22,corretiva,554.0822238555153,8.79796471556802
+VolvoEC750-2063,Bateria,Elétrico,Volvo EC750,2024-03-03,,1203.2,True,,Porto D,Operador_17,,,
+VolvoEC750-4438,Bateria,Elétrico,Volvo EC750,2024-08-21,,1139.5,True,,Mina A,Operador_03,,,

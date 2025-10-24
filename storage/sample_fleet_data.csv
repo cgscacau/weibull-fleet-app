@@ -1,0 +1,501 @@
+asset_id,component,subsystem,fleet,install_date,failure_date,operating_hours,censored,failure_mode,environment,operator,maintenance_type,cost,downtime_hours
+CAT777-5506,Transmissão,Powertrain,CAT777,2024-06-09,,478.9,True,,Mina B,Operador_18,,,
+VolvoEC750-7912,Transmissão,Powertrain,Volvo EC750,2025-08-19,,1489.3,True,,Mina A,Operador_18,,,
+VolvoEC750-7873,Pneu,Rodado,Volvo EC750,2024-07-29,2024-08-04,3682.9,False,Desgaste excessivo,Porto D,Operador_25,corretiva,1378.883636992936,9.48551136339582
+CAT785-6514,Bomba Hidráulica,Sistema Hidráulico,CAT 785,2025-03-28,2025-04-02,3006.2,False,Contaminação,Mina A,Operador_20,preventiva,9628.513093097521,18.054099307263993
+CAT777-7201,Filtro de Ar,Admissão,CAT 777,2025-05-15,2025-05-16,299.2,False,Rasgo,Pedreira C,Operador_19,corretiva,138.2743101728954,3.0081364404245687
+CAT789-2307,Pneu,Rodado,Caterpillar 789,2024-07-04,2024-07-06,1096.4,False,Corte lateral,Mina A,Operador_06,preventiva,1173.162420136513,16.743853836309256
+VolvoEC750-3803,Transmissão,Powertrain,Volvo EC750,2022-10-26,,640.5,True,,Mina B,Operador_21,,,
+CAT785-6313,Filtro de Ar,Admissão,CAT 785,2025-07-01,2025-07-05,2546.2,False,Rasgo,Mina B,Operador_09,corretiva,108.6589706151796,22.744013715371196
+CAT785-9179,Radiador,Arrefecimento,CAT 785,2023-08-05,,869.8,True,,Porto D,Operador_18,,,
+VolvoEC750-8019,Sistema de Freio,Freios,Volvo EC750,2023-07-29,2023-08-05,4509.2,False,Superaquecimento,Pedreira C,Operador_16,corretiva,4122.618775684041,20.944264012666647
+CAT785-7916,Bomba Hidráulica,Sistema Hidráulico,CAT 785,2025-06-15,2025-06-17,1184.5,False,Cavitação,Porto D,Operador_09,preditiva,9843.118808937992,2.252582482742032
+VolvoEC750-5371,Transmissão,Powertrain,Volvo EC750,2023-11-27,2023-12-11,7769.8,False,Desgaste de engrenagens,Mina A,Operador_24,preditiva,16770.50145675982,13.012894487106562
+VolvoEC750-2743,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2024-02-20,,3414.2,True,,Mina B,Operador_25,,,
+CAT777-6310,Filtro de Ar,Admissão,CAT 777,2023-01-27,,181.7,True,,Mina A,Operador_10,,,
+CAT777-4946,Pneu,Rodado,CAT 777,2025-05-15,2025-05-17,1215.5,False,Separação da banda,Mina A,Operador_25,corretiva,1037.0348786998577,12.456212318172089
+CAT785-5342,Filtro de Ar,Admissão,CAT 785,2022-11-08,2022-11-09,500.1,False,Selo danificado,Porto D,,corretiva,138.7769383691473,10.77783059994344
+KomatsuPC930-9479,Radiador,Arrefecimento,Komatsu PC930,2023-04-13,2023-04-18,2557.6,False,Entupimento,Mina A,Operador_19,preditiva,2562.160625635208,6.844782457934309
+CAT777-4750,Transmissão,Powertrain,CAT 777,2025-06-07,2025-06-14,3806.9,False,Desgaste de engrenagens,Mina A,Operador_09,preditiva,18768.730492354418,13.863146490684601
+VolvoEC750-8744,Turbocompressor,Admissão,Volvo EC750,2024-06-13,2024-06-26,7393.6,False,Desgaste de turbina,Porto D,Operador_22,preventiva,11725.785399537323,11.044250073094236
+CAT777-1993,Motor,Powertrain,CAT 777,2023-07-22,2023-07-27,2975.5,False,Desgaste de anéis,Pedreira C,Operador_07,preditiva,25607.669347914154,11.281396076356891
+KomatsuPC930-5092,Sistema de Freio,Freios,Komatsu PC930,2025-05-22,2025-05-31,5532.9,False,Desgaste de pastilhas,Porto D,Operador_02,preditiva,4548.744319722272,20.392606871758943
+CAT785-3724,Transmissão,Powertrain,CAT 785,2023-07-14,2023-07-19,2846.2,False,Desgaste de engrenagens,Porto D,Operador_06,preventiva,14419.398405162838,10.58927866693189
+CAT789-7930,Alternador,Elétrico,Caterpillar 789,2023-01-31,,642.3,True,,Mina B,Operador_24,,,
+CAT777-6138,Filtro de Ar,Admissão,Cat777,2025-06-28,2025-06-29,599.7,False,Selo danificado,Mina A,Operador_06,corretiva,153.646734196467,3.762452235292911
+CAT777-2113,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2024-06-29,,2627.2,True,,Porto D,Operador_20,,,
+VolvoEC750-2343,Motor,Powertrain,Volvo EC750,2023-06-18,2023-06-30,6902.5,False,Vazamento de óleo,Pedreira C,Operador_11,corretiva,23320.181406641925,4.879322206804042
+KomatsuPC930-6180,Sistema de Freio,Freios,Komatsu PC930,2025-05-28,2025-05-31,1833.7,False,Desgaste de pastilhas,Mina A,Operador_03,preditiva,3173.020046467321,7.83440912450883
+CAT777-5002,Radiador,Arrefecimento,CAT 777,2023-09-28,,2815.3,True,,Pedreira C,Operador_20,,,
+CAT777-5905,Filtro de Ar,Admissão,CAT 777,2025-03-25,2025-03-27,1442.6,False,Selo danificado,Mina B,Operador_18,corretiva,112.340892738889,15.306256194664925
+CAT785-5325,Radiador,Arrefecimento,CAT 785,2022-12-23,2022-12-25,1116.9,False,Entupimento,Porto D,Operador_03,preditiva,2833.006081589217,8.086964927389538
+CAT789-3143,Motor,Powertrain,CAT 789,2024-05-05,2024-05-18,7748.2,False,Superaquecimento,Mina B,Operador_18,corretiva,21398.423507366686,22.79112065902606
+VolvoEC750-1590,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2023-09-28,2023-10-02,2359.1,False,Contaminação,Mina B,Operador_02,preventiva,7240.306153359016,7.489654262904337
+CAT789-7658,Transmissão,Powertrain,CAT789,2024-12-11,2024-12-14,1996.6,False,Desgaste de engrenagens,Mina B,Operador_14,corretiva,16014.245970763865,22.338720495314004
+CAT785-5371,Bateria,Elétrico,CAT 785,2024-12-01,2024-12-06,2628.2,False,Sulfatação,Mina A,Operador_08,corretiva,543.7319862593091,12.126671162936725
+CAT785-4652,Sistema de Freio,Freios,CAT 785,2025-09-05,2025-09-23,10194.9,False,Desgaste de pastilhas,Mina B,Operador_25,preventiva,3414.5057258948164,13.206924861616823
+CAT789-1452,Filtro de Ar,Admissão,CAT 789,2025-03-01,,1133.9,True,,Pedreira C,Operador_04,,,
+KomatsuPC930-6663,Turbocompressor,Admissão,Komatsu PC930,2024-01-20,2024-01-31,6443.0,False,Vazamento de óleo,Porto D,Operador_19,corretiva,11128.335036831491,17.593276244351753
+VolvoEC750-9821,Motor,Powertrain,Volvo EC750,2024-09-15,2024-09-18,1653.1,False,Superaquecimento,Pedreira C,Operador_20,preventiva,28292.343453319303,4.741756944616091
+VolvoEC750-6067,Sistema de Freio,Freios,Volvo EC750,2023-07-10,2023-07-17,4064.3,False,Desgaste de pastilhas,Pedreira C,Operador_07,preventiva,3963.62650987235,10.341196096695919
+VolvoEC750-5930,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2023-07-15,2023-07-20,2518.1,False,Cavitação,Mina A,Operador_20,preditiva,7688.996918946153,11.719292370434964
+VolvoEC750-8752,Pneu,Rodado,Volvo EC750,2024-11-10,2024-11-12,1007.1,False,Separação da banda,Mina A,Operador_11,corretiva,1451.0540787219986,18.52503902589611
+CAT785-4262,Sistema de Freio,Freios,CAT 785,2024-12-26,,2509.8,True,,Mina A,Operador_25,,,
+KomatsuPC930-7790,Transmissão,Powertrain,Komatsu PC930,2024-09-20,2024-09-22,90.29328531998941,False,Sobrecarga,Porto D,Operador_23,corretiva,22433.9384359023,20.92969243929547
+KomatsuPC930-4585,Transmissão,Powertrain,Komatsu PC930,2024-10-28,,2074.2,True,,Porto D,Operador_15,,,
+KomatsuPC930-9702,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2024-01-13,2024-01-18,2989.6,False,Cavitação,Porto D,Operador_14,preditiva,8183.654448306802,5.501473965945984
+KomatsuPC930-5246,Alternador,Elétrico,Komatsu PC930,2024-06-04,2024-06-11,4240.5,False,Rolamento,Pedreira C,Operador_08,preventiva,1835.8853339384127,17.697986977443243
+CAT789-6502,Pneu,Rodado,CAT 789,2024-01-08,,363.3,True,,Mina A,Operador_23,,,
+CAT777-7797,Pneu,Rodado,CAT 777,2023-07-12,2023-07-15,1962.8,False,Desgaste excessivo,Pedreira C,Operador_14,preventiva,1502.9030870041063,14.849747112492953
+VolvoEC750-7232,Motor,Powertrain,Volvo EC750,2023-02-20,2023-03-01,4817.8,False,Superaquecimento,Mina A,Operador_14,preditiva,29343.945862225635,14.01491081414446
+CAT785-8999,Turbocompressor,Admissão,CAT 785,2024-07-31,2024-08-06,3440.8,False,Vazamento de óleo,Pedreira C,Operador_22,preditiva,14388.853946521134,17.93199030780035
+CAT785-9751,Alternador,Elétrico,CAT 785,2025-08-29,2025-09-17,11016.3,False,Desgaste de escovas,Porto D,Operador_21,preventiva,1562.1295385075077,12.157365769133257
+CAT789-7211,Motor,Powertrain,CAT 789,2023-12-23,2024-01-09,9830.0,False,Superaquecimento,Mina B,Operador_09,preventiva,23153.39414727976,3.8019371207561363
+VolvoEC750-1853,Motor,Powertrain,Volvo EC750,2023-11-07,2023-12-02,14588.0,False,Vazamento de óleo,Mina B,Operador_02,corretiva,31870.14665894986,6.385935011975723
+VolvoEC750-3496,Motor,Powertrain,Volvo EC750,2024-06-22,2024-07-14,12075.3,False,Desgaste de anéis,Mina B,Operador_15,preditiva,23203.046207027335,10.115693835104711
+VolvoEC750-2876,Turbocompressor,Admissão,Volvo EC750,2024-11-22,,224.9,True,,Pedreira C,Operador_22,,,
+KomatsuPC930-4249,Bateria,Elétrico,Komatsu PC930,2025-05-21,,2422.9,True,,Mina B,Operador_20,,,
+VolvoEC750-1672,Transmissão,Powertrain,Volvo EC750,2023-11-12,2023-11-16,2109.5,False,Sobrecarga,Porto D,Operador_11,corretiva,22046.180642996198,20.091280197981277
+KomatsuPC930-6934,Transmissão,Powertrain,Komatsu PC930,2023-03-27,2023-04-02,3329.4,False,Sobrecarga,Mina B,Operador_09,preditiva,21673.792969260805,13.839803941861627
+KomatsuPC930-8136,Alternador,Elétrico,Komatsu PC930,2024-04-22,2024-04-24,902.3,False,Desgaste de escovas,Pedreira C,Operador_09,preventiva,1659.4770952718604,12.223586265271098
+KomatsuPC930-6511,Turbocompressor,Admissão,Komatsu PC930,2025-08-26,2025-09-07,6425.5,False,Desgaste de turbina,Porto D,Operador_12,preventiva,11642.033058985704,21.367039554680957
+VolvoEC750-1166,Sistema de Freio,Freios,Volvo EC750,2022-11-30,,2207.0,True,,Mina B,Operador_25,,,
+KomatsuPC930-9041,Pneu,Rodado,Komatsu PC930,2023-04-20,,334.8,True,,Mina A,Operador_10,,,
+CAT789-8753,Turbocompressor,Admissão,CAT 789,2022-11-01,2022-11-15,8476.8,False,Vazamento de óleo,Pedreira C,Operador_12,preditiva,12322.471577119071,8.74570580967427
+CAT777-4155,Pneu,Rodado,CAT 777,2024-01-16,2024-01-19,1687.6,False,Separação da banda,Mina A,Operador_06,corretiva,1089.8307839271636,12.652368918679592
+VolvoEC750-5636,Turbocompressor,Admissão,Volvo EC750,2025-04-01,2025-04-12,6114.4,False,Vazamento de óleo,Mina B,Operador_01,preditiva,12804.810535605979,8.034849189231881
+VolvoEC750-5786,Motor,Powertrain,Volvo EC750,2025-02-07,,163.7,True,,Porto D,Operador_16,,,
+CAT789-4020,Alternador,,CAT 789,2025-07-10,2025-07-13,1578.8,False,Desgaste de escovas,Pedreira C,Operador_13,preventiva,1506.673953230076,15.847805552943964
+CAT785-3444,Motor,Powertrain,CAT 785,2024-02-09,2024-02-22,7043.1,False,Superaquecimento,Mina A,Operador_20,preditiva,29884.260373042744,6.965117015430762
+KomatsuPC930-8381,Filtro de Ar,Admissão,Komatsu PC930,2023-05-01,2023-05-01,177.2,False,Rasgo,Pedreira C,Operador_19,preditiva,99.61381826235245,23.12239310355458
+CAT785-4457,Transmissão,Powertrain,CAT 785,2024-04-30,,1259.0,True,,Mina A,Operador_01,,,
+KomatsuPC930-8699,Bateria,Elétrico,Komatsu PC930,2024-03-06,2024-03-10,2261.1,False,Célula danificada,Mina A,Operador_15,corretiva,514.6616070160296,22.326042978616073
+CAT785-7965,Turbocompressor,Admissão,CAT 785,2025-03-02,2025-03-11,5538.1,False,Desgaste de turbina,Mina B,Operador_03,corretiva,10595.53673532435,8.767459877513115
+CAT789-8195,Turbocompressor,Admissão,CAT 789,2025-02-11,2025-02-13,1313.3,False,Vazamento de óleo,Porto D,Operador_17,preditiva,12562.771316070506,3.7697207417846217
+KomatsuPC930-6280,Motor,Powertrain,Komatsu PC930,2024-05-29,,5965.4,True,,Mina A,Operador_19,,,
+CAT777-5415,Turbocompressor,Admissão,CAT 777,2025-08-02,2025-08-20,10433.7,False,Vazamento de óleo,Mina B,Operador_06,preditiva,12215.309922462018,19.913388779893275
+KomatsuPC930-6700,Transmissão,Powertrain,Komatsu PC930,2023-07-10,2023-07-19,4933.3,False,Desgaste de engrenagens,Pedreira C,Operador_11,preventiva,20643.063065850893,8.340791497952026
+VolvoEC750-1601,Bateria,Elétrico,Volvo EC750,2023-04-06,2023-04-10,2174.1,False,Sulfatação,Mina A,Operador_17,corretiva,507.97358695870406,13.93705907585829
+CAT777-4073,Bateria,Elétrico,CAT 777,2022-11-27,2022-11-29,879.2,False,Sulfatação,Pedreira C,Operador_25,corretiva,405.80060362881164,14.082832059877298
+KomatsuPC930-8941,Sistema de Freio,Freios,Komatsu PC930,2025-02-17,2025-02-21,2538.2,False,Desgaste de pastilhas,Mina A,Operador_23,corretiva,3343.8127421883364,2.300838218253335
+CAT777-4681,Bateria,Elétrico,CAT 777,2025-03-05,2025-03-08,1476.7,False,Descarga profunda,Porto D,Operador_16,preditiva,425.66885105890185,17.51905585836878
+KomatsuPC930-8736,Bateria,Elétrico,Komatsu PC930,2024-06-11,2024-06-17,3430.6,False,Célula danificada,Porto D,Operador_17,preditiva,557.8484074079572,21.00859255742894
+KomatsuPC930-6568,Sistema de Freio,Freios,Komatsu PC930,2022-12-19,2022-12-26,3719.1,False,Vazamento,Pedreira C,Operador_19,preditiva,4548.079083151343,12.772087626425423
+KomatsuPC930-9824,Bomba Hidráulica,,Komatsu PC930,2023-02-05,2023-02-09,2334.3,False,Contaminação,Pedreira C,Operador_15,preventiva,9878.406732936273,23.577041889317076
+VolvoEC750-7274,Pneu,Rodado,Volvo EC750,2024-07-02,,680.7,True,,Porto D,Operador_13,,,
+CAT785-9115,Bateria,Elétrico,CAT 785,2025-08-09,2025-08-13,2075.1,False,Descarga profunda,Mina B,Operador_15,corretiva,478.3389945317014,12.05241763843333
+KomatsuPC930-3529,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2025-05-23,2025-05-29,3148.8,False,Cavitação,Porto D,Operador_23,preventiva,8999.34661031709,20.73883643171521
+KomatsuPC930-6188,Filtro de Ar,Admissão,Komatsu PC930,2023-01-28,2023-01-30,1238.2,False,Selo danificado,Mina A,Operador_10,corretiva,140.80598200427562,11.547372382308765
+CAT777-8269,Transmissão,Powertrain,CAT 777,2024-11-17,2024-11-25,4372.7,False,Desgaste de engrenagens,Pedreira C,Operador_10,preventiva,17773.569807977834,5.2025355053867655
+KomatsuPC930-3950,Filtro de Ar,Admissão,Komatsu PC930,2024-11-09,,1859.6,True,,Mina B,Operador_08,,,
+VolvoEC750-3344,Alternador,Elétrico,Volvo EC750,2024-07-05,2024-07-13,4617.9,False,Rolamento,Porto D,Operador_01,preventiva,2251.088481238995,16.907439485379747
+CAT777-8237,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2023-11-16,2023-11-19,1497.6,False,Contaminação,Pedreira C,Operador_15,preventiva,7196.86799643557,10.4632514772816
+CAT777-4886,Alternador,Elétrico,CAT 777,2023-09-03,2023-09-11,4761.2,False,Curto-circuito,Pedreira C,Operador_01,preditiva,1796.2251668202307,2.1781552467527856
+VolvoEC750-9138,Motor,Powertrain,Volvo EC750,2024-03-16,2024-04-02,9616.0,False,Vazamento de óleo,Mina B,Operador_07,preditiva,23132.8350005452,18.622701122316897
+CAT777-1645,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2024-01-30,,72.42473405329667,True,,Porto D,Operador_10,,,
+KomatsuPC930-3877,Radiador,Arrefecimento,Komatsu PC930,2024-09-07,2024-09-23,9520.8,False,Vazamento,Mina B,Operador_17,preditiva,3518.8817642743757,20.27039763048274
+KomatsuPC930-5835,Sistema de Freio,Freios,Komatsu PC930,2023-11-30,2023-12-05,3011.2,False,Desgaste de pastilhas,Mina A,Operador_22,preditiva,3980.210903025411,10.743052894472585
+CAT789-2479,Filtro de Ar,,CAT 789,2023-08-07,2023-08-09,814.7,False,Rasgo,Mina A,Operador_22,preditiva,136.3404478410608,14.860322016347652
+CAT777-4830,Radiador,,CAT 777,2023-03-03,2023-03-09,3654.4,False,Vazamento,Mina A,Operador_20,corretiva,3146.7133328952186,15.978886292314659
+CAT789-7689,Alternador,Elétrico,CAT 789,2025-02-27,,130.1,True,,Mina B,Operador_04,,,
+CAT785-9807,Transmissão,Powertrain,CAT 785,2025-01-19,2025-01-23,20057.68681172883,False,Sobrecarga,Porto D,Operador_23,preditiva,18172.14078073251,18.32991832483695
+KomatsuPC930-2622,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2023-01-25,2023-01-27,1286.3,False,Cavitação,Porto D,Operador_12,corretiva,8173.532344242806,22.912213736731392
+CAT777-7018,Radiador,Arrefecimento,CAT 777,2023-10-20,2023-10-29,4919.4,False,Entupimento,Mina A,Operador_15,corretiva,3167.8762332867695,16.117498279130785
+CAT777-1828,Turbocompressor,Admissão,CAT 777,2023-12-10,2023-12-21,6718.0,False,Desgaste de turbina,Mina B,Operador_03,preditiva,10842.944222079952,6.750929742210845
+CAT789-3417,Pneu,Rodado,CAT 789,2025-10-18,2025-10-21,1884.3,False,Desgaste excessivo,Pedreira C,Operador_18,preventiva,1439.1082941345742,4.418379653567582
+CAT785-1243,Motor,Powertrain,CAT 785,2023-10-21,2023-11-13,12327.4,False,Superaquecimento,Mina B,Operador_02,corretiva,29271.47571192687,13.573881585153076
+KomatsuPC930-8344,Transmissão,Powertrain,Komatsu PC930,2023-10-13,2023-10-18,2507.0,False,Sobrecarga,Mina A,Operador_02,preditiva,21449.042963823416,21.07357997071644
+CAT789-8504,Filtro de Ar,Admissão,CAT 789,2025-08-21,2025-08-22,688.8,False,Rasgo,Mina A,Operador_22,corretiva,125.41613124865353,22.013418240535046
+CAT777-6277,Transmissão,Powertrain,CAT 777,2024-12-24,,2716.1,True,,Mina A,Operador_23,,,
+KomatsuPC930-9692,Radiador,Arrefecimento,Komatsu PC930,2024-02-28,2024-03-04,3079.3,False,Corrosão,Porto D,Operador_04,preditiva,3151.283330833828,18.917180062304247
+KomatsuPC930-8398,Pneu,Rodado,Komatsu PC930,2024-07-13,2024-07-15,1160.3,False,Corte lateral,Porto D,Operador_24,corretiva,1147.52900999828,8.87551856512109
+CAT789-3500,Sistema de Freio,Freios,Cat789,2023-02-25,,239.3,True,,Mina A,Operador_24,,,
+CAT785-1982,Radiador,Arrefecimento,CAT 785,2023-12-18,2023-12-21,1764.0,False,Vazamento,Mina A,Operador_24,corretiva,3595.7580754360647,15.209022006942895
+CAT777-9313,Radiador,Arrefecimento,CAT 777,2024-08-14,2024-09-06,12889.1,False,Entupimento,Mina B,Operador_12,preditiva,2754.58547086149,18.777323902610693
+CAT785-8030,Turbocompressor,Admissão,CAT 785,2025-08-31,,1883.8,True,,Pedreira C,Operador_11,,,
+CAT777-3972,Radiador,Arrefecimento,CAT 777,2025-01-03,,4506.2,True,,Porto D,Operador_03,,,
+CAT785-7163,Filtro de Ar,Admissão,CAT 785,2023-06-17,2023-06-21,2473.6,False,Selo danificado,Porto D,Operador_11,preditiva,131.77342633230555,21.433528059403553
+CAT785-1815,Bomba Hidráulica,Sistema Hidráulico,CAT 785,2025-05-09,2025-05-16,3720.4,False,Cavitação,Pedreira C,Operador_15,preventiva,7492.667377459078,18.608749160704154
+CAT789-8043,Transmissão,Powertrain,CAT 789,2025-03-10,2025-03-14,2242.0,False,Sobrecarga,Pedreira C,Operador_22,preventiva,14808.756263439847,10.695794713927837
+CAT777-1125,Turbocompressor,Admissão,CAT 777,2024-08-31,2024-09-16,9296.2,False,Vazamento de óleo,Pedreira C,Operador_10,preventiva,10319.906062233295,12.942477229493191
+CAT785-3116,Bateria,Elétrico,CAT 785,2023-09-06,2023-09-11,2671.9,False,Sulfatação,Mina B,Operador_03,preventiva,553.8969814550824,2.9306497543814105
+KomatsuPC930-2275,Motor,Powertrain,Komatsu PC930,2024-01-21,2024-02-08,10777.8,False,Superaquecimento,Porto D,Operador_10,corretiva,25062.903838311933,23.256393202728777
+VolvoEC750-8538,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2023-10-13,2023-10-20,4051.4,False,Contaminação,Mina A,Operador_19,preventiva,8495.850172002527,10.706867330905325
+CAT789-4630,Sistema de Freio,Freios,cat 789,2023-12-11,,1722.6,True,,Mina B,Operador_07,,,
+CAT789-3419,Radiador,Arrefecimento,CAT 789,2024-06-27,,290.8,True,,Mina A,Operador_25,,,
+CAT785-9095,Transmissão,Powertrain,CAT 785,2023-03-18,2023-03-24,3649.9,False,Sobrecarga,Porto D,Operador_21,preditiva,17308.874174790246,23.361407412579528
+CAT785-8205,Radiador,Arrefecimento,CAT 785,2025-06-06,2025-06-15,4896.3,False,Vazamento,Porto D,Operador_19,corretiva,2732.7191116681074,3.632194435812329
+KomatsuPC930-1616,Alternador,Elétrico,Komatsu PC930,2025-06-29,2025-07-08,5075.2,False,Desgaste de escovas,Pedreira C,Operador_20,preditiva,1896.3610356005595,12.179656496399991
+CAT777-8368,Filtro de Ar,Admissão,CAT 777,2024-10-03,2024-10-06,1705.3,False,Entupimento,Pedreira C,Operador_15,corretiva,144.65800867935724,20.422297921446194
+VolvoEC750-3827,Transmissão,Powertrain,Volvo EC750,2025-08-04,2025-08-05,713.8,False,Sobrecarga,Mina B,Operador_17,preditiva,15828.715871833872,10.202743606229197
+KomatsuPC930-7697,Sistema de Freio,Freios,Komatsu PC930,2023-12-01,2023-12-07,3274.1,False,Desgaste de pastilhas,Mina A,Operador_11,corretiva,3776.4356217322043,10.504412503922232
+VolvoEC750-3463,Sistema de Freio,Freios,Volvo EC750,2023-12-11,2023-12-16,2684.6,False,Vazamento,Mina A,Operador_10,preditiva,4022.339934920792,10.623075655377928
+CAT777-6072,Turbocompressor,Admissão,CAT 777,2023-09-13,2023-09-20,3975.2,False,Desbalanceamento,Pedreira C,,preditiva,10160.717790396131,16.75003288175866
+CAT789-1298,Filtro de Ar,Admissão,CAT 789,2023-10-12,,125.3,True,,Pedreira C,Operador_16,,,
+CAT785-3253,Pneu,Rodado,CAT 785,2024-12-10,2024-12-13,1616.2,False,Separação da banda,Mina A,Operador_25,preditiva,1461.0718959807336,21.441007640836357
+CAT789-3147,motor,Powertrain,CAT 789,2023-09-13,,9820.8,True,,Mina B,Operador_06,,,
+CAT777-7731,Alternador,Elétrico,CAT 777,2023-10-08,2023-10-14,3664.0,False,Rolamento,Mina B,Operador_15,corretiva,1920.6100347284348,8.808293724381372
+CAT785-7026,Alternador,Elétrico,CAT 785,2023-05-05,2023-05-14,5098.4,False,Rolamento,Porto D,,preventiva,2309.6413378853526,19.97160727078728
+CAT785-5096,Turbocompressor,Admissão,CAT 785,2025-07-09,2025-07-27,10291.8,False,Desgaste de turbina,Porto D,Operador_23,preditiva,14706.996288508673,8.271386309305225
+CAT789-8361,Bomba Hidráulica,Sistema Hidráulico,CAT 789,2022-12-07,2022-12-13,3250.4,False,Desgaste interno,Mina B,Operador_15,preventiva,10121.887708505099,11.127731928018118
+VolvoEC750-7126,Bateria,Elétrico,Volvo EC750,2024-06-28,2024-07-05,4114.5,False,Descarga profunda,Porto D,Operador_11,corretiva,548.8146647126114,16.299135054471996
+CAT785-1627,bomba hidr,Sistema Hidráulico,CAT 785,2024-03-15,2024-03-27,6630.9,False,Cavitação,Porto D,Operador_16,preventiva,8861.393028654193,21.928864760271956
+CAT789-4533,Motor,Powertrain,CAT 789,2024-12-21,,978.4,True,,Porto D,Operador_02,,,
+KomatsuPC930-8489,Pneu,Rodado,Komatsu PC930,2025-06-17,2025-06-20,1928.4,False,Separação da banda,Mina A,Operador_01,preditiva,1269.2254381256437,7.322638957261853
+CAT789-8032,Bomba Hid,Sistema Hidráulico,CAT 789,2025-10-20,2025-10-24,2164.3,False,Cavitação,Pedreira C,,corretiva,8493.938230712845,9.93328266955126
+VolvoEC750-9312,Filtro de Ar,Admissão,Volvo EC750,2022-12-19,2022-12-20,479.6,False,Selo danificado,Mina A,Operador_13,preventiva,111.21901566415278,2.3573290843968477
+CAT789-4950,Transmissão,Powertrain,CAT 789,2025-03-25,,347.7,True,,Pedreira C,Operador_21,,,
+KomatsuPC930-8840,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2024-10-15,,2744.4,True,,Mina B,Operador_10,,,
+CAT777-4268,Pneu,Rodado,CAT 777,2025-07-30,2025-08-02,1943.5,False,Separação da banda,Pedreira C,Operador_16,preventiva,981.972462922145,16.231810973616504
+CAT789-1783,Sistema de Freio,Freios,CAT 789,2023-12-14,,316.2,True,,Pedreira C,,,,
+KomatsuPC930-6554,Alternador,Elétrico,Komatsu PC930,2024-10-06,2024-10-12,3270.8,False,Rolamento,Porto D,Operador_09,corretiva,2094.3731919083725,3.7363941332202932
+CAT785-9937,Turbocompressor,Admissão,CAT 785,2024-03-01,,2454.6,True,,Pedreira C,Operador_15,,,
+KomatsuPC930-3730,Turbocompressor,Admissão,Komatsu PC930,2023-04-28,2023-05-05,4132.6,False,Vazamento de óleo,Pedreira C,Operador_20,preventiva,11247.332160449147,23.56060014227414
+CAT777-7655,Motor Principal,Powertrain,CAT 777,2023-10-10,2023-10-15,2753.3,False,Vazamento de óleo,Mina B,Operador_22,preventiva,20434.987072481774,3.479133987366394
+CAT789-7272,Radiador,Arrefecimento,CAT 789,2025-08-18,2025-08-28,5869.7,False,Vazamento,Mina B,Operador_15,corretiva,3043.4904896674543,13.648117393798373
+CAT789-5566,Bateria,Elétrico,CAT 789,2024-05-30,,540.7,True,,Mina A,Operador_18,,,
+CAT789-5264,Transmissão,Powertrain,CAT 789,2023-04-24,2023-04-30,3549.6,False,Vazamento hidráulico,Mina B,Operador_07,corretiva,15621.555759574747,3.629144861883961
+KomatsuPC930-2438,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2024-01-08,2024-01-14,3291.4,False,Contaminação,Pedreira C,Operador_10,corretiva,9247.23641602885,22.40113804790991
+CAT789-9335,B. Hidraulica,Sistema Hidráulico,CAT 789,2024-07-21,2024-07-27,3687.3,False,Desgaste interno,Mina A,Operador_16,corretiva,7843.586097777528,14.590102956563573
+VolvoEC750-3126,Alternador,Elétrico,Volvo EC750,2025-04-30,2025-05-04,2220.5,False,Rolamento,Mina A,Operador_16,preditiva,1809.7156085986503,11.007537604223687
+CAT777-3053,Turbocompressor,Admissão,CAT 777,2024-01-13,2024-01-26,7494.6,False,Vazamento de óleo,Mina A,Operador_05,preditiva,13438.763576199979,6.003189004147022
+KomatsuPC930-9238,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2025-07-02,2025-07-06,2337.6,False,Desgaste interno,Mina A,Operador_11,preditiva,7301.881138861868,22.844629009812245
+CAT789-2292,Filtro de Ar,Admissão,CAT 789,2024-05-28,2024-05-31,1508.2,False,Entupimento,Mina B,Operador_21,preventiva,132.8656966984919,4.055424951438672
+VolvoEC750-3526,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2024-11-07,2024-11-13,3174.4,False,Desgaste interno,Pedreira C,Operador_03,corretiva,10194.187415881566,18.962492113478238
+CAT785-7825,Sistema de Freio,Freios,CAT 785,2025-08-22,2025-08-30,4806.4,False,Superaquecimento,Porto D,Operador_10,preventiva,3228.5363436356506,19.76168491743355
+CAT789-8430,Bateria,Elétrico,CAT 789,2025-05-27,,369.0,True,,Mina A,Operador_11,,,
+CAT785-6121,Turbocompressor,Admissão,CAT 785,2024-01-09,2024-01-24,8035.3,False,Vazamento de óleo,Pedreira C,Operador_17,preditiva,10237.103601654584,7.318232940602276
+CAT789-8366,Transmissão,Powertrain,CAT 789,2024-06-03,,1038.8,True,,Mina B,Operador_20,,,
+CAT785-3616,Bateria,Elétrico,Caterpillar 785,2023-12-23,,248.4,True,,Pedreira C,Operador_15,,,
+CAT789-9148,Alternador,Elétrico,Cat789,2025-09-06,2025-09-07,828.8,False,Desgaste de escovas,Mina A,Operador_07,preditiva,1757.6055799707199,3.1118889018136215
+VolvoEC750-8710,Alternador,Elétrico,Volvo EC750,2024-03-17,2024-03-24,3811.8,False,Curto-circuito,Mina A,,preventiva,2127.471087745791,10.050621755386386
+CAT777-4189,Bateria,Elétrico,CAT777,2023-10-12,,894.5,True,,Pedreira C,Operador_09,,,
+VolvoEC750-2946,Turbocompressor,Admissão,Volvo EC750,2025-02-02,2025-02-04,1419.5,False,Vazamento de óleo,Mina A,Operador_18,preventiva,14129.791033756765,6.379273394153899
+KomatsuPC930-9193,Filtro de Ar,Admissão,Komatsu PC930,2025-08-02,,516.8,True,,Mina A,Operador_17,,,
+CAT785-9446,Alternador,Elétrico,Caterpillar 785,2025-01-10,2025-01-14,2020.2,False,Curto-circuito,Pedreira C,Operador_20,preditiva,2198.3417346277156,15.061942423881709
+VolvoEC750-9721,Filtro de Ar,Admissão,Volvo EC750,2023-01-24,2023-01-26,1024.9,False,Rasgo,Pedreira C,Operador_22,corretiva,154.79388187074971,14.8414471206733
+VolvoEC750-8775,Motor,Powertrain,Volvo EC750,2024-04-28,2024-05-04,3221.4,False,Desgaste de anéis,Mina B,Operador_17,preditiva,29014.785440614054,19.04133485634384
+CAT785-4968,Bateria,Elétrico,CAT 785,2025-08-20,,776.7,True,,Mina A,Operador_14,,,
+KomatsuPC930-9221,Pneu,Rodado,Komatsu PC930,2023-03-03,2023-03-06,1685.7,False,Separação da banda,Mina A,Operador_11,preditiva,1247.0225900060407,10.290145076085306
+KomatsuPC930-9734,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2023-11-22,2023-11-30,4693.3,False,Cavitação,Pedreira C,Operador_21,preditiva,7457.448733153242,12.651962237282182
+CAT789-5890,Pneu,Rodado,CAT 789,2024-07-20,2024-07-22,1064.4,False,Separação da banda,Pedreira C,Operador_23,preventiva,1150.2244470110688,9.673669832428745
+CAT789-2996,Sistema de Freio,Freios,CAT 789,2023-09-07,2023-09-13,3629.2,False,Desgaste de pastilhas,Porto D,Operador_10,corretiva,3303.353097824745,17.711108324964698
+KomatsuPC930-5201,Radiador,Arrefecimento,Komatsu PC930,2023-02-15,2023-02-18,1925.3,False,Corrosão,Mina B,Operador_23,preventiva,2432.1821367212924,15.544894757118831
+CAT785-4972,Turbocompressor,Admissão,CAT 785,2025-07-12,2025-08-05,13078.4,False,Vazamento de óleo,Mina B,Operador_11,preditiva,12434.423442209283,16.986223704791463
+CAT777-3587,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2023-07-13,2023-07-23,5687.4,False,Contaminação,Porto D,Operador_11,preventiva,8983.59167156108,21.97461309218369
+VolvoEC750-4804,Transmissão,Powertrain,Volvo EC750,2025-08-08,2025-08-15,3877.6,False,Desgaste de engrenagens,Mina B,Operador_13,preventiva,16076.804687302401,18.47807043170102
+CAT777-1151,Sistema de Freio,Freios,CAT 777,2024-02-20,2024-02-27,3940.6,False,Vazamento,Mina A,Operador_21,preditiva,3717.557435962161,21.563719202938163
+VolvoEC750-8668,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2024-04-13,2024-04-22,5346.3,False,Cavitação,Mina B,Operador_15,preditiva,7429.059520918077,6.096379520817489
+CAT789-4164,Radiador,Arrefecimento,CAT 789,2024-10-29,2024-11-09,6321.8,False,Entupimento,Porto D,Operador_13,preditiva,2373.5391481123393,23.59707423369185
+CAT789-5064,Alternador,Elétrico,CAT 789,2025-10-10,2025-10-16,3507.3,False,Curto-circuito,Pedreira C,Operador_11,preventiva,1964.2146763994863,14.60330164619972
+CAT789-4871,Sistema de Freio,Freios,CAT 789,2025-06-18,2025-06-21,1891.9,False,Superaquecimento,Mina A,Operador_17,preditiva,4147.221833051826,17.18638830321391
+CAT789-4618,Sistema de Freio,Freios,CAT 789,2024-08-01,2024-08-04,1610.0,False,Superaquecimento,Mina B,Operador_12,preventiva,4028.396271997395,22.081531542228294
+CAT785-5054,Filtro de Ar,Admissão,Caterpillar 785,2025-05-09,2025-05-14,2661.0,False,Selo danificado,Porto D,Operador_04,corretiva,145.7264432375055,21.86353952527579
+VolvoEC750-9792,Pneu,Rodado,Volvo EC750,2024-12-21,2024-12-29,4479.6,False,Desgaste excessivo,Mina B,Operador_22,corretiva,1390.1507797083902,12.754215270286172
+KomatsuPC930-1911,Filtro de Ar,Admissão,Komatsu PC930,2023-04-09,2023-04-12,1496.4,False,Entupimento,Mina B,Operador_18,preventiva,136.36606273364217,8.779730408729327
+KomatsuPC930-5169,Motor,Powertrain,Komatsu PC930,2025-10-17,2025-10-26,4678.7,False,Superaquecimento,Mina B,Operador_23,corretiva,26764.543800998817,3.3256238889755405
+KomatsuPC930-1519,Transmissão,Powertrain,Komatsu PC930,2024-03-15,,574.1,True,,Porto D,Operador_24,,,
+CAT789-7266,Bateria,Elétrico,cat 789,2023-04-19,2023-04-24,3090.7,False,Célula danificada,Porto D,Operador_18,corretiva,507.045172144208,9.650937517061305
+VolvoEC750-7439,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2022-11-05,2022-11-16,5867.2,False,Desgaste interno,Mina B,Operador_25,corretiva,10313.962730716556,12.18608582628516
+KomatsuPC930-9715,Filtro de Ar,Admissão,Komatsu PC930,2023-09-08,2023-09-13,2577.9,False,Rasgo,Mina B,Operador_07,preditiva,141.929395755907,2.708780928019583
+VolvoEC750-1256,Bateria,Elétrico,Volvo EC750,2024-06-18,,1546.7,True,,Mina B,Operador_22,,,
+CAT785-1724,Motor,Powertrain,CAT 785,2023-07-23,2023-08-06,7891.1,False,Desgaste de anéis,Porto D,Operador_05,preditiva,32418.543015538104,7.151553377116452
+CAT789-6253,Turbocompressor,Admissão,CAT 789,2024-06-25,2024-06-30,2736.8,False,Desbalanceamento,Pedreira C,Operador_08,preventiva,11403.005722544518,3.3410680163487676
+CAT785-7999,Turbocompressor,Admissão,CAT 785,2023-01-12,2023-01-18,3561.9,False,Desbalanceamento,Mina A,Operador_13,preditiva,11512.406743897875,11.159141935271782
+CAT789-7167,Bomba Hidráulica,Sistema Hidráulico,CAT 789,2024-10-12,2024-10-23,5881.8,False,Cavitação,Porto D,Operador_05,preventiva,10058.964695263623,14.372490890912001
+VolvoEC750-9683,Bateria,Elétrico,Volvo EC750,2025-01-22,2025-01-27,2658.2,False,Célula danificada,Porto D,Operador_03,preventiva,550.6050118319126,4.0342079235910004
+CAT777-5398,Pneu,Rodado,CAT 777,2023-09-12,2023-09-13,333.2,False,Separação da banda,Mina A,Operador_24,preditiva,1295.3102857635165,12.546672542360126
+CAT789-1251,Radiador,Arrefecimento,CAT 789,2024-08-16,2024-08-19,1712.9,False,Vazamento,Mina B,Operador_08,preditiva,3086.1621477102935,6.499289145513661
+VolvoEC750-6269,Pneu,Rodado,Volvo EC750,2024-03-23,2024-03-29,3360.5,False,Corte lateral,Porto D,Operador_09,preventiva,1267.6899240142643,12.940100448221633
+KomatsuPC930-6246,Transmissão,Powertrain,Komatsu PC930,2024-09-02,2024-09-03,393.4,False,Desgaste de engrenagens,Pedreira C,Operador_24,corretiva,14545.979109011345,14.172854397927832
+VolvoEC750-7841,Turbocompressor,Admissão,Volvo EC750,2024-02-27,,978.6,True,,Mina B,Operador_08,,,
+VolvoEC750-6530,Alternador,Elétrico,Volvo EC750,2024-05-14,2024-05-23,5247.0,False,Curto-circuito,Porto D,Operador_15,corretiva,2099.495013322517,9.747875703303855
+VolvoEC750-9000,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2024-10-12,2024-10-18,3452.3,False,Desgaste interno,Mina A,Operador_22,corretiva,9457.355374288078,11.07262889314304
+CAT777-3474,Pneu,Rodado,CAT 777,2025-10-05,2025-10-11,3228.4,False,Separação da banda,Mina B,Operador_21,preditiva,1520.3422326588006,22.08053200416633
+CAT777-1108,Alternador,Elétrico,CAT 777,2022-10-30,,1256.0,True,,Porto D,Operador_10,,,
+VolvoEC750-8054,Motor Principal,Powertrain,Volvo EC750,2024-10-21,2024-11-01,6341.6,False,Desgaste de anéis,Mina A,Operador_07,preditiva,26580.699817502707,19.93471659569222
+KomatsuPC930-2294,Sistema de Freio,Freios,Komatsu PC930,2023-09-20,2023-09-25,2694.5,False,Superaquecimento,Porto D,Operador_08,preventiva,3997.0728445731747,20.653076244693786
+CAT777-7640,Motor,Powertrain,CAT 777,2023-09-08,2023-09-16,4554.3,False,Desgaste de anéis,Porto D,Operador_23,corretiva,21033.576531322524,20.597255479887217
+VolvoEC750-2562,Radiador,Arrefecimento,Volvo EC750,2022-11-07,2022-11-18,6389.0,False,Corrosão,Mina A,Operador_19,preventiva,2619.533073791763,22.33150386538846
+VolvoEC750-1539,Sistema de Freio,Freios,Volvo EC750,2024-10-21,,707.4,True,,Pedreira C,Operador_23,,,
+CAT777-5903,Bateria,Elétrico,CAT 777,2024-11-25,2024-12-01,3536.8,False,Célula danificada,Mina B,Operador_18,preventiva,446.36539816865394,18.27439376025582
+VolvoEC750-6666,Transmissão,Powertrain,Volvo EC750,2025-07-06,2025-07-14,4854.7,False,Vazamento hidráulico,Mina A,Operador_20,preditiva,22993.725572231993,10.727467084797109
+CAT777-5478,Radiador,Arrefecimento,CAT 777,2023-04-15,2023-04-26,6491.1,False,Vazamento,Porto D,Operador_14,corretiva,3191.5728013234225,16.534781965327262
+VolvoEC750-5839,Transmissão,Powertrain,Volvo EC750,2024-06-06,,286.1,True,,Mina A,Operador_21,,,
+KomatsuPC930-6188,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2023-10-16,,1794.3,True,,Mina A,Operador_25,,,
+CAT777-3170,freio,Freios,CAT 777,2025-04-28,2025-05-03,2976.9,False,Superaquecimento,Mina B,Operador_14,corretiva,2845.95833202327,9.786114321595695
+VolvoEC750-6315,Transmissão,Powertrain,Volvo EC750,2023-08-27,2023-08-31,2521.2,False,Desgaste de engrenagens,Mina A,Operador_24,preditiva,22546.86816882023,23.51980740830552
+VolvoEC750-3778,Turbocompressor,Admissão,Volvo EC750,2023-09-05,,3817.9,True,,Mina B,Operador_03,,,
+KomatsuPC930-5521,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2023-06-14,2023-06-18,20999.33490989771,False,Contaminação,Pedreira C,Operador_08,preditiva,8900.13475107558,15.06374075685973
+KomatsuPC930-2752,Pneu,Rodado,Komatsu PC930,2025-01-19,,1072.4,True,,Pedreira C,Operador_13,,,
+KomatsuPC930-6484,Radiador,Arrefecimento,Komatsu PC930,2023-05-26,2023-06-08,7262.2,False,Corrosão,Mina B,Operador_07,preventiva,2679.856593673618,23.220641708085466
+CAT789-9044,Radiador,Arrefecimento,CAT 789,2024-06-14,2024-06-26,6930.7,False,Vazamento,Pedreira C,Operador_12,corretiva,3544.8940136238243,6.395601071633358
+CAT785-1440,Filtro de Ar,Admissão,CAT 785,2023-03-23,2023-03-25,1136.6,False,Selo danificado,Mina B,Operador_03,preventiva,136.37865914373245,5.0619406993194875
+CAT785-5139,Sistema de Freio,Freios,CAT 785,2024-12-12,2024-12-21,4864.3,False,Superaquecimento,Porto D,Operador_16,preditiva,3501.408920326404,13.145478146649198
+VolvoEC750-1602,Bateria,Elétrico,Volvo EC750,2023-10-18,,426.9,True,,Mina A,Operador_06,,,
+CAT777-7547,Turbocompressor,Admissão,CAT 777,2023-12-14,,492.6,True,,Porto D,Operador_24,,,
+VolvoEC750-4621,Filtro de Ar,Admissão,Volvo EC750,2023-04-25,2023-04-27,1287.8,False,Selo danificado,Pedreira C,Operador_23,preditiva,105.0446959487948,23.949459959122375
+CAT777-5840,Alternador,Elétrico,CAT 777,2023-06-25,,1696.9,True,,Mina A,Operador_10,,,
+KomatsuPC930-4389,Radiador,Arrefecimento,Komatsu PC930,2022-11-21,2022-11-22,682.4,False,Corrosão,Porto D,Operador_23,preventiva,2686.4732639047807,8.605809830002688
+CAT777-6620,Transmissão,Powertrain,CAT 777,2025-03-14,2025-03-26,6767.1,False,Sobrecarga,Mina B,Operador_06,preditiva,15841.221400938235,14.316676954776987
+CAT785-7636,Alternador,Elétrico,CAT 785,2024-10-11,2024-10-15,2543.4,False,Desgaste de escovas,Mina B,Operador_24,preditiva,2234.787636977375,11.890650250229756
+KomatsuPC930-1072,Bateria,Elétrico,Komatsu PC930,2024-08-10,2024-08-17,3950.7,False,Descarga profunda,Mina B,Operador_19,corretiva,539.8880302995096,13.81155823255417
+CAT789-4228,Radiador,Arrefecimento,CAT 789,2023-03-31,2023-04-18,10544.6,False,Corrosão,Mina A,Operador_21,preventiva,3075.759160996191,15.44878526505804
+CAT777-6700,Turbocompressor,Admissão,CAT 777,2023-11-03,2023-11-26,13859.2,False,Desbalanceamento,Porto D,Operador_10,preditiva,13141.010189864874,16.78642179777362
+CAT777-4908,Radiador,Arrefecimento,CAT 777,2024-02-06,,1758.8,True,,Mina A,Operador_14,,,
+CAT785-7286,Turbocompressor,,CAT 785,2023-06-10,2023-06-13,1923.8,False,Desbalanceamento,Mina B,Operador_06,preditiva,10601.193142964335,8.354365029085605
+CAT789-8389,Bomba Hidráulica,Sistema Hidráulico,cat 789,2025-07-06,2025-07-14,4445.8,False,Desgaste interno,Pedreira C,Operador_13,preditiva,8421.752078922682,12.88933665306088
+KomatsuPC930-8272,Alternador,Elétrico,Komatsu PC930,2023-01-27,,209.3,True,,Mina B,Operador_10,,,
+CAT789-4683,Motor,,CAT 789,2024-03-11,2024-04-07,15894.9,False,Superaquecimento,Mina B,Operador_18,preditiva,21415.137441150287,4.512546329897313
+CAT789-9880,Filtro de Ar,Admissão,CAT 789,2025-07-30,2025-08-05,3702.7,False,Entupimento,Porto D,Operador_24,preditiva,141.08072968462034,8.54959657226366
+KomatsuPC930-5305,Motor,Powertrain,Komatsu PC930,2023-11-10,2023-11-24,8437.0,False,Desgaste de anéis,Mina A,Operador_07,preditiva,27349.048712210133,9.713878504507772
+KomatsuPC930-3719,Turbocompressor,Admissão,Komatsu PC930,2025-01-11,2025-01-22,6529.0,False,Desbalanceamento,Mina B,Operador_12,preditiva,11286.510112741187,13.852908013048037
+CAT789-5740,Radiador,Arrefecimento,CAT 789,2024-04-24,,1935.0,True,,Mina A,Operador_02,,,
+CAT785-3174,Sistema de Freio,Freios,CAT 785,2024-05-30,2024-06-12,7974.1,False,Superaquecimento,Mina B,Operador_13,preventiva,3048.800357881894,15.912843614159353
+KomatsuPC930-8405,Bateria,,Komatsu PC930,2025-05-22,2025-05-25,1486.2,False,Célula danificada,Mina A,Operador_12,preventiva,573.807167744711,9.200364163540467
+CAT777-8511,Motor,Powertrain,CAT 777,2023-10-21,2023-10-25,2175.4,False,Superaquecimento,Mina A,Operador_07,preventiva,23356.710478930283,20.223559575073775
+VolvoEC750-3139,Radiador,Arrefecimento,Volvo EC750,2023-02-03,2023-02-11,4547.0,False,Entupimento,Pedreira C,Operador_04,preditiva,3337.4456665767957,12.110798778818472
+CAT785-8230,Transmissão,Powertrain,CAT 785,2023-04-03,2023-04-16,7155.7,False,Sobrecarga,Mina A,Operador_05,preditiva,17116.789539387803,21.237314123809057
+CAT777-6905,Freios,Freios,CAT 777,2024-05-29,2024-06-05,4391.1,False,Desgaste de pastilhas,Mina A,Operador_02,preventiva,3894.80747978867,17.971743996349794
+KomatsuPC930-2494,Pneu,Rodado,Komatsu PC930,2025-04-12,2025-04-16,2004.8,False,Separação da banda,Mina A,Operador_08,preditiva,1367.9896350729475,2.2043128473861238
+CAT777-7919,Radiador,Arrefecimento,CAT 777,2025-01-26,,605.9,True,,Porto D,Operador_04,,,
+CAT789-7022,Transmissão,Powertrain,CAT 789,2024-02-19,2024-03-01,6563.4,False,Desgaste de engrenagens,Mina B,,preditiva,15685.677601514044,13.67118208402698
+VolvoEC750-3688,Motor,Powertrain,Volvo EC750,2023-05-06,2023-05-29,13257.7,False,Desgaste de anéis,Pedreira C,Operador_14,preditiva,28582.077123446747,20.9191755412473
+CAT777-3293,Transmissão,Powertrain,CAT 777,2025-02-13,2025-02-18,2732.4,False,Desgaste de engrenagens,Porto D,Operador_08,preventiva,20201.585113691082,7.4596745980883075
+VolvoEC750-5668,Turbocompressor,Admissão,Volvo EC750,2025-08-30,2025-09-09,5956.4,False,Desgaste de turbina,Pedreira C,Operador_24,preventiva,11373.252307452402,3.200520882335565
+KomatsuPC930-7322,Pneu,Rodado,Komatsu PC930,2025-03-07,2025-03-15,4344.9,False,Separação da banda,Mina B,Operador_01,preventiva,1520.3546410045296,4.9036233761194445
+KomatsuPC930-6986,Turbocompressor,Admissão,Komatsu PC930,2024-11-04,2024-11-23,10950.7,False,Desgaste de turbina,Porto D,Operador_19,corretiva,9682.760554351746,6.746344647379151
+KomatsuPC930-9300,Motor,Powertrain,Komatsu PC930,2024-03-16,2024-03-31,8742.2,False,Vazamento de óleo,Porto D,Operador_18,preditiva,27700.588195834353,8.104290186160322
+CAT777-9377,Sistema de Freio,Freios,CAT 777,2024-09-02,2024-09-13,6020.0,False,Superaquecimento,Mina B,Operador_25,preditiva,3991.8474482411184,3.4545318396667297
+CAT785-1948,Bateria,Elétrico,CAT 785,2024-06-10,2024-06-13,1463.9,False,Célula danificada,Mina A,Operador_20,corretiva,429.5902643715434,18.317257199266194
+CAT777-1207,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2025-01-15,,1655.1,True,,Mina A,Operador_24,,,
+CAT785-7092,Sistema de Freio,Freios,CAT 785,2025-02-06,2025-02-15,4831.0,False,Desgaste de pastilhas,Pedreira C,Operador_11,preventiva,3275.966041287369,3.4051837607092574
+CAT777-9128,Turbocompressor,Admissão,CAT 777,2023-04-05,,5385.9,True,,Pedreira C,Operador_06,,,
+CAT777-2889,Sistema de Freio,Freios,CAT 777,2024-07-13,,32770.175563466,True,,Mina A,Operador_16,,,
+KomatsuPC930-3458,Radiador,Arrefecimento,Komatsu PC930,2024-10-22,2024-11-06,9176.5,False,Corrosão,Mina A,Operador_21,preventiva,2554.321439344606,7.46179003385935
+CAT789-2276,Radiador,Arrefecimento,CAT 789,2023-09-21,2023-09-28,4255.0,False,Entupimento,Mina A,Operador_08,preditiva,3613.9794095180932,22.98974696412941
+KomatsuPC930-5625,Transmissão,Powertrain,Komatsu PC930,2024-01-26,,1445.3,True,,Pedreira C,Operador_10,,,
+CAT789-4974,Turbocompressor,Admissão,CAT 789,2023-03-18,2023-04-01,294.20501202866774,False,Desgaste de turbina,Pedreira C,Operador_24,preditiva,14162.89332193018,7.392791236284824
+KomatsuPC930-1391,Motor,Powertrain,Komatsu PC930,2024-07-03,2024-07-13,5864.3,False,Desgaste de anéis,Pedreira C,Operador_11,corretiva,29486.614415170985,10.278046270296958
+CAT777-4361,Sistema de Freio,Freios,CAT 777,2022-11-03,2022-11-14,6362.4,False,Desgaste de pastilhas,Mina B,Operador_23,preventiva,2962.7966171266544,22.26803686538634
+KomatsuPC930-7102,Filtro de Ar,Admissão,Komatsu PC930,2023-03-30,2023-04-02,1462.2,False,Selo danificado,Mina A,Operador_13,corretiva,131.5137458001766,3.3702229974390794
+CAT785-5778,Bomba Hidráulica,Sistema Hidráulico,CAT 785,2024-05-07,2024-05-14,4134.7,False,Cavitação,Pedreira C,Operador_11,preventiva,8211.031409262296,7.1394469860428815
+CAT785-2785,Pneu,Rodado,CAT 785,2024-12-09,,633.5,True,,Mina A,Operador_18,,,
+CAT785-8404,Radiador,Arrefecimento,CAT 785,2024-01-31,2024-02-08,4326.2,False,Entupimento,Porto D,Operador_22,preventiva,3396.9413631155103,17.33131563121568
+CAT785-6370,Motor,,CAT 785,2024-12-24,2024-12-27,1619.4,False,Superaquecimento,Mina A,Operador_17,corretiva,28464.792212363398,7.723669439866926
+CAT777-7625,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2023-04-11,,450.8,True,,Mina B,Operador_04,,,
+CAT777-4641,Motor,Powertrain,CAT 777,2025-01-29,2025-01-31,1257.4,False,Vazamento de óleo,Mina B,Operador_21,corretiva,27279.047517675794,7.694054351623569
+CAT777-2056,Transmissão,Powertrain,CAT 777,2024-09-14,2024-09-23,5041.3,False,Vazamento hidráulico,Porto D,,corretiva,22880.525949217037,3.114029420135634
+KomatsuPC930-7471,Turbocompressor,Admissão,Komatsu PC930,2023-01-11,2023-01-22,6006.4,False,Vazamento de óleo,Mina A,Operador_07,corretiva,11249.890614145452,11.812251474226441
+CAT777-5026,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2024-02-27,2024-03-03,3069.0,False,Desgaste interno,Porto D,Operador_03,preventiva,7932.061104096056,11.223166066319283
+CAT785-9907,Filtro de Ar,Admissão,CAT 785,2025-09-14,2025-09-16,1364.7,False,Selo danificado,Porto D,,preventiva,150.76062099590203,13.052651621962317
+CAT789-3946,Bateria,,CAT 789,2025-08-31,2025-09-01,630.6,False,Sulfatação,Pedreira C,Operador_02,preventiva,479.1222656922222,18.870527705906003
+CAT785-2640,Pneu,Rodado,CAT 785,2024-06-03,2024-06-05,893.1,False,Separação da banda,Mina B,Operador_02,corretiva,1305.4152651719978,23.618621986676715
+CAT789-3846,Bateria,Elétrico,CAT 789,2024-10-28,2024-11-03,3424.5,False,Célula danificada,Mina B,Operador_12,preditiva,366.34647818861083,17.4123376737312
+VolvoEC750-3328,Turbocompressor,Admissão,Volvo EC750,2024-10-03,2024-10-15,6741.4,False,Desgaste de turbina,Porto D,Operador_03,corretiva,10995.740148499435,6.8137967172147
+KomatsuPC930-1011,Filtro de Ar,Admissão,Komatsu PC930,2023-12-14,2023-12-15,354.8,False,Entupimento,Mina B,Operador_11,corretiva,97.31477377461434,14.905401852006609
+CAT777-9622,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2023-10-07,2023-10-12,2951.9,False,Contaminação,Mina A,Operador_19,corretiva,7746.244284563219,9.097270496204022
+KomatsuPC930-8982,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2024-01-13,2024-01-22,5195.4,False,Cavitação,Mina B,Operador_12,corretiva,9062.126677899068,19.917993201745567
+CAT789-5825,Bateria,Elétrico,CAT 789,2025-02-05,2025-02-08,1880.6,False,Célula danificada,Mina B,Operador_13,preditiva,367.2861171585947,15.252550683921367
+CAT785-2705,Turbocompressor,Admissão,CAT 785,2023-01-11,2023-01-27,9011.5,False,Vazamento de óleo,Mina B,Operador_11,corretiva,13417.12062144221,23.187751739859372
+KomatsuPC930-1186,Radiador,,Komatsu PC930,2024-04-28,2024-05-01,1521.1,False,Vazamento,Mina B,Operador_04,preditiva,2241.793620492566,10.490616154975019
+CAT785-7783,Bateria,Elétrico,CAT 785,2023-01-18,2023-01-20,1104.6,False,Sulfatação,Porto D,Operador_19,preditiva,530.6047973007791,6.962820005256258
+CAT777-1547,Alternador,Elétrico,CAT 777,2024-02-28,2024-03-05,3694.2,False,Desgaste de escovas,Mina A,,corretiva,2239.138140960873,5.539898888049064
+VolvoEC750-2525,Transmissão,Powertrain,Volvo EC750,2023-12-01,2023-12-11,5758.9,False,Sobrecarga,Porto D,Operador_06,preditiva,22407.77943363639,5.45628310127725
+CAT789-4367,Transmissão,Powertrain,CAT 789,2024-09-29,2024-10-10,6688.1,False,Sobrecarga,Porto D,Operador_18,preventiva,20345.38103441676,8.542814248994455
+CAT777-7437,Transmissão,Powertrain,CAT 777,2023-01-22,,116.9,True,,Mina B,Operador_22,,,
+KomatsuPC930-4271,Turbocompressor,Admissão,Komatsu PC930,2025-04-08,2025-04-27,11178.4,False,Desgaste de turbina,Mina A,Operador_16,corretiva,11450.120400706377,10.744281667178704
+CAT789-2493,Alternador,Elétrico,CAT789,2023-08-22,2023-08-31,4884.3,False,Desgaste de escovas,Mina B,Operador_15,corretiva,1676.966370014596,12.23127503540231
+CAT789-2009,Pneu,Rodado,CAT 789,2024-12-18,,490.4,True,,Mina A,Operador_25,,,
+CAT785-1999,Turbocompressor,Admissão,CAT 785,2023-08-23,2023-09-12,11555.2,False,Vazamento de óleo,Porto D,Operador_19,corretiva,12457.573686488811,3.73701109502983
+VolvoEC750-9467,Motor,Powertrain,Volvo EC750,2024-12-26,2024-12-31,2937.0,False,Desgaste de anéis,Mina A,Operador_07,corretiva,21577.32498298175,11.314247784943188
+CAT785-3422,Bateria,Elétrico,CAT 785,2024-05-13,2024-05-16,1719.8,False,Descarga profunda,Pedreira C,Operador_03,preventiva,485.18194589320484,14.14519221465878
+VolvoEC750-8506,Sistema de Freio,Freios,Volvo EC750,2025-09-28,,263.0,True,,Porto D,Operador_19,,,
+CAT777-2654,Transmissão,Powertrain,CAT 777,2024-03-17,2024-03-19,840.8,False,Sobrecarga,Pedreira C,Operador_16,preditiva,19880.659367571916,2.8242447509496955
+KomatsuPC930-3356,Sistema de Freio,Freios,Komatsu PC930,2023-07-24,2023-08-06,7475.5,False,Superaquecimento,Mina A,Operador_08,corretiva,4105.062184718488,22.258369623935636
+CAT777-6535,Radiador,Arrefecimento,CAT 777,2024-02-11,2024-02-24,7290.9,False,Corrosão,Pedreira C,Operador_22,corretiva,3601.4952997599544,7.015063099238882
+KomatsuPC930-6257,Sistema de Freio,Freios,Komatsu PC930,2024-04-20,2024-05-01,5781.4,False,Vazamento,Porto D,Operador_07,preventiva,4096.653398110014,18.708852494977645
+CAT777-9442,Radiador,Arrefecimento,CAT 777,2024-12-02,2024-12-08,3375.0,False,Entupimento,Mina A,Operador_25,preditiva,3471.0656279037985,2.636859505044085
+CAT785-1944,Pneu,Rodado,CAT 785,2024-05-31,2024-06-02,1201.8,False,Separação da banda,Mina A,Operador_07,preventiva,1181.0111565448626,12.212806203311533
+CAT777-1500,Bateria,Elétrico,CAT 777,2024-06-15,2024-06-17,1120.8,False,Sulfatação,Pedreira C,Operador_19,preditiva,438.69597787004733,5.597299519392719
+CAT777-5670,Sistema de Freio,Freios,CAT 777,2025-08-28,,2020.8,True,,Porto D,Operador_07,,,
+CAT785-4387,Pneu,Rodado,cat 785,2024-04-20,2024-04-25,3028.6,False,Separação da banda,Porto D,Operador_01,preventiva,1506.9092628314231,16.24217419185053
+CAT777-4666,Turbocompressor,Admissão,CAT 777,2024-05-25,2024-06-07,7406.4,False,Vazamento de óleo,Pedreira C,Operador_14,preventiva,14709.517038555854,12.097956415593412
+KomatsuPC930-5950,Pneu,Rodado,Komatsu PC930,2022-11-22,2022-11-28,3136.8,False,Separação da banda,Porto D,Operador_12,preditiva,1348.4052720387542,15.399102302036368
+CAT777-8892,Sistema de Freio,Freios,CAT 777,2025-06-15,2025-06-19,2172.7,False,Vazamento,Pedreira C,Operador_09,preditiva,4044.4141072506354,21.63222354898052
+CAT785-3456,Sistema de Freio,Freios,CAT 785,2022-11-29,2022-12-16,10277.8,False,Superaquecimento,Mina B,Operador_13,preditiva,3359.2750418284727,5.078449188681173
+KomatsuPC930-5843,Motor,Powertrain,Komatsu PC930,2024-05-10,2024-05-26,9631.4,False,Vazamento de óleo,Porto D,Operador_23,preditiva,30200.183763160847,9.54967509198261
+VolvoEC750-8794,Pneu,Rodado,Volvo EC750,2023-10-20,2023-10-24,2127.2,False,Separação da banda,Pedreira C,Operador_06,preventiva,1018.5618382876256,4.814771073313174
+VolvoEC750-3999,Sistema de Freio,,Volvo EC750,2023-12-06,2023-12-13,3635.8,False,Vazamento,Mina A,Operador_14,preventiva,3450.4442520885073,14.882555294551882
+CAT777-8709,Alternador,Elétrico,CAT 777,2025-07-06,2025-07-11,2903.1,False,Desgaste de escovas,Mina A,Operador_22,preventiva,1916.854654166998,11.088359588305378
+CAT785-4281,Bomba Hidráulica,Sistema Hidráulico,Cat785,2023-11-22,2023-11-27,2985.8,False,Contaminação,Porto D,Operador_05,preventiva,9849.575773348464,5.967848920350565
+KomatsuPC930-6449,Transmissão,Powertrain,Komatsu PC930,2024-10-26,2024-10-31,2977.8,False,Vazamento hidráulico,Pedreira C,Operador_07,corretiva,19586.51024163033,5.485572582264959
+CAT785-8105,Transmissão,Powertrain,CAT 785,2023-05-28,2023-06-10,7601.5,False,Desgaste de engrenagens,Porto D,Operador_02,preditiva,16194.728261053053,10.208230919402162
+CAT789-9700,Motor Principal,Powertrain,CAT 789,2024-09-28,2024-09-29,539.7,False,Desgaste de anéis,Mina A,Operador_08,preditiva,30962.31419074813,8.866029730710963
+KomatsuPC930-9246,Transmissão,Powertrain,Komatsu PC930,2024-02-05,,195.7,True,,Mina B,Operador_15,,,
+VolvoEC750-9587,Filtro de Ar,Admissão,Volvo EC750,2023-12-02,2023-12-02,177.5,False,Rasgo,Porto D,Operador_16,preventiva,141.006934935641,5.627437195612903
+CAT777-4742,Bateria,Elétrico,CAT 777,2024-07-21,2024-07-23,986.9,False,Célula danificada,Mina B,Operador_06,corretiva,442.4830765649659,16.31188836266694
+KomatsuPC930-5190,motor diesel,Powertrain,Komatsu PC930,2025-07-16,2025-07-30,8203.0,False,Desgaste de anéis,Mina A,Operador_02,preditiva,21447.372829241263,11.774914356809726
+VolvoEC750-5140,Transmissão,Powertrain,Volvo EC750,2023-02-25,2023-03-09,7236.9,False,Desgaste de engrenagens,Mina B,Operador_10,preventiva,20354.9811848165,16.57462524955573
+VolvoEC750-3247,Sistema de Freio,Freios,Volvo EC750,2023-06-19,2023-06-24,3086.9,False,Vazamento,Mina A,Operador_04,corretiva,3671.043360588191,15.39803980584805
+VolvoEC750-4304,Sistema de Freio,Freios,Volvo EC750,2023-10-21,2023-10-24,1585.7,False,Vazamento,Porto D,Operador_07,preditiva,4432.967603140786,9.27327955632743
+CAT777-2458,Motor,Powertrain,CAT 777,2025-03-11,,555.7,True,,Porto D,Operador_24,,,
+CAT789-4787,Transmissão,Powertrain,CAT 789,2023-04-02,2023-04-08,3551.1,False,Desgaste de engrenagens,Pedreira C,Operador_02,preventiva,17641.931976484993,16.888863704201253
+CAT777-2556,Bateria,Elétrico,CAT 777,2025-07-22,2025-07-24,1185.9,False,Descarga profunda,Mina A,Operador_11,preventiva,561.2687139100266,23.01196144282635
+CAT777-7105,Sistema de Freio,Freios,CAT 777,2023-11-22,,1362.8,True,,Mina B,Operador_13,,,
+KomatsuPC930-3732,Alternador,Elétrico,Komatsu PC930,2025-03-06,2025-03-13,3952.8,False,Desgaste de escovas,Mina B,Operador_04,preventiva,2260.104085144961,12.618846711887606
+KomatsuPC930-3969,Turbocompressor,Admissão,Komatsu PC930,2023-09-07,2023-09-18,6774.8,False,Desbalanceamento,Pedreira C,Operador_05,preventiva,15122.387913828616,4.484624546222883
+KomatsuPC930-1753,Bateria,Elétrico,Komatsu PC930,2025-06-16,2025-06-19,1869.1,False,Célula danificada,Pedreira C,Operador_17,preditiva,489.74602682776043,14.430268965122611
+VolvoEC750-9570,Radiador,Arrefecimento,Volvo EC750,2025-04-11,2025-04-13,1029.5,False,Vazamento,Porto D,Operador_22,preditiva,3137.966233930195,5.270397949656294
+VolvoEC750-1894,Filtro de Ar,Admissão,Volvo EC750,2025-09-30,2025-10-02,871.2,False,Rasgo,Mina B,Operador_06,corretiva,141.08580006285666,9.05394394173935
+CAT789-1824,Radiador,Arrefecimento,CAT 789,2022-12-20,2023-01-01,7037.4,False,Entupimento,Mina B,Operador_03,preventiva,2861.8644270432424,14.606768472926086
+KomatsuPC930-8324,Transmissão,Powertrain,Komatsu PC930,2024-01-15,2024-01-22,3962.5,False,Desgaste de engrenagens,Mina A,Operador_04,preventiva,18111.046929079945,14.25688225090633
+CAT777-5990,Motor,Powertrain,CAT 777,2022-12-17,2023-01-06,11514.4,False,Superaquecimento,Mina B,Operador_12,corretiva,30207.358582217068,20.574983671293552
+VolvoEC750-8751,Radiador,Arrefecimento,Volvo EC750,2023-10-10,,4471.9,True,,Porto D,Operador_11,,,
+CAT789-9973,Radiador,Arrefecimento,CAT 789,2022-11-19,2022-11-22,1635.0,False,Entupimento,Pedreira C,Operador_16,corretiva,3390.574123886217,18.335239588277787
+CAT777-5166,Bateria,Elétrico,CAT 777,2024-09-17,,833.5,True,,Mina B,Operador_07,,,
+CAT777-7790,Radiador,,CAT 777,2025-07-20,2025-07-29,5103.6,False,Corrosão,Mina A,Operador_19,preditiva,2428.490420202886,12.974230126257448
+CAT777-8091,Filtro de Ar,Admissão,CAT 777,2023-02-07,2023-02-07,109.6,False,Entupimento,Mina B,Operador_04,preventiva,135.45130866790385,15.335537026966428
+VolvoEC750-7302,Radiador,Arrefecimento,Volvo EC750,2023-06-19,2023-07-01,6961.9,False,Vazamento,Mina B,Operador_15,corretiva,2433.452007903484,15.255537892880396
+CAT789-9975,Filtro de Ar,Admissão,CAT 789,2024-01-20,2024-01-25,3182.4,False,Rasgo,Mina B,Operador_22,preventiva,151.2715058650257,4.918778029005086
+VolvoEC750-9888,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2024-01-02,2024-01-07,2999.4,False,Cavitação,Mina A,Operador_19,preditiva,9240.494525953469,16.833356681861815
+CAT789-7920,Filtro de Ar,Admissão,CAT 789,2025-09-27,,161.7,True,,Mina A,Operador_07,,,
+CAT785-5695,Sistema de Freio,Freios,CAT 785,2024-05-28,2024-06-07,526.5386183715946,False,Vazamento,Mina B,Operador_07,preditiva,2856.5361706740728,19.90857678619831
+VolvoEC750-4675,Transmissão,Powertrain,Volvo EC750,2023-08-19,2023-08-28,5357.9,False,Sobrecarga,Mina B,Operador_10,preditiva,20380.442117324612,22.38266584571315
+KomatsuPC930-6122,Bateria,Elétrico,Komatsu PC930,2025-07-05,2025-07-08,1765.9,False,Sulfatação,Mina A,Operador_08,preditiva,518.5415405008772,16.247912482100013
+VolvoEC750-4218,Turbocompressor,Admissão,Volvo EC750,2024-09-22,2024-10-09,10412.8,False,Desgaste de turbina,Pedreira C,Operador_06,corretiva,14010.476916157313,4.625783848005241
+KomatsuPC930-5572,Motor,Powertrain,Komatsu PC930,2024-04-30,,3469.3,True,,Mina B,Operador_15,,,
+CAT777-3518,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2024-01-02,2024-01-10,4858.4,False,Cavitação,Mina A,Operador_10,preventiva,9559.632729669718,14.103523953839264
+CAT789-9608,Transmissão,Powertrain,Cat789,2024-07-30,2024-08-16,9873.6,False,Desgaste de engrenagens,Mina B,Operador_14,preditiva,19233.323572805177,4.022802186659462
+CAT785-6437,Pneu,Rodado,CAT 785,2023-12-15,2023-12-17,1272.6,False,Separação da banda,Pedreira C,Operador_17,preventiva,1557.9786495626033,20.12114482035445
+CAT777-6668,Motor,Powertrain,CAT 777,2023-04-25,2023-04-28,1874.1,False,Vazamento de óleo,Mina B,Operador_08,corretiva,28531.892009606603,9.060614231155792
+KomatsuPC930-5203,Transmissão,Powertrain,Komatsu PC930,2024-03-23,2024-03-26,1694.9,False,Vazamento hidráulico,Mina A,,preditiva,18410.012078145464,2.9647365400310384
+CAT789-9419,Pneu,Rodado,CAT 789,2025-05-08,,352.2,True,,Mina A,Operador_01,,,
+CAT785-4492,Transmissão,Powertrain,CAT 785,2023-06-08,2023-06-11,1644.1,False,Sobrecarga,Mina A,Operador_25,preventiva,20219.050433865108,22.674524453182897
+CAT777-8523,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2023-12-14,,245.3,True,,Mina A,Operador_18,,,
+VolvoEC750-4729,Transmissão,Powertrain,Volvo EC750,2024-05-12,2024-05-15,2014.4,False,Vazamento hidráulico,Porto D,Operador_11,corretiva,17905.516805199448,4.602726755785615
+VolvoEC750-2036,Motor,Powertrain,Volvo EC750,2025-07-22,2025-07-28,3292.2,False,Superaquecimento,Mina A,Operador_22,preventiva,27582.073014835383,8.193383774429805
+KomatsuPC930-7473,Alternador,Elétrico,Komatsu PC930,2025-08-21,,1507.0,True,,Porto D,Operador_18,,,
+CAT785-5883,Sistema de Freio,Freios,CAT 785,2023-09-20,2023-09-21,538.2,False,Desgaste de pastilhas,Mina A,Operador_02,corretiva,3802.257541150943,10.669797419140822
+CAT777-5992,Filtro de Ar,Admissão,CAT 777,2024-08-19,2024-08-22,1585.7,False,Selo danificado,Pedreira C,Operador_05,corretiva,107.03956336712298,15.571468311283468
+CAT785-2877,Sistema de Freio,Freios,CAT 785,2024-10-17,2024-10-21,2244.8,False,Superaquecimento,Mina A,Operador_15,preditiva,3761.9130669385418,8.394358685441878
+CAT789-2608,Transmissão,Powertrain,CAT 789,2024-09-14,2024-09-18,2496.6,False,Sobrecarga,Porto D,Operador_21,corretiva,15300.405515478806,15.629347097395325
+CAT789-8960,Pneu,Rodado,CAT 789,2023-04-15,2023-04-19,2357.2,False,Separação da banda,Pedreira C,Operador_05,preditiva,1300.1171357832557,19.769394822115668
+CAT785-1079,Bateria,Elétrico,CAT 785,2024-01-21,2024-01-26,2851.7,False,Célula danificada,Mina B,Operador_14,preventiva,549.0247632256475,4.954728312423555
+KomatsuPC930-8583,Radiador,Arrefecimento,Komatsu PC930,2023-04-25,2023-05-09,8001.6,False,Entupimento,Pedreira C,Operador_06,preditiva,3089.278732499206,20.519445897441734
+VolvoEC750-4218,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2024-05-02,2024-05-08,3622.8,False,Cavitação,Mina A,Operador_21,corretiva,9650.569599327162,14.735817319996341
+CAT785-1600,Turbocompressor,Admissão,CAT 785,2024-05-08,2024-05-28,11053.3,False,Vazamento de óleo,Porto D,Operador_08,preditiva,13999.360963277406,8.401981524716225
+VolvoEC750-9362,Alternador,Elétrico,Volvo EC750,2025-04-21,2025-04-27,21241.085514322767,False,Desgaste de escovas,Porto D,Operador_20,preditiva,1589.2591968289425,13.311006971360408
+CAT785-3935,Alternador,Elétrico,CAT 785,2024-12-28,2025-01-01,2445.6,False,Curto-circuito,Porto D,Operador_08,corretiva,1677.9214035905277,7.148410714729022
+VolvoEC750-6918,Pneu,Rodado,Volvo EC750,2023-08-21,2023-08-27,3788.5,False,Desgaste excessivo,Porto D,Operador_21,preventiva,1021.9350077378881,23.305710818396538
+CAT789-9918,Sistema de Freio,Freios,CAT 789,2024-11-01,2024-11-13,7049.1,False,Superaquecimento,Porto D,Operador_03,preditiva,3240.276217897053,23.398830383713047
+VolvoEC750-7649,Pneu,Rodado,Volvo EC750,2023-11-01,2023-11-08,4137.3,False,Separação da banda,Pedreira C,Operador_01,preditiva,1489.2205459131374,11.677771416629314
+CAT777-9430,Pneu,Rodado,CAT 777,2024-03-27,,401.3,True,,Mina B,Operador_04,,,
+KomatsuPC930-6410,Pneu,Rodado,Komatsu PC930,2025-03-05,2025-03-09,2351.3,False,Separação da banda,Porto D,Operador_06,preditiva,1460.0189978371527,2.49381283939441
+CAT785-3639,Motor Principal,Powertrain,CAT785,2025-01-21,2025-02-02,6762.0,False,Desgaste de anéis,Mina A,Operador_09,corretiva,26458.00865797683,10.920038962258886
+CAT777-5644,Turbocompressor,Admissão,CAT 777,2025-05-01,2025-05-13,7118.8,False,Vazamento de óleo,Mina B,Operador_06,corretiva,14582.181448225685,15.2184517170464
+CAT785-9369,Turbocompressor,Admissão,CAT 785,2024-04-30,2024-05-24,13642.3,False,Vazamento de óleo,Mina B,Operador_20,preditiva,10013.057382247469,10.32064974665762
+CAT777-1271,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2024-09-04,2024-09-14,5777.5,False,Desgaste interno,Porto D,Operador_16,preditiva,8799.255187482731,21.310558030345298
+VolvoEC750-2925,Filtro de Ar,Admissão,Volvo EC750,2025-04-16,2025-04-18,1031.7,False,Selo danificado,Porto D,Operador_01,preditiva,134.95390410639203,13.484973052554192
+CAT777-9680,Radiador,Arrefecimento,CAT 777,2023-05-29,2023-06-13,8828.7,False,Vazamento,Mina B,Operador_12,preditiva,3366.4694544520353,21.972895285143426
+CAT777-7971,Turbocompressor,Admissão,CAT 777,2025-01-22,2025-02-04,7375.7,False,Desgaste de turbina,Pedreira C,Operador_10,preditiva,14860.597879159348,10.990227503118735
+CAT777-1116,Pneu,Rodado,CAT 777,2022-11-18,2022-11-20,911.0,False,Desgaste excessivo,Mina A,Operador_23,preventiva,1205.3070463043593,4.34483076188809
+VolvoEC750-5155,Bateria,Elétrico,Volvo EC750,2024-05-06,2024-05-12,3687.2,False,Célula danificada,Porto D,Operador_13,corretiva,452.97633561658574,19.243345173197824
+CAT785-7065,Alternador,Elétrico,CAT 785,2023-02-06,2023-02-12,3432.3,False,Rolamento,Pedreira C,Operador_13,preditiva,1564.2616666071044,21.004271585525743
+CAT785-8317,Transmissão,Powertrain,CAT 785,2024-11-26,2024-12-06,5811.6,False,Vazamento hidráulico,Mina A,Operador_18,preditiva,20673.51667852014,17.549378537723136
+KomatsuPC930-1086,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2025-04-20,2025-04-26,3234.4,False,Desgaste interno,Mina B,Operador_03,preventiva,7287.080978478049,3.7608742073076584
+KomatsuPC930-7564,Motor,Powertrain,Komatsu PC930,2022-11-21,2022-12-06,8892.0,False,Desgaste de anéis,Pedreira C,Operador_21,preventiva,25487.15060676545,6.437559341732321
+CAT789-4190,Filtro de Ar,Admissão,CAT 789,2025-08-16,2025-08-18,5412.596322247741,False,Rasgo,Mina B,Operador_08,preditiva,96.01723631127741,5.463784738708599
+KomatsuPC930-6785,Sistema de Freio,Freios,Komatsu PC930,2023-08-06,2023-08-07,510.7,False,Superaquecimento,Porto D,Operador_23,corretiva,4408.560486940967,14.09103837802159
+VolvoEC750-6703,Filtro de Ar,Admissão,Volvo EC750,2023-11-12,2023-11-15,2027.4,False,Rasgo,Pedreira C,Operador_13,preditiva,96.27908709396758,5.85076530990721
+CAT777-2185,Filtro de Ar,Admissão,CAT 777,2022-12-28,2022-12-28,189.0,False,Selo danificado,Pedreira C,Operador_09,preditiva,144.78884097638246,14.647665333025998
+KomatsuPC930-8923,Alternador,Elétrico,Komatsu PC930,2024-06-12,2024-06-16,2507.7,False,Curto-circuito,Pedreira C,Operador_19,corretiva,1873.7731458592523,7.672034826026809
+CAT785-4767,Bateria,Elétrico,CAT 785,2024-01-16,2024-01-23,3952.2,False,Descarga profunda,Porto D,Operador_23,preventiva,415.8579621064674,4.046207463566018
+CAT777-3924,Radiador,Arrefecimento,CAT 777,2023-02-21,2023-03-10,10426.7,False,Vazamento,Pedreira C,Operador_06,preditiva,3196.350231933276,22.018404097733534
+CAT785-4847,Alternador,Elétrico,CAT 785,2024-06-15,2024-06-22,3636.1,False,Desgaste de escovas,Pedreira C,Operador_20,preventiva,1580.3960116285432,4.347164382318606
+KomatsuPC930-1108,Transmissão,Powertrain,Komatsu PC930,2025-07-29,2025-08-09,6377.8,False,Sobrecarga,Porto D,Operador_09,preventiva,16045.84676816726,18.81377115959041
+CAT789-7518,Filtro de Ar,Admissão,CAT 789,2024-07-26,,680.5,True,,Mina B,Operador_18,,,
+VolvoEC750-6689,Motor,Powertrain,Volvo EC750,2023-08-09,2023-08-17,4274.9,False,Vazamento de óleo,Mina B,Operador_15,preventiva,28615.131863245613,2.2600395294298763
+KomatsuPC930-2650,Pneu,Rodado,Komatsu PC930,2023-12-27,2023-12-30,1513.0,False,Separação da banda,Pedreira C,Operador_09,corretiva,1121.6449377149881,23.08758997535593
+CAT789-4013,Radiador,Arrefecimento,CAT 789,2023-01-06,2023-01-19,7867.4,False,Vazamento,Porto D,Operador_12,preventiva,2631.4813446329576,5.957563031993909
+VolvoEC750-4744,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2025-04-02,2025-04-08,3568.1,False,Contaminação,Pedreira C,Operador_07,corretiva,9600.14983293855,18.247924307659694
+CAT777-3893,Alternador,Elétrico,CAT 777,2023-06-13,,5269.0,True,,Porto D,Operador_18,,,
+KomatsuPC930-5915,Radiador,Arrefecimento,Komatsu PC930,2024-05-28,2024-06-09,6778.4,False,Entupimento,Mina A,Operador_07,preventiva,2907.1551940929917,15.856968671967397
+CAT789-5256,Alternador,Elétrico,CAT 789,2023-10-15,2023-10-17,1309.8,False,Curto-circuito,Pedreira C,Operador_12,corretiva,1810.5848143183716,9.723990776256537
+CAT785-9821,Turbocompressor,Admissão,Cat785,2024-10-31,2024-11-10,5839.3,False,Vazamento de óleo,Pedreira C,Operador_25,preditiva,12281.580702497027,3.724965470906807
+CAT789-8598,Turbocompressor,Admissão,CAT 789,2024-12-31,2025-01-06,3341.9,False,Vazamento de óleo,Mina B,Operador_21,preditiva,13029.82544324276,20.67581698265379
+CAT777-3654,Transmissão,Powertrain,CAT 777,2023-11-20,2023-11-30,5954.3,False,Sobrecarga,Mina B,Operador_09,preditiva,20201.798638396693,7.9674582297296785
+CAT789-9535,Alternador,Elétrico,CAT 789,2023-04-15,,2925.8,True,,Porto D,Operador_08,,,
+CAT777-4450,Sistema de Freio,Freios,CAT777,2024-11-16,,536.9,True,,Porto D,Operador_18,,,
+CAT777-7504,Motor,Powertrain,CAT 777,2022-11-15,,1701.9,True,,Mina A,Operador_13,,,
+CAT785-5053,Sistema de Freio,Freios,CAT 785,2024-03-21,2024-03-24,1769.4,False,Desgaste de pastilhas,Porto D,Operador_01,corretiva,3961.2109867816584,20.928113983094637
+KomatsuPC930-8654,Radiador,,Komatsu PC930,2024-04-14,,1710.9,True,,Porto D,Operador_19,,,
+KomatsuPC930-8126,Turbocompressor,Admissão,Komatsu PC930,2022-11-16,2022-11-29,7623.8,False,Desgaste de turbina,Pedreira C,Operador_03,preventiva,11447.209112306686,11.06848372307237
+CAT789-1172,Bomba Hidráulica,Sistema Hidráulico,CAT 789,2025-10-23,2025-10-31,4426.0,False,Desgaste interno,Mina B,Operador_23,preventiva,10187.830047472498,12.495475549932056
+KomatsuPC930-5799,Motor,Powertrain,Komatsu PC930,2024-07-07,2024-07-10,1564.3,False,Vazamento de óleo,Mina A,Operador_14,preventiva,23123.70147213987,17.728635625664836
+KomatsuPC930-4614,Bateria,Elétrico,Komatsu PC930,2024-05-03,2024-05-05,892.7,False,Célula danificada,Mina A,Operador_23,preditiva,421.16965125540116,16.266054901066358
+CAT789-7765,Filtro de Ar,Admissão,CAT 789,2024-10-03,,354.1,True,,Mina A,Operador_20,,,
+CAT789-9060,Alternador,Elétrico,CAT 789,2024-10-04,,139.8,True,,Pedreira C,Operador_06,,,
+CAT789-5410,Transmissão,Powertrain,CAT 789,2025-02-09,2025-02-23,8106.0,False,Desgaste de engrenagens,Porto D,Operador_01,preventiva,16354.692766645669,11.245346597244493
+CAT789-8597,Alternador,Elétrico,CAT 789,2025-08-20,,2626.8,True,,Pedreira C,Operador_09,,,
+CAT777-9899,Bateria,Elétrico,CAT 777,2023-03-06,,916.0,True,,Mina B,Operador_01,,,
+CAT785-7304,Transmissão,Powertrain,CAT 785,2023-04-30,2023-05-04,2059.9,False,Vazamento hidráulico,Mina B,Operador_24,corretiva,19090.252080515555,23.60654873092351
+KomatsuPC930-6113,Alternador,Elétrico,Komatsu PC930,2024-01-01,2024-01-22,11497.1,False,Rolamento,Mina B,Operador_17,corretiva,1667.9814663015802,16.047440264924525
+CAT789-1853,Pneu,Rodado,CAT789,2024-08-03,2024-08-06,1643.6,False,Desgaste excessivo,Mina A,Operador_06,preventiva,1310.818116007669,10.70778260649117
+CAT777-1688,Pneu,Rodado,CAT 777,2023-02-23,2023-02-27,2255.3,False,Desgaste excessivo,Mina B,Operador_16,corretiva,1371.5667862533548,9.445286128511079
+CAT777-6824,Motor,Powertrain,CAT 777,2024-12-12,,1535.9,True,,Mina A,Operador_21,,,
+KomatsuPC930-4161,Radiador,Arrefecimento,Komatsu PC930,2025-09-10,2025-10-05,13617.2,False,Entupimento,Porto D,Operador_16,preditiva,2852.5000058310825,8.483721121699732
+CAT785-4057,Alternador,Elétrico,CAT 785,2023-11-11,2023-11-26,8199.9,False,Rolamento,Pedreira C,Operador_18,corretiva,1501.9889250250435,5.410560517657193
+CAT789-9873,Sistema de Freio,Freios,CAT 789,2023-10-03,,3346.3,True,,Porto D,Operador_06,,,
+VolvoEC750-6965,Motor,Powertrain,Volvo EC750,2024-06-21,2024-06-27,3748.7,False,Vazamento de óleo,Pedreira C,Operador_13,corretiva,26550.87211013065,12.946081510530039
+CAT785-5638,Filtro de Ar,Admissão,cat 785,2024-01-02,2024-01-02,252.4,False,Selo danificado,Porto D,Operador_22,corretiva,98.62663580560387,22.6315898064899
+CAT777-4310,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2025-03-18,,232.5,True,,Porto D,Operador_13,,,
+VolvoEC750-5193,Alternador,Elétrico,Volvo EC750,2025-07-15,2025-07-21,3750.5,False,Desgaste de escovas,Pedreira C,Operador_07,preditiva,1882.2649512854466,21.574881153596262
+KomatsuPC930-1994,Transmissão,Powertrain,Komatsu PC930,2023-10-15,2023-10-24,5107.6,False,Desgaste de engrenagens,Porto D,Operador_20,preventiva,19161.187481625962,18.154607441637953
+CAT777-4537,Sistema de Freio,Freios,CAT 777,2022-11-25,,1183.3,True,,Mina A,Operador_07,,,
+CAT785-3931,Filtro de Ar,Admissão,CAT 785,2023-06-26,2023-06-26,229.7,False,Selo danificado,Mina A,Operador_15,preditiva,135.91454128641263,21.422128426210975
+CAT785-7579,Bomba Hidráulica,Sistema Hidráulico,CAT 785,2022-12-25,2022-12-30,2751.8,False,Cavitação,Pedreira C,Operador_15,preventiva,10009.939882610886,14.101789532692623
+CAT789-7755,Radiador,Arrefecimento,CAT 789,2023-05-26,2023-05-27,309.9,False,Entupimento,Pedreira C,Operador_13,preditiva,3536.6056916297207,7.589960798026531
+KomatsuPC930-7505,Alternador,Elétrico,Komatsu PC930,2025-10-23,2025-10-29,3259.5,False,Rolamento,Mina A,Operador_05,preventiva,1445.9119460754139,23.65667735696962
+CAT789-1355,Pneu,Rodado,CAT 789,2024-04-06,,416.3,True,,Mina B,Operador_09,,,
+VolvoEC750-5093,Radiador,Arrefecimento,Volvo EC750,2024-07-03,2024-07-05,1327.8,False,Vazamento,Pedreira C,Operador_19,corretiva,3267.9723354286116,17.91877158837933
+CAT785-8999,Alternador,Elétrico,CAT 785,2025-04-11,,936.3,True,,Pedreira C,Operador_25,,,
+CAT789-6700,Motor,Powertrain,CAT 789,2023-05-18,2023-06-01,537.9020788828352,False,Desgaste de anéis,Porto D,Operador_24,preditiva,30618.47709140756,22.430369647231373
+CAT777-5993,Bateria,Elétrico,CAT 777,2022-11-15,2022-11-19,2177.0,False,Sulfatação,Mina A,Operador_17,preditiva,409.6793643345642,3.111435911208205
+KomatsuPC930-9269,Bateria,Elétrico,Komatsu PC930,2025-04-22,2025-04-27,2763.0,False,Descarga profunda,Mina B,Operador_05,preventiva,378.5726503436811,14.571692991233846
+VolvoEC750-7540,Motor,,Volvo EC750,2024-05-04,2024-05-23,10753.3,False,Vazamento de óleo,Mina A,Operador_05,corretiva,26011.531274700184,6.358387609816671
+VolvoEC750-4212,Bateria,Elétrico,Volvo EC750,2022-11-15,2022-11-19,2159.5,False,Sulfatação,Mina B,Operador_11,preditiva,567.9310682013936,3.971082258788175
+KomatsuPC930-6984,Bateria,Elétrico,Komatsu PC930,2023-11-10,2023-11-13,2010.9,False,Descarga profunda,Mina B,Operador_25,preventiva,398.08243440256774,9.693760794079763
+VolvoEC750-3389,Alternador,Elétrico,Volvo EC750,2023-05-05,2023-05-15,5629.8,False,Rolamento,Mina A,Operador_12,corretiva,2121.960404333756,20.76081119394241
+CAT777-4982,Transmissão,Powertrain,CAT 777,2024-12-25,,1329.2,True,,Pedreira C,Operador_15,,,
+CAT777-6437,Alternador,Elétrico,CAT 777,2024-08-21,2024-09-08,10565.3,False,Curto-circuito,Mina B,Operador_18,preventiva,2000.7377935717345,23.830646821183286
+KomatsuPC930-9631,motor,Powertrain,Komatsu PC930,2025-07-26,,187.0,True,,Pedreira C,Operador_20,,,
+CAT777-8617,Sistema de Freio,Freios,CAT 777,2025-10-06,2025-10-19,7276.6,False,Superaquecimento,Mina A,Operador_12,corretiva,2833.38706688484,21.083029742798587
+CAT785-7237,Bateria,Elétrico,CAT 785,2022-12-17,2022-12-18,738.0,False,Célula danificada,Mina A,Operador_18,corretiva,401.9439121689418,13.014318103115334
+VolvoEC750-1352,Alternador,Elétrico,Volvo EC750,2025-08-03,2025-08-18,8468.9,False,Curto-circuito,Mina B,Operador_13,preditiva,1581.3047255317497,9.629157863966
+CAT789-5953,Radiador,Arrefecimento,CAT 789,2024-06-27,2024-07-04,4264.1,False,Vazamento,Pedreira C,Operador_01,preditiva,3568.7629857083516,6.962819347810594
+KomatsuPC930-3248,Radiador,Arrefecimento,Komatsu PC930,2025-04-27,2025-05-31,19929.5,False,Corrosão,Porto D,Operador_22,corretiva,2824.2666710652793,14.603768165115127
+CAT789-6395,Bateria,Elétrico,CAT 789,2023-04-18,2023-04-20,1209.5,False,Célula danificada,Mina B,Operador_22,corretiva,554.0822238555153,8.79796471556802
+CAT785-8046,Filtro de Ar,Admissão,CAT 785,2024-12-30,2025-01-01,1294.5,False,Selo danificado,Mina B,Operador_04,corretiva,115.05585535147301,21.352038675557836
+CAT789-7783,Motor,Powertrain,CAT 789,2023-07-04,2023-07-23,11688.4,False,Vazamento de óleo,Pedreira C,Operador_24,preventiva,21899.463197133307,6.134539249159182
+CAT785-1429,Bomba Hidráulica,Sistema Hidráulico,CAT785,2024-04-25,2024-05-02,3933.3,False,Desgaste interno,Mina B,Operador_12,corretiva,9152.565138930864,12.485248840972078
+VolvoEC750-8680,Filtro de Ar,Admissão,Volvo EC750,2023-09-19,2023-09-22,1490.8,False,Entupimento,Mina B,Operador_06,corretiva,109.57638360510597,10.988961523919214
+CAT789-7767,Motor,Powertrain,CAT 789,2024-07-25,2024-08-09,8429.0,False,Superaquecimento,Mina B,Operador_20,preventiva,28598.28380168375,21.069047913446937
+KomatsuPC930-7633,Pneu,Rodado,Komatsu PC930,2025-07-30,2025-08-04,2591.5,False,Separação da banda,Porto D,Operador_19,preditiva,1281.6956311102088,16.110664138698766
+VolvoEC750-2791,Motor Principal,Powertrain,Volvo EC750,2023-04-13,2023-04-27,7581.5,False,Desgaste de anéis,Porto D,Operador_17,preditiva,24945.139957948646,18.173741794105883
+KomatsuPC930-9456,Filtro de Ar,Admissão,Komatsu PC930,2025-07-15,2025-07-17,1352.8,False,Rasgo,Mina B,Operador_25,preventiva,123.68082983783778,11.294168013909712
+CAT777-9470,Turbocompressor,Admissão,cat 777,2025-01-05,2025-01-28,13055.0,False,Desbalanceamento,Porto D,Operador_17,corretiva,10678.62835133364,14.879849855844183
+CAT785-7440,Filtro de Ar,Admissão,CAT 785,2023-06-30,2023-06-30,113.6,False,Selo danificado,Pedreira C,Operador_23,corretiva,148.95290684164308,3.9839525483683516
+CAT785-3024,Radiador,Arrefecimento,CAT 785,2025-04-20,2025-04-24,2553.6,False,Entupimento,Mina A,Operador_17,preditiva,2777.7223239662003,19.403465073214555
+VolvoEC750-3619,Filtro de Ar,Admissão,Volvo EC750,2023-09-09,,524.0,True,,Porto D,Operador_22,,,
+CAT785-3369,Bomba Hidráulica,Sistema Hidráulico,CAT 785,2024-10-22,2024-10-29,4101.4,False,Contaminação,Mina A,Operador_10,preditiva,7122.784105466424,21.76792209516885
+CAT777-5146,Pneu,Rodado,CAT 777,2025-09-28,2025-10-03,2622.4,False,Desgaste excessivo,Porto D,Operador_20,preventiva,1102.727012411686,14.954971198054803
+KomatsuPC930-7719,Alternador,Elétrico,Komatsu PC930,2023-05-03,2023-05-10,3797.3,False,Rolamento,Mina A,Operador_09,preditiva,2005.7718829944267,20.04267060872581
+CAT777-4028,Pneu,Rodado,CAT 777,2024-12-24,2024-12-27,1362.5,False,Desgaste excessivo,Mina A,Operador_22,preditiva,1462.808661475564,8.56571402612659
+CAT777-2784,Transmissão,Powertrain,CAT 777,2023-06-23,,809.3,True,,Mina B,Operador_23,,,
+VolvoEC750-3906,Turbocompressor,Admissão,Volvo EC750,2023-04-05,2023-04-15,5318.1,False,Vazamento de óleo,Pedreira C,Operador_11,preventiva,14985.178657424718,20.045824330215652
+VolvoEC750-2063,Bateria,Elétrico,Volvo EC750,2024-03-03,,1203.2,True,,Porto D,Operador_17,,,
+VolvoEC750-4438,Bateria,Elétrico,Volvo EC750,2024-08-21,,1139.5,True,,Mina A,Operador_03,,,
+VolvoEC750-5705,Alternador,Elétrico,Volvo EC750,2023-06-02,2023-06-04,1163.6,False,Rolamento,Pedreira C,Operador_12,corretiva,1992.8609827635505,12.920732359837944
+KomatsuPC930-3947,Alternador,Elétrico,Komatsu PC930,2024-07-04,2024-07-18,7385.1,False,Desgaste de escovas,Pedreira C,Operador_15,preditiva,2157.059297905364,18.224304263722416
+VolvoEC750-7793,Pneu,Rodado,Volvo EC750,2023-06-29,2023-07-06,4032.7,False,Separação da banda,Mina A,Operador_07,corretiva,1344.370986526551,17.1803753539606

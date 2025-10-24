@@ -1,0 +1,48 @@
+asset_id,component,subsystem,fleet,install_date,failure_date,operating_hours,censored,failure_mode,environment,operator,maintenance_type,cost,downtime_hours
+CAT785-6514,Bomba Hidráulica,Sistema Hidráulico,CAT 785,2025-03-28,2025-04-02,3006.2,False,Contaminação,Mina A,Operador_20,preventiva,9628.513093097521,18.054099307263993
+CAT785-7916,Bomba Hidráulica,Sistema Hidráulico,CAT 785,2025-06-15,2025-06-17,1184.5,False,Cavitação,Porto D,Operador_09,preditiva,9843.118808937992,2.252582482742032
+VolvoEC750-2743,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2024-02-20,,3414.2,True,,Mina B,Operador_25,,,
+CAT777-2113,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2024-06-29,,2627.2,True,,Porto D,Operador_20,,,
+VolvoEC750-1590,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2023-09-28,2023-10-02,2359.1,False,Contaminação,Mina B,Operador_02,preventiva,7240.306153359016,7.489654262904337
+VolvoEC750-5930,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2023-07-15,2023-07-20,2518.1,False,Cavitação,Mina A,Operador_20,preditiva,7688.996918946153,11.719292370434964
+KomatsuPC930-9702,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2024-01-13,2024-01-18,2989.6,False,Cavitação,Porto D,Operador_14,preditiva,8183.654448306802,5.501473965945984
+KomatsuPC930-9824,Bomba Hidráulica,,Komatsu PC930,2023-02-05,2023-02-09,2334.3,False,Contaminação,Pedreira C,Operador_15,preventiva,9878.406732936273,23.577041889317076
+KomatsuPC930-3529,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2025-05-23,2025-05-29,3148.8,False,Cavitação,Porto D,Operador_23,preventiva,8999.34661031709,20.73883643171521
+CAT777-8237,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2023-11-16,2023-11-19,1497.6,False,Contaminação,Pedreira C,Operador_15,preventiva,7196.86799643557,10.4632514772816
+CAT777-1645,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2024-01-30,,72.42473405329667,True,,Porto D,Operador_10,,,
+KomatsuPC930-2622,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2023-01-25,2023-01-27,1286.3,False,Cavitação,Porto D,Operador_12,corretiva,8173.532344242806,22.912213736731392
+CAT785-1815,Bomba Hidráulica,Sistema Hidráulico,CAT 785,2025-05-09,2025-05-16,3720.4,False,Cavitação,Pedreira C,Operador_15,preventiva,7492.667377459078,18.608749160704154
+VolvoEC750-8538,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2023-10-13,2023-10-20,4051.4,False,Contaminação,Mina A,Operador_19,preventiva,8495.850172002527,10.706867330905325
+CAT789-8361,Bomba Hidráulica,Sistema Hidráulico,CAT 789,2022-12-07,2022-12-13,3250.4,False,Desgaste interno,Mina B,Operador_15,preventiva,10121.887708505099,11.127731928018118
+KomatsuPC930-8840,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2024-10-15,,2744.4,True,,Mina B,Operador_10,,,
+KomatsuPC930-2438,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2024-01-08,2024-01-14,3291.4,False,Contaminação,Pedreira C,Operador_10,corretiva,9247.23641602885,22.40113804790991
+KomatsuPC930-9238,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2025-07-02,2025-07-06,2337.6,False,Desgaste interno,Mina A,Operador_11,preditiva,7301.881138861868,22.844629009812245
+VolvoEC750-3526,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2024-11-07,2024-11-13,3174.4,False,Desgaste interno,Pedreira C,Operador_03,corretiva,10194.187415881566,18.962492113478238
+KomatsuPC930-9734,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2023-11-22,2023-11-30,4693.3,False,Cavitação,Pedreira C,Operador_21,preditiva,7457.448733153242,12.651962237282182
+CAT777-3587,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2023-07-13,2023-07-23,5687.4,False,Contaminação,Porto D,Operador_11,preventiva,8983.59167156108,21.97461309218369
+VolvoEC750-8668,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2024-04-13,2024-04-22,5346.3,False,Cavitação,Mina B,Operador_15,preditiva,7429.059520918077,6.096379520817489
+VolvoEC750-7439,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2022-11-05,2022-11-16,5867.2,False,Desgaste interno,Mina B,Operador_25,corretiva,10313.962730716556,12.18608582628516
+CAT789-7167,Bomba Hidráulica,Sistema Hidráulico,CAT 789,2024-10-12,2024-10-23,5881.8,False,Cavitação,Porto D,Operador_05,preventiva,10058.964695263623,14.372490890912001
+VolvoEC750-9000,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2024-10-12,2024-10-18,3452.3,False,Desgaste interno,Mina A,Operador_22,corretiva,9457.355374288078,11.07262889314304
+KomatsuPC930-6188,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2023-10-16,,1794.3,True,,Mina A,Operador_25,,,
+KomatsuPC930-5521,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2023-06-14,2023-06-18,20999.33490989771,False,Contaminação,Pedreira C,Operador_08,preditiva,8900.13475107558,15.06374075685973
+CAT789-8389,Bomba Hidráulica,Sistema Hidráulico,cat 789,2025-07-06,2025-07-14,4445.8,False,Desgaste interno,Pedreira C,Operador_13,preditiva,8421.752078922682,12.88933665306088
+CAT777-1207,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2025-01-15,,1655.1,True,,Mina A,Operador_24,,,
+CAT785-5778,Bomba Hidráulica,Sistema Hidráulico,CAT 785,2024-05-07,2024-05-14,4134.7,False,Cavitação,Pedreira C,Operador_11,preventiva,8211.031409262296,7.1394469860428815
+CAT777-7625,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2023-04-11,,450.8,True,,Mina B,Operador_04,,,
+CAT777-5026,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2024-02-27,2024-03-03,3069.0,False,Desgaste interno,Porto D,Operador_03,preventiva,7932.061104096056,11.223166066319283
+CAT777-9622,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2023-10-07,2023-10-12,2951.9,False,Contaminação,Mina A,Operador_19,corretiva,7746.244284563219,9.097270496204022
+KomatsuPC930-8982,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2024-01-13,2024-01-22,5195.4,False,Cavitação,Mina B,Operador_12,corretiva,9062.126677899068,19.917993201745567
+CAT785-4281,Bomba Hidráulica,Sistema Hidráulico,Cat785,2023-11-22,2023-11-27,2985.8,False,Contaminação,Porto D,Operador_05,preventiva,9849.575773348464,5.967848920350565
+VolvoEC750-9888,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2024-01-02,2024-01-07,2999.4,False,Cavitação,Mina A,Operador_19,preditiva,9240.494525953469,16.833356681861815
+CAT777-3518,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2024-01-02,2024-01-10,4858.4,False,Cavitação,Mina A,Operador_10,preventiva,9559.632729669718,14.103523953839264
+CAT777-8523,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2023-12-14,,245.3,True,,Mina A,Operador_18,,,
+VolvoEC750-4218,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2024-05-02,2024-05-08,3622.8,False,Cavitação,Mina A,Operador_21,corretiva,9650.569599327162,14.735817319996341
+CAT777-1271,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2024-09-04,2024-09-14,5777.5,False,Desgaste interno,Porto D,Operador_16,preditiva,8799.255187482731,21.310558030345298
+KomatsuPC930-1086,Bomba Hidráulica,Sistema Hidráulico,Komatsu PC930,2025-04-20,2025-04-26,3234.4,False,Desgaste interno,Mina B,Operador_03,preventiva,7287.080978478049,3.7608742073076584
+VolvoEC750-4744,Bomba Hidráulica,Sistema Hidráulico,Volvo EC750,2025-04-02,2025-04-08,3568.1,False,Contaminação,Pedreira C,Operador_07,corretiva,9600.14983293855,18.247924307659694
+CAT789-1172,Bomba Hidráulica,Sistema Hidráulico,CAT 789,2025-10-23,2025-10-31,4426.0,False,Desgaste interno,Mina B,Operador_23,preventiva,10187.830047472498,12.495475549932056
+CAT777-4310,Bomba Hidráulica,Sistema Hidráulico,CAT 777,2025-03-18,,232.5,True,,Porto D,Operador_13,,,
+CAT785-7579,Bomba Hidráulica,Sistema Hidráulico,CAT 785,2022-12-25,2022-12-30,2751.8,False,Cavitação,Pedreira C,Operador_15,preventiva,10009.939882610886,14.101789532692623
+CAT785-1429,Bomba Hidráulica,Sistema Hidráulico,CAT785,2024-04-25,2024-05-02,3933.3,False,Desgaste interno,Mina B,Operador_12,corretiva,9152.565138930864,12.485248840972078
+CAT785-3369,Bomba Hidráulica,Sistema Hidráulico,CAT 785,2024-10-22,2024-10-29,4101.4,False,Contaminação,Mina A,Operador_10,preditiva,7122.784105466424,21.76792209516885

@@ -1,0 +1,47 @@
+asset_id,component,subsystem,fleet,install_date,failure_date,operating_hours,censored,failure_mode,environment,operator,maintenance_type,cost,downtime_hours
+VolvoEC750-7873,Pneu,Rodado,Volvo EC750,2024-07-29,2024-08-04,3682.9,False,Desgaste excessivo,Porto D,Operador_25,corretiva,1378.883636992936,9.48551136339582
+CAT789-2307,Pneu,Rodado,Caterpillar 789,2024-07-04,2024-07-06,1096.4,False,Corte lateral,Mina A,Operador_06,preventiva,1173.162420136513,16.743853836309256
+CAT777-4946,Pneu,Rodado,CAT 777,2025-05-15,2025-05-17,1215.5,False,Separação da banda,Mina A,Operador_25,corretiva,1037.0348786998577,12.456212318172089
+VolvoEC750-8752,Pneu,Rodado,Volvo EC750,2024-11-10,2024-11-12,1007.1,False,Separação da banda,Mina A,Operador_11,corretiva,1451.0540787219986,18.52503902589611
+CAT789-6502,Pneu,Rodado,CAT 789,2024-01-08,,363.3,True,,Mina A,Operador_23,,,
+CAT777-7797,Pneu,Rodado,CAT 777,2023-07-12,2023-07-15,1962.8,False,Desgaste excessivo,Pedreira C,Operador_14,preventiva,1502.9030870041063,14.849747112492953
+KomatsuPC930-9041,Pneu,Rodado,Komatsu PC930,2023-04-20,,334.8,True,,Mina A,Operador_10,,,
+CAT777-4155,Pneu,Rodado,CAT 777,2024-01-16,2024-01-19,1687.6,False,Separação da banda,Mina A,Operador_06,corretiva,1089.8307839271636,12.652368918679592
+VolvoEC750-7274,Pneu,Rodado,Volvo EC750,2024-07-02,,680.7,True,,Porto D,Operador_13,,,
+CAT789-3417,Pneu,Rodado,CAT 789,2025-10-18,2025-10-21,1884.3,False,Desgaste excessivo,Pedreira C,Operador_18,preventiva,1439.1082941345742,4.418379653567582
+KomatsuPC930-8398,Pneu,Rodado,Komatsu PC930,2024-07-13,2024-07-15,1160.3,False,Corte lateral,Porto D,Operador_24,corretiva,1147.52900999828,8.87551856512109
+CAT785-3253,Pneu,Rodado,CAT 785,2024-12-10,2024-12-13,1616.2,False,Separação da banda,Mina A,Operador_25,preditiva,1461.0718959807336,21.441007640836357
+KomatsuPC930-8489,Pneu,Rodado,Komatsu PC930,2025-06-17,2025-06-20,1928.4,False,Separação da banda,Mina A,Operador_01,preditiva,1269.2254381256437,7.322638957261853
+CAT777-4268,Pneu,Rodado,CAT 777,2025-07-30,2025-08-02,1943.5,False,Separação da banda,Pedreira C,Operador_16,preventiva,981.972462922145,16.231810973616504
+KomatsuPC930-9221,Pneu,Rodado,Komatsu PC930,2023-03-03,2023-03-06,1685.7,False,Separação da banda,Mina A,Operador_11,preditiva,1247.0225900060407,10.290145076085306
+CAT789-5890,Pneu,Rodado,CAT 789,2024-07-20,2024-07-22,1064.4,False,Separação da banda,Pedreira C,Operador_23,preventiva,1150.2244470110688,9.673669832428745
+VolvoEC750-9792,Pneu,Rodado,Volvo EC750,2024-12-21,2024-12-29,4479.6,False,Desgaste excessivo,Mina B,Operador_22,corretiva,1390.1507797083902,12.754215270286172
+CAT777-5398,Pneu,Rodado,CAT 777,2023-09-12,2023-09-13,333.2,False,Separação da banda,Mina A,Operador_24,preditiva,1295.3102857635165,12.546672542360126
+VolvoEC750-6269,Pneu,Rodado,Volvo EC750,2024-03-23,2024-03-29,3360.5,False,Corte lateral,Porto D,Operador_09,preventiva,1267.6899240142643,12.940100448221633
+CAT777-3474,Pneu,Rodado,CAT 777,2025-10-05,2025-10-11,3228.4,False,Separação da banda,Mina B,Operador_21,preditiva,1520.3422326588006,22.08053200416633
+KomatsuPC930-2752,Pneu,Rodado,Komatsu PC930,2025-01-19,,1072.4,True,,Pedreira C,Operador_13,,,
+KomatsuPC930-2494,Pneu,Rodado,Komatsu PC930,2025-04-12,2025-04-16,2004.8,False,Separação da banda,Mina A,Operador_08,preditiva,1367.9896350729475,2.2043128473861238
+KomatsuPC930-7322,Pneu,Rodado,Komatsu PC930,2025-03-07,2025-03-15,4344.9,False,Separação da banda,Mina B,Operador_01,preventiva,1520.3546410045296,4.9036233761194445
+CAT785-2785,Pneu,Rodado,CAT 785,2024-12-09,,633.5,True,,Mina A,Operador_18,,,
+CAT785-2640,Pneu,Rodado,CAT 785,2024-06-03,2024-06-05,893.1,False,Separação da banda,Mina B,Operador_02,corretiva,1305.4152651719978,23.618621986676715
+CAT789-2009,Pneu,Rodado,CAT 789,2024-12-18,,490.4,True,,Mina A,Operador_25,,,
+CAT785-1944,Pneu,Rodado,CAT 785,2024-05-31,2024-06-02,1201.8,False,Separação da banda,Mina A,Operador_07,preventiva,1181.0111565448626,12.212806203311533
+CAT785-4387,Pneu,Rodado,cat 785,2024-04-20,2024-04-25,3028.6,False,Separação da banda,Porto D,Operador_01,preventiva,1506.9092628314231,16.24217419185053
+KomatsuPC930-5950,Pneu,Rodado,Komatsu PC930,2022-11-22,2022-11-28,3136.8,False,Separação da banda,Porto D,Operador_12,preditiva,1348.4052720387542,15.399102302036368
+VolvoEC750-8794,Pneu,Rodado,Volvo EC750,2023-10-20,2023-10-24,2127.2,False,Separação da banda,Pedreira C,Operador_06,preventiva,1018.5618382876256,4.814771073313174
+CAT785-6437,Pneu,Rodado,CAT 785,2023-12-15,2023-12-17,1272.6,False,Separação da banda,Pedreira C,Operador_17,preventiva,1557.9786495626033,20.12114482035445
+CAT789-9419,Pneu,Rodado,CAT 789,2025-05-08,,352.2,True,,Mina A,Operador_01,,,
+CAT789-8960,Pneu,Rodado,CAT 789,2023-04-15,2023-04-19,2357.2,False,Separação da banda,Pedreira C,Operador_05,preditiva,1300.1171357832557,19.769394822115668
+VolvoEC750-6918,Pneu,Rodado,Volvo EC750,2023-08-21,2023-08-27,3788.5,False,Desgaste excessivo,Porto D,Operador_21,preventiva,1021.9350077378881,23.305710818396538
+VolvoEC750-7649,Pneu,Rodado,Volvo EC750,2023-11-01,2023-11-08,4137.3,False,Separação da banda,Pedreira C,Operador_01,preditiva,1489.2205459131374,11.677771416629314
+CAT777-9430,Pneu,Rodado,CAT 777,2024-03-27,,401.3,True,,Mina B,Operador_04,,,
+KomatsuPC930-6410,Pneu,Rodado,Komatsu PC930,2025-03-05,2025-03-09,2351.3,False,Separação da banda,Porto D,Operador_06,preditiva,1460.0189978371527,2.49381283939441
+CAT777-1116,Pneu,Rodado,CAT 777,2022-11-18,2022-11-20,911.0,False,Desgaste excessivo,Mina A,Operador_23,preventiva,1205.3070463043593,4.34483076188809
+KomatsuPC930-2650,Pneu,Rodado,Komatsu PC930,2023-12-27,2023-12-30,1513.0,False,Separação da banda,Pedreira C,Operador_09,corretiva,1121.6449377149881,23.08758997535593
+CAT789-1853,Pneu,Rodado,CAT789,2024-08-03,2024-08-06,1643.6,False,Desgaste excessivo,Mina A,Operador_06,preventiva,1310.818116007669,10.70778260649117
+CAT777-1688,Pneu,Rodado,CAT 777,2023-02-23,2023-02-27,2255.3,False,Desgaste excessivo,Mina B,Operador_16,corretiva,1371.5667862533548,9.445286128511079
+CAT789-1355,Pneu,Rodado,CAT 789,2024-04-06,,416.3,True,,Mina B,Operador_09,,,
+KomatsuPC930-7633,Pneu,Rodado,Komatsu PC930,2025-07-30,2025-08-04,2591.5,False,Separação da banda,Porto D,Operador_19,preditiva,1281.6956311102088,16.110664138698766
+CAT777-5146,Pneu,Rodado,CAT 777,2025-09-28,2025-10-03,2622.4,False,Desgaste excessivo,Porto D,Operador_20,preventiva,1102.727012411686,14.954971198054803
+CAT777-4028,Pneu,Rodado,CAT 777,2024-12-24,2024-12-27,1362.5,False,Desgaste excessivo,Mina A,Operador_22,preditiva,1462.808661475564,8.56571402612659
+VolvoEC750-7793,Pneu,Rodado,Volvo EC750,2023-06-29,2023-07-06,4032.7,False,Separação da banda,Mina A,Operador_07,corretiva,1344.370986526551,17.1803753539606

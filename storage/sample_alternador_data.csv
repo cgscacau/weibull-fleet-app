@@ -1,0 +1,49 @@
+asset_id,component,subsystem,fleet,install_date,failure_date,operating_hours,censored,failure_mode,environment,operator,maintenance_type,cost,downtime_hours
+CAT789-7930,Alternador,Elétrico,Caterpillar 789,2023-01-31,,642.3,True,,Mina B,Operador_24,,,
+KomatsuPC930-5246,Alternador,Elétrico,Komatsu PC930,2024-06-04,2024-06-11,4240.5,False,Rolamento,Pedreira C,Operador_08,preventiva,1835.8853339384127,17.697986977443243
+CAT785-9751,Alternador,Elétrico,CAT 785,2025-08-29,2025-09-17,11016.3,False,Desgaste de escovas,Porto D,Operador_21,preventiva,1562.1295385075077,12.157365769133257
+KomatsuPC930-8136,Alternador,Elétrico,Komatsu PC930,2024-04-22,2024-04-24,902.3,False,Desgaste de escovas,Pedreira C,Operador_09,preventiva,1659.4770952718604,12.223586265271098
+CAT789-4020,Alternador,,CAT 789,2025-07-10,2025-07-13,1578.8,False,Desgaste de escovas,Pedreira C,Operador_13,preventiva,1506.673953230076,15.847805552943964
+VolvoEC750-3344,Alternador,Elétrico,Volvo EC750,2024-07-05,2024-07-13,4617.9,False,Rolamento,Porto D,Operador_01,preventiva,2251.088481238995,16.907439485379747
+CAT777-4886,Alternador,Elétrico,CAT 777,2023-09-03,2023-09-11,4761.2,False,Curto-circuito,Pedreira C,Operador_01,preditiva,1796.2251668202307,2.1781552467527856
+CAT789-7689,Alternador,Elétrico,CAT 789,2025-02-27,,130.1,True,,Mina B,Operador_04,,,
+KomatsuPC930-1616,Alternador,Elétrico,Komatsu PC930,2025-06-29,2025-07-08,5075.2,False,Desgaste de escovas,Pedreira C,Operador_20,preditiva,1896.3610356005595,12.179656496399991
+CAT777-7731,Alternador,Elétrico,CAT 777,2023-10-08,2023-10-14,3664.0,False,Rolamento,Mina B,Operador_15,corretiva,1920.6100347284348,8.808293724381372
+CAT785-7026,Alternador,Elétrico,CAT 785,2023-05-05,2023-05-14,5098.4,False,Rolamento,Porto D,,preventiva,2309.6413378853526,19.97160727078728
+KomatsuPC930-6554,Alternador,Elétrico,Komatsu PC930,2024-10-06,2024-10-12,3270.8,False,Rolamento,Porto D,Operador_09,corretiva,2094.3731919083725,3.7363941332202932
+VolvoEC750-3126,Alternador,Elétrico,Volvo EC750,2025-04-30,2025-05-04,2220.5,False,Rolamento,Mina A,Operador_16,preditiva,1809.7156085986503,11.007537604223687
+CAT789-9148,Alternador,Elétrico,Cat789,2025-09-06,2025-09-07,828.8,False,Desgaste de escovas,Mina A,Operador_07,preditiva,1757.6055799707199,3.1118889018136215
+VolvoEC750-8710,Alternador,Elétrico,Volvo EC750,2024-03-17,2024-03-24,3811.8,False,Curto-circuito,Mina A,,preventiva,2127.471087745791,10.050621755386386
+CAT785-9446,Alternador,Elétrico,Caterpillar 785,2025-01-10,2025-01-14,2020.2,False,Curto-circuito,Pedreira C,Operador_20,preditiva,2198.3417346277156,15.061942423881709
+CAT789-5064,Alternador,Elétrico,CAT 789,2025-10-10,2025-10-16,3507.3,False,Curto-circuito,Pedreira C,Operador_11,preventiva,1964.2146763994863,14.60330164619972
+VolvoEC750-6530,Alternador,Elétrico,Volvo EC750,2024-05-14,2024-05-23,5247.0,False,Curto-circuito,Porto D,Operador_15,corretiva,2099.495013322517,9.747875703303855
+CAT777-1108,Alternador,Elétrico,CAT 777,2022-10-30,,1256.0,True,,Porto D,Operador_10,,,
+CAT777-5840,Alternador,Elétrico,CAT 777,2023-06-25,,1696.9,True,,Mina A,Operador_10,,,
+CAT785-7636,Alternador,Elétrico,CAT 785,2024-10-11,2024-10-15,2543.4,False,Desgaste de escovas,Mina B,Operador_24,preditiva,2234.787636977375,11.890650250229756
+KomatsuPC930-8272,Alternador,Elétrico,Komatsu PC930,2023-01-27,,209.3,True,,Mina B,Operador_10,,,
+CAT777-1547,Alternador,Elétrico,CAT 777,2024-02-28,2024-03-05,3694.2,False,Desgaste de escovas,Mina A,,corretiva,2239.138140960873,5.539898888049064
+CAT789-2493,Alternador,Elétrico,CAT789,2023-08-22,2023-08-31,4884.3,False,Desgaste de escovas,Mina B,Operador_15,corretiva,1676.966370014596,12.23127503540231
+CAT777-8709,Alternador,Elétrico,CAT 777,2025-07-06,2025-07-11,2903.1,False,Desgaste de escovas,Mina A,Operador_22,preventiva,1916.854654166998,11.088359588305378
+KomatsuPC930-3732,Alternador,Elétrico,Komatsu PC930,2025-03-06,2025-03-13,3952.8,False,Desgaste de escovas,Mina B,Operador_04,preventiva,2260.104085144961,12.618846711887606
+KomatsuPC930-7473,Alternador,Elétrico,Komatsu PC930,2025-08-21,,1507.0,True,,Porto D,Operador_18,,,
+VolvoEC750-9362,Alternador,Elétrico,Volvo EC750,2025-04-21,2025-04-27,21241.085514322767,False,Desgaste de escovas,Porto D,Operador_20,preditiva,1589.2591968289425,13.311006971360408
+CAT785-3935,Alternador,Elétrico,CAT 785,2024-12-28,2025-01-01,2445.6,False,Curto-circuito,Porto D,Operador_08,corretiva,1677.9214035905277,7.148410714729022
+CAT785-7065,Alternador,Elétrico,CAT 785,2023-02-06,2023-02-12,3432.3,False,Rolamento,Pedreira C,Operador_13,preditiva,1564.2616666071044,21.004271585525743
+KomatsuPC930-8923,Alternador,Elétrico,Komatsu PC930,2024-06-12,2024-06-16,2507.7,False,Curto-circuito,Pedreira C,Operador_19,corretiva,1873.7731458592523,7.672034826026809
+CAT785-4847,Alternador,Elétrico,CAT 785,2024-06-15,2024-06-22,3636.1,False,Desgaste de escovas,Pedreira C,Operador_20,preventiva,1580.3960116285432,4.347164382318606
+CAT777-3893,Alternador,Elétrico,CAT 777,2023-06-13,,5269.0,True,,Porto D,Operador_18,,,
+CAT789-5256,Alternador,Elétrico,CAT 789,2023-10-15,2023-10-17,1309.8,False,Curto-circuito,Pedreira C,Operador_12,corretiva,1810.5848143183716,9.723990776256537
+CAT789-9535,Alternador,Elétrico,CAT 789,2023-04-15,,2925.8,True,,Porto D,Operador_08,,,
+CAT789-9060,Alternador,Elétrico,CAT 789,2024-10-04,,139.8,True,,Pedreira C,Operador_06,,,
+CAT789-8597,Alternador,Elétrico,CAT 789,2025-08-20,,2626.8,True,,Pedreira C,Operador_09,,,
+KomatsuPC930-6113,Alternador,Elétrico,Komatsu PC930,2024-01-01,2024-01-22,11497.1,False,Rolamento,Mina B,Operador_17,corretiva,1667.9814663015802,16.047440264924525
+CAT785-4057,Alternador,Elétrico,CAT 785,2023-11-11,2023-11-26,8199.9,False,Rolamento,Pedreira C,Operador_18,corretiva,1501.9889250250435,5.410560517657193
+VolvoEC750-5193,Alternador,Elétrico,Volvo EC750,2025-07-15,2025-07-21,3750.5,False,Desgaste de escovas,Pedreira C,Operador_07,preditiva,1882.2649512854466,21.574881153596262
+KomatsuPC930-7505,Alternador,Elétrico,Komatsu PC930,2025-10-23,2025-10-29,3259.5,False,Rolamento,Mina A,Operador_05,preventiva,1445.9119460754139,23.65667735696962
+CAT785-8999,Alternador,Elétrico,CAT 785,2025-04-11,,936.3,True,,Pedreira C,Operador_25,,,
+VolvoEC750-3389,Alternador,Elétrico,Volvo EC750,2023-05-05,2023-05-15,5629.8,False,Rolamento,Mina A,Operador_12,corretiva,2121.960404333756,20.76081119394241
+CAT777-6437,Alternador,Elétrico,CAT 777,2024-08-21,2024-09-08,10565.3,False,Curto-circuito,Mina B,Operador_18,preventiva,2000.7377935717345,23.830646821183286
+VolvoEC750-1352,Alternador,Elétrico,Volvo EC750,2025-08-03,2025-08-18,8468.9,False,Curto-circuito,Mina B,Operador_13,preditiva,1581.3047255317497,9.629157863966
+KomatsuPC930-7719,Alternador,Elétrico,Komatsu PC930,2023-05-03,2023-05-10,3797.3,False,Rolamento,Mina A,Operador_09,preditiva,2005.7718829944267,20.04267060872581
+VolvoEC750-5705,Alternador,Elétrico,Volvo EC750,2023-06-02,2023-06-04,1163.6,False,Rolamento,Pedreira C,Operador_12,corretiva,1992.8609827635505,12.920732359837944
+KomatsuPC930-3947,Alternador,Elétrico,Komatsu PC930,2024-07-04,2024-07-18,7385.1,False,Desgaste de escovas,Pedreira C,Operador_15,preditiva,2157.059297905364,18.224304263722416

@@ -1,0 +1,51 @@
+asset_id,component,subsystem,fleet,install_date,failure_date,operating_hours,censored,failure_mode,environment,operator,maintenance_type,cost,downtime_hours
+VolvoEC750-8744,Turbocompressor,Admissão,Volvo EC750,2024-06-13,2024-06-26,7393.6,False,Desgaste de turbina,Porto D,Operador_22,preventiva,11725.785399537323,11.044250073094236
+KomatsuPC930-6663,Turbocompressor,Admissão,Komatsu PC930,2024-01-20,2024-01-31,6443.0,False,Vazamento de óleo,Porto D,Operador_19,corretiva,11128.335036831491,17.593276244351753
+CAT785-8999,Turbocompressor,Admissão,CAT 785,2024-07-31,2024-08-06,3440.8,False,Vazamento de óleo,Pedreira C,Operador_22,preditiva,14388.853946521134,17.93199030780035
+VolvoEC750-2876,Turbocompressor,Admissão,Volvo EC750,2024-11-22,,224.9,True,,Pedreira C,Operador_22,,,
+KomatsuPC930-6511,Turbocompressor,Admissão,Komatsu PC930,2025-08-26,2025-09-07,6425.5,False,Desgaste de turbina,Porto D,Operador_12,preventiva,11642.033058985704,21.367039554680957
+CAT789-8753,Turbocompressor,Admissão,CAT 789,2022-11-01,2022-11-15,8476.8,False,Vazamento de óleo,Pedreira C,Operador_12,preditiva,12322.471577119071,8.74570580967427
+VolvoEC750-5636,Turbocompressor,Admissão,Volvo EC750,2025-04-01,2025-04-12,6114.4,False,Vazamento de óleo,Mina B,Operador_01,preditiva,12804.810535605979,8.034849189231881
+CAT785-7965,Turbocompressor,Admissão,CAT 785,2025-03-02,2025-03-11,5538.1,False,Desgaste de turbina,Mina B,Operador_03,corretiva,10595.53673532435,8.767459877513115
+CAT789-8195,Turbocompressor,Admissão,CAT 789,2025-02-11,2025-02-13,1313.3,False,Vazamento de óleo,Porto D,Operador_17,preditiva,12562.771316070506,3.7697207417846217
+CAT777-5415,Turbocompressor,Admissão,CAT 777,2025-08-02,2025-08-20,10433.7,False,Vazamento de óleo,Mina B,Operador_06,preditiva,12215.309922462018,19.913388779893275
+CAT777-1828,Turbocompressor,Admissão,CAT 777,2023-12-10,2023-12-21,6718.0,False,Desgaste de turbina,Mina B,Operador_03,preditiva,10842.944222079952,6.750929742210845
+CAT785-8030,Turbocompressor,Admissão,CAT 785,2025-08-31,,1883.8,True,,Pedreira C,Operador_11,,,
+CAT777-1125,Turbocompressor,Admissão,CAT 777,2024-08-31,2024-09-16,9296.2,False,Vazamento de óleo,Pedreira C,Operador_10,preventiva,10319.906062233295,12.942477229493191
+CAT777-6072,Turbocompressor,Admissão,CAT 777,2023-09-13,2023-09-20,3975.2,False,Desbalanceamento,Pedreira C,,preditiva,10160.717790396131,16.75003288175866
+CAT785-5096,Turbocompressor,Admissão,CAT 785,2025-07-09,2025-07-27,10291.8,False,Desgaste de turbina,Porto D,Operador_23,preditiva,14706.996288508673,8.271386309305225
+CAT785-9937,Turbocompressor,Admissão,CAT 785,2024-03-01,,2454.6,True,,Pedreira C,Operador_15,,,
+KomatsuPC930-3730,Turbocompressor,Admissão,Komatsu PC930,2023-04-28,2023-05-05,4132.6,False,Vazamento de óleo,Pedreira C,Operador_20,preventiva,11247.332160449147,23.56060014227414
+CAT777-3053,Turbocompressor,Admissão,CAT 777,2024-01-13,2024-01-26,7494.6,False,Vazamento de óleo,Mina A,Operador_05,preditiva,13438.763576199979,6.003189004147022
+CAT785-6121,Turbocompressor,Admissão,CAT 785,2024-01-09,2024-01-24,8035.3,False,Vazamento de óleo,Pedreira C,Operador_17,preditiva,10237.103601654584,7.318232940602276
+VolvoEC750-2946,Turbocompressor,Admissão,Volvo EC750,2025-02-02,2025-02-04,1419.5,False,Vazamento de óleo,Mina A,Operador_18,preventiva,14129.791033756765,6.379273394153899
+CAT785-4972,Turbocompressor,Admissão,CAT 785,2025-07-12,2025-08-05,13078.4,False,Vazamento de óleo,Mina B,Operador_11,preditiva,12434.423442209283,16.986223704791463
+CAT789-6253,Turbocompressor,Admissão,CAT 789,2024-06-25,2024-06-30,2736.8,False,Desbalanceamento,Pedreira C,Operador_08,preventiva,11403.005722544518,3.3410680163487676
+CAT785-7999,Turbocompressor,Admissão,CAT 785,2023-01-12,2023-01-18,3561.9,False,Desbalanceamento,Mina A,Operador_13,preditiva,11512.406743897875,11.159141935271782
+VolvoEC750-7841,Turbocompressor,Admissão,Volvo EC750,2024-02-27,,978.6,True,,Mina B,Operador_08,,,
+VolvoEC750-3778,Turbocompressor,Admissão,Volvo EC750,2023-09-05,,3817.9,True,,Mina B,Operador_03,,,
+CAT777-7547,Turbocompressor,Admissão,CAT 777,2023-12-14,,492.6,True,,Porto D,Operador_24,,,
+CAT777-6700,Turbocompressor,Admissão,CAT 777,2023-11-03,2023-11-26,13859.2,False,Desbalanceamento,Porto D,Operador_10,preditiva,13141.010189864874,16.78642179777362
+CAT785-7286,Turbocompressor,,CAT 785,2023-06-10,2023-06-13,1923.8,False,Desbalanceamento,Mina B,Operador_06,preditiva,10601.193142964335,8.354365029085605
+KomatsuPC930-3719,Turbocompressor,Admissão,Komatsu PC930,2025-01-11,2025-01-22,6529.0,False,Desbalanceamento,Mina B,Operador_12,preditiva,11286.510112741187,13.852908013048037
+VolvoEC750-5668,Turbocompressor,Admissão,Volvo EC750,2025-08-30,2025-09-09,5956.4,False,Desgaste de turbina,Pedreira C,Operador_24,preventiva,11373.252307452402,3.200520882335565
+KomatsuPC930-6986,Turbocompressor,Admissão,Komatsu PC930,2024-11-04,2024-11-23,10950.7,False,Desgaste de turbina,Porto D,Operador_19,corretiva,9682.760554351746,6.746344647379151
+CAT777-9128,Turbocompressor,Admissão,CAT 777,2023-04-05,,5385.9,True,,Pedreira C,Operador_06,,,
+CAT789-4974,Turbocompressor,Admissão,CAT 789,2023-03-18,2023-04-01,294.20501202866774,False,Desgaste de turbina,Pedreira C,Operador_24,preditiva,14162.89332193018,7.392791236284824
+KomatsuPC930-7471,Turbocompressor,Admissão,Komatsu PC930,2023-01-11,2023-01-22,6006.4,False,Vazamento de óleo,Mina A,Operador_07,corretiva,11249.890614145452,11.812251474226441
+VolvoEC750-3328,Turbocompressor,Admissão,Volvo EC750,2024-10-03,2024-10-15,6741.4,False,Desgaste de turbina,Porto D,Operador_03,corretiva,10995.740148499435,6.8137967172147
+CAT785-2705,Turbocompressor,Admissão,CAT 785,2023-01-11,2023-01-27,9011.5,False,Vazamento de óleo,Mina B,Operador_11,corretiva,13417.12062144221,23.187751739859372
+KomatsuPC930-4271,Turbocompressor,Admissão,Komatsu PC930,2025-04-08,2025-04-27,11178.4,False,Desgaste de turbina,Mina A,Operador_16,corretiva,11450.120400706377,10.744281667178704
+CAT785-1999,Turbocompressor,Admissão,CAT 785,2023-08-23,2023-09-12,11555.2,False,Vazamento de óleo,Porto D,Operador_19,corretiva,12457.573686488811,3.73701109502983
+CAT777-4666,Turbocompressor,Admissão,CAT 777,2024-05-25,2024-06-07,7406.4,False,Vazamento de óleo,Pedreira C,Operador_14,preventiva,14709.517038555854,12.097956415593412
+KomatsuPC930-3969,Turbocompressor,Admissão,Komatsu PC930,2023-09-07,2023-09-18,6774.8,False,Desbalanceamento,Pedreira C,Operador_05,preventiva,15122.387913828616,4.484624546222883
+VolvoEC750-4218,Turbocompressor,Admissão,Volvo EC750,2024-09-22,2024-10-09,10412.8,False,Desgaste de turbina,Pedreira C,Operador_06,corretiva,14010.476916157313,4.625783848005241
+CAT785-1600,Turbocompressor,Admissão,CAT 785,2024-05-08,2024-05-28,11053.3,False,Vazamento de óleo,Porto D,Operador_08,preditiva,13999.360963277406,8.401981524716225
+CAT777-5644,Turbocompressor,Admissão,CAT 777,2025-05-01,2025-05-13,7118.8,False,Vazamento de óleo,Mina B,Operador_06,corretiva,14582.181448225685,15.2184517170464
+CAT785-9369,Turbocompressor,Admissão,CAT 785,2024-04-30,2024-05-24,13642.3,False,Vazamento de óleo,Mina B,Operador_20,preditiva,10013.057382247469,10.32064974665762
+CAT777-7971,Turbocompressor,Admissão,CAT 777,2025-01-22,2025-02-04,7375.7,False,Desgaste de turbina,Pedreira C,Operador_10,preditiva,14860.597879159348,10.990227503118735
+CAT785-9821,Turbocompressor,Admissão,Cat785,2024-10-31,2024-11-10,5839.3,False,Vazamento de óleo,Pedreira C,Operador_25,preditiva,12281.580702497027,3.724965470906807
+CAT789-8598,Turbocompressor,Admissão,CAT 789,2024-12-31,2025-01-06,3341.9,False,Vazamento de óleo,Mina B,Operador_21,preditiva,13029.82544324276,20.67581698265379
+KomatsuPC930-8126,Turbocompressor,Admissão,Komatsu PC930,2022-11-16,2022-11-29,7623.8,False,Desgaste de turbina,Pedreira C,Operador_03,preventiva,11447.209112306686,11.06848372307237
+CAT777-9470,Turbocompressor,Admissão,cat 777,2025-01-05,2025-01-28,13055.0,False,Desbalanceamento,Porto D,Operador_17,corretiva,10678.62835133364,14.879849855844183
+VolvoEC750-3906,Turbocompressor,Admissão,Volvo EC750,2023-04-05,2023-04-15,5318.1,False,Vazamento de óleo,Pedreira C,Operador_11,preventiva,14985.178657424718,20.045824330215652

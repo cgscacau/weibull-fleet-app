@@ -1,0 +1,48 @@
+asset_id,component,subsystem,fleet,install_date,failure_date,operating_hours,censored,failure_mode,environment,operator,maintenance_type,cost,downtime_hours
+CAT777-7201,Filtro de Ar,Admissão,CAT 777,2025-05-15,2025-05-16,299.2,False,Rasgo,Pedreira C,Operador_19,corretiva,138.2743101728954,3.0081364404245687
+CAT785-6313,Filtro de Ar,Admissão,CAT 785,2025-07-01,2025-07-05,2546.2,False,Rasgo,Mina B,Operador_09,corretiva,108.6589706151796,22.744013715371196
+CAT777-6310,Filtro de Ar,Admissão,CAT 777,2023-01-27,,181.7,True,,Mina A,Operador_10,,,
+CAT785-5342,Filtro de Ar,Admissão,CAT 785,2022-11-08,2022-11-09,500.1,False,Selo danificado,Porto D,,corretiva,138.7769383691473,10.77783059994344
+CAT777-6138,Filtro de Ar,Admissão,Cat777,2025-06-28,2025-06-29,599.7,False,Selo danificado,Mina A,Operador_06,corretiva,153.646734196467,3.762452235292911
+CAT777-5905,Filtro de Ar,Admissão,CAT 777,2025-03-25,2025-03-27,1442.6,False,Selo danificado,Mina B,Operador_18,corretiva,112.340892738889,15.306256194664925
+CAT789-1452,Filtro de Ar,Admissão,CAT 789,2025-03-01,,1133.9,True,,Pedreira C,Operador_04,,,
+KomatsuPC930-8381,Filtro de Ar,Admissão,Komatsu PC930,2023-05-01,2023-05-01,177.2,False,Rasgo,Pedreira C,Operador_19,preditiva,99.61381826235245,23.12239310355458
+KomatsuPC930-6188,Filtro de Ar,Admissão,Komatsu PC930,2023-01-28,2023-01-30,1238.2,False,Selo danificado,Mina A,Operador_10,corretiva,140.80598200427562,11.547372382308765
+KomatsuPC930-3950,Filtro de Ar,Admissão,Komatsu PC930,2024-11-09,,1859.6,True,,Mina B,Operador_08,,,
+CAT789-2479,Filtro de Ar,,CAT 789,2023-08-07,2023-08-09,814.7,False,Rasgo,Mina A,Operador_22,preditiva,136.3404478410608,14.860322016347652
+CAT789-8504,Filtro de Ar,Admissão,CAT 789,2025-08-21,2025-08-22,688.8,False,Rasgo,Mina A,Operador_22,corretiva,125.41613124865353,22.013418240535046
+CAT785-7163,Filtro de Ar,Admissão,CAT 785,2023-06-17,2023-06-21,2473.6,False,Selo danificado,Porto D,Operador_11,preditiva,131.77342633230555,21.433528059403553
+CAT777-8368,Filtro de Ar,Admissão,CAT 777,2024-10-03,2024-10-06,1705.3,False,Entupimento,Pedreira C,Operador_15,corretiva,144.65800867935724,20.422297921446194
+CAT789-1298,Filtro de Ar,Admissão,CAT 789,2023-10-12,,125.3,True,,Pedreira C,Operador_16,,,
+VolvoEC750-9312,Filtro de Ar,Admissão,Volvo EC750,2022-12-19,2022-12-20,479.6,False,Selo danificado,Mina A,Operador_13,preventiva,111.21901566415278,2.3573290843968477
+CAT789-2292,Filtro de Ar,Admissão,CAT 789,2024-05-28,2024-05-31,1508.2,False,Entupimento,Mina B,Operador_21,preventiva,132.8656966984919,4.055424951438672
+KomatsuPC930-9193,Filtro de Ar,Admissão,Komatsu PC930,2025-08-02,,516.8,True,,Mina A,Operador_17,,,
+VolvoEC750-9721,Filtro de Ar,Admissão,Volvo EC750,2023-01-24,2023-01-26,1024.9,False,Rasgo,Pedreira C,Operador_22,corretiva,154.79388187074971,14.8414471206733
+CAT785-5054,Filtro de Ar,Admissão,Caterpillar 785,2025-05-09,2025-05-14,2661.0,False,Selo danificado,Porto D,Operador_04,corretiva,145.7264432375055,21.86353952527579
+KomatsuPC930-1911,Filtro de Ar,Admissão,Komatsu PC930,2023-04-09,2023-04-12,1496.4,False,Entupimento,Mina B,Operador_18,preventiva,136.36606273364217,8.779730408729327
+KomatsuPC930-9715,Filtro de Ar,Admissão,Komatsu PC930,2023-09-08,2023-09-13,2577.9,False,Rasgo,Mina B,Operador_07,preditiva,141.929395755907,2.708780928019583
+CAT785-1440,Filtro de Ar,Admissão,CAT 785,2023-03-23,2023-03-25,1136.6,False,Selo danificado,Mina B,Operador_03,preventiva,136.37865914373245,5.0619406993194875
+VolvoEC750-4621,Filtro de Ar,Admissão,Volvo EC750,2023-04-25,2023-04-27,1287.8,False,Selo danificado,Pedreira C,Operador_23,preditiva,105.0446959487948,23.949459959122375
+CAT789-9880,Filtro de Ar,Admissão,CAT 789,2025-07-30,2025-08-05,3702.7,False,Entupimento,Porto D,Operador_24,preditiva,141.08072968462034,8.54959657226366
+KomatsuPC930-7102,Filtro de Ar,Admissão,Komatsu PC930,2023-03-30,2023-04-02,1462.2,False,Selo danificado,Mina A,Operador_13,corretiva,131.5137458001766,3.3702229974390794
+CAT785-9907,Filtro de Ar,Admissão,CAT 785,2025-09-14,2025-09-16,1364.7,False,Selo danificado,Porto D,,preventiva,150.76062099590203,13.052651621962317
+KomatsuPC930-1011,Filtro de Ar,Admissão,Komatsu PC930,2023-12-14,2023-12-15,354.8,False,Entupimento,Mina B,Operador_11,corretiva,97.31477377461434,14.905401852006609
+VolvoEC750-9587,Filtro de Ar,Admissão,Volvo EC750,2023-12-02,2023-12-02,177.5,False,Rasgo,Porto D,Operador_16,preventiva,141.006934935641,5.627437195612903
+VolvoEC750-1894,Filtro de Ar,Admissão,Volvo EC750,2025-09-30,2025-10-02,871.2,False,Rasgo,Mina B,Operador_06,corretiva,141.08580006285666,9.05394394173935
+CAT777-8091,Filtro de Ar,Admissão,CAT 777,2023-02-07,2023-02-07,109.6,False,Entupimento,Mina B,Operador_04,preventiva,135.45130866790385,15.335537026966428
+CAT789-9975,Filtro de Ar,Admissão,CAT 789,2024-01-20,2024-01-25,3182.4,False,Rasgo,Mina B,Operador_22,preventiva,151.2715058650257,4.918778029005086
+CAT789-7920,Filtro de Ar,Admissão,CAT 789,2025-09-27,,161.7,True,,Mina A,Operador_07,,,
+CAT777-5992,Filtro de Ar,Admissão,CAT 777,2024-08-19,2024-08-22,1585.7,False,Selo danificado,Pedreira C,Operador_05,corretiva,107.03956336712298,15.571468311283468
+VolvoEC750-2925,Filtro de Ar,Admissão,Volvo EC750,2025-04-16,2025-04-18,1031.7,False,Selo danificado,Porto D,Operador_01,preditiva,134.95390410639203,13.484973052554192
+CAT789-4190,Filtro de Ar,Admissão,CAT 789,2025-08-16,2025-08-18,5412.596322247741,False,Rasgo,Mina B,Operador_08,preditiva,96.01723631127741,5.463784738708599
+VolvoEC750-6703,Filtro de Ar,Admissão,Volvo EC750,2023-11-12,2023-11-15,2027.4,False,Rasgo,Pedreira C,Operador_13,preditiva,96.27908709396758,5.85076530990721
+CAT777-2185,Filtro de Ar,Admissão,CAT 777,2022-12-28,2022-12-28,189.0,False,Selo danificado,Pedreira C,Operador_09,preditiva,144.78884097638246,14.647665333025998
+CAT789-7518,Filtro de Ar,Admissão,CAT 789,2024-07-26,,680.5,True,,Mina B,Operador_18,,,
+CAT789-7765,Filtro de Ar,Admissão,CAT 789,2024-10-03,,354.1,True,,Mina A,Operador_20,,,
+CAT785-5638,Filtro de Ar,Admissão,cat 785,2024-01-02,2024-01-02,252.4,False,Selo danificado,Porto D,Operador_22,corretiva,98.62663580560387,22.6315898064899
+CAT785-3931,Filtro de Ar,Admissão,CAT 785,2023-06-26,2023-06-26,229.7,False,Selo danificado,Mina A,Operador_15,preditiva,135.91454128641263,21.422128426210975
+CAT785-8046,Filtro de Ar,Admissão,CAT 785,2024-12-30,2025-01-01,1294.5,False,Selo danificado,Mina B,Operador_04,corretiva,115.05585535147301,21.352038675557836
+VolvoEC750-8680,Filtro de Ar,Admissão,Volvo EC750,2023-09-19,2023-09-22,1490.8,False,Entupimento,Mina B,Operador_06,corretiva,109.57638360510597,10.988961523919214
+KomatsuPC930-9456,Filtro de Ar,Admissão,Komatsu PC930,2025-07-15,2025-07-17,1352.8,False,Rasgo,Mina B,Operador_25,preventiva,123.68082983783778,11.294168013909712
+CAT785-7440,Filtro de Ar,Admissão,CAT 785,2023-06-30,2023-06-30,113.6,False,Selo danificado,Pedreira C,Operador_23,corretiva,148.95290684164308,3.9839525483683516
+VolvoEC750-3619,Filtro de Ar,Admissão,Volvo EC750,2023-09-09,,524.0,True,,Porto D,Operador_22,,,
