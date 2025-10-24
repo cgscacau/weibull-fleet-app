@@ -1,528 +1,203 @@
 """
-Página principal de análise Weibull
+Página de planejamento de manutenção
 """
 import streamlit as st
-import pandas as pd
 import numpy as np
-import plotly.express as px
-import plotly.graph_objects as go
-from pathlib import Path
 import sys
+from pathlib import Path
 
-# Adicionar diretórios ao path
+# Adicionar raiz ao path
 project_root = Path(__file__).parent.parent
-sys.path.append(str(project_root))
+sys.path.insert(0, str(project_root))
 
-from core.weibull import WeibullAnalysis, compare_distributions
-from ai.ai_assistant import WeibullAIAssistant
-import warnings
-warnings.filterwarnings('ignore')
+try:
+    from core.planner import MaintenancePlanner
+except ImportError:
+    st.error("❌ Erro ao importar módulo de planejamento")
+    st.stop()
 
 st.set_page_config(
-    page_title="Análise Weibull - Weibull Fleet Analytics",
-    page_icon="📈",
+    page_title="Planejamento PM",
+    page_icon="🛠️",
     layout="wide"
 )
 
-st.markdown("# 📈 Análise Weibull")
-st.markdown("Ajuste de distribuição Weibull e análise de confiabilidade")
+st.title("🛠️ Planejamento de Manutenção")
 
-# Inicializar session state
-if 'weibull_results' not in st.session_state:
-    st.session_state.weibull_results = {}
-if 'ai_explanations' not in st.session_state:
-    st.session_state.ai_explanations = {}
+# Verificar se há resultados Weibull
+if 'weibull_results' not in st.session_state or not st.session_state.weibull_results:
+    st.warning("📈 Execute a análise Weibull primeiro na página 'Analise Weibull'")
+    st.stop()
 
-def filter_data_for_analysis(df, fleet=None, component=None, subsystem=None):
-    """Filtrar dados para análise"""
-    filtered_df = df.copy()
-    
-    if fleet and fleet != "Todos":
-        filtered_df = filtered_df[filtered_df['fleet'] == fleet]
-    
-    if subsystem and subsystem != "Todos":
-        filtered_df = filtered_df[filtered_df['subsystem'] == subsystem]
-    
-    if component and component != "Todos":
-        filtered_df = filtered_df[filtered_df['component'] == component]
-    
-    return filtered_df
+# Selecionar componente
+components = list(st.session_state.weibull_results.keys())
+selected_component = st.sidebar.selectbox("Componente", components)
 
-def prepare_weibull_data(df):
-    """Preparar dados para análise Weibull"""
-    if 'operating_hours' not in df.columns:
-        return None, None
-    
-    # Remover valores nulos e negativos
-    df_clean = df.dropna(subset=['operating_hours'])
-    df_clean = df_clean[df_clean['operating_hours'] > 0]
-    
-    times = df_clean['operating_hours'].values
-    
-    # Inferir censura se não existir
-    if 'censored' in df_clean.columns:
-        censored = df_clean['censored'].values
-    else:
-        # Se não há failure_date, assumir censurado
-        if 'failure_date' in df_clean.columns:
-            censored = df_clean['failure_date'].isna().values
-        else:
-            censored = np.zeros(len(times), dtype=bool)  # Assumir todas falhas observadas
-    
-    return times, censored
+results = st.session_state.weibull_results[selected_component]['results']
 
-def display_weibull_parameters(results):
-    """Exibir parâmetros Weibull em cards"""
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.metric(
-            "β (Forma)", 
-            f"{results['beta']:.2f}",
-            delta=f"CI: {results['beta_ci_lower']:.2f}-{results['beta_ci_upper']:.2f}"
-        )
-    
-    with col2:
-        st.metric(
-            "η (Escala)", 
-            f"{results['eta']:.0f}h",
-            delta=f"CI: {results['eta_ci_lower']:.0f}-{results['eta_ci_upper']:.0f}h"
-        )
-    
-    with col3:
-        st.metric(
-            "MTBF", 
-            f"{results['mtbf']:.0f}h",
-            delta=f"n={results['sample_size']}"
-        )
-    
-    with col4:
-        censoring_pct = results['censoring_rate'] * 100
-        st.metric(
-            "Taxa de Censura", 
-            f"{censoring_pct:.1f}%",
-            delta=f"AIC: {results['aic']:.1f}"
-        )
+st.markdown(f"""
+### 🔧 Componente Selecionado: {selected_component}
 
-def interpret_beta_value(beta):
-    """Interpretar valor de beta"""
-    if beta < 0.8:
-        return "🔵 Falhas Infantis", "Taxa de falha decrescente - problemas de qualidade/instalação"
-    elif beta < 1.2:
-        return "🟡 Falhas Aleatórias", "Taxa de falha constante - falhas por acaso"
-    elif beta < 3.0:
-        return "🔴 Falhas por Desgaste", "Taxa de falha crescente - desgaste normal"
-    else:
-        return "🟣 Desgaste Acelerado", "Taxa de falha muito crescente - desgaste severo"
+**Parâmetros Weibull:**
+- β (forma): {results['beta']:.2f}
+- η (escala): {results['eta']:.0f}h
+- MTBF: {results['mtbf']:.0f}h
+""")
 
-def create_weibull_summary_card(component, results):
-    """Criar card resumo da análise"""
-    beta_type, beta_desc = interpret_beta_value(results['beta'])
-    
-    reliability_50 = np.exp(-(results['eta'] * 0.693)**(results['beta']) / results['eta']**results['beta'])
-    reliability_eta = np.exp(-1)  # ≈ 0.368
-    
-    return f"""
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                padding: 1.5rem; border-radius: 10px; color: white; margin: 1rem 0;">
-        <h3>🔧 {component}</h3>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
-            <div>
-                <strong>Tipo de Falha:</strong><br>
-                {beta_type}<br>
-                <small>{beta_desc}</small>
-            </div>
-            <div>
-                <strong>Vida Característica:</strong><br>
-                {results['eta']:.0f} horas<br>
-                <small>63.2% falham até este tempo</small>
-            </div>
-            <div>
-                <strong>MTBF:</strong><br>
-                {results['mtbf']:.0f} horas<br>
-                <small>Tempo médio até falha</small>
-            </div>
-            <div>
-                <strong>Qualidade do Ajuste:</strong><br>
-                {"✅ Bom" if results.get('convergence', False) else "⚠️ Verificar"}<br>
-                <small>AIC: {results['aic']:.1f}</small>
-            </div>
-        </div>
-    </div>
-    """
+# Configurações
+st.sidebar.markdown("## ⚙️ Configurações")
 
-def main():
-    # Verificar se há dados carregados
-    if 'dataset' not in st.session_state or st.session_state.dataset is None:
-        st.warning("📥 Carregue os dados primeiro na página '🗂️ Dados'")
-        return
-    
-    df = st.session_state.dataset
-    
-    # Sidebar com filtros
-    with st.sidebar:
-        st.markdown("## 🎛️ Filtros de Análise")
-        
-        # Filtro por frota
-        frotas_disponiveis = ["Todos"] + sorted(df['fleet'].unique().tolist()) if 'fleet' in df.columns else ["Todos"]
-        selected_fleet = st.selectbox("Frota", frotas_disponiveis)
-        
-        # Filtro por subsistema
-        df_filtered = df if selected_fleet == "Todos" else df[df['fleet'] == selected_fleet]
-        subsistemas_disponiveis = ["Todos"] + sorted(df_filtered['subsystem'].unique().tolist()) if 'subsystem' in df_filtered.columns else ["Todos"]
-        selected_subsystem = st.selectbox("Subsistema", subsistemas_disponiveis)
-        
-        # Filtro por componente
-        df_filtered = filter_data_for_analysis(df, selected_fleet, None, selected_subsystem)
-        componentes_disponiveis = ["Todos"] + sorted(df_filtered['component'].unique().tolist()) if 'component' in df_filtered.columns else ["Todos"]
-        selected_component = st.selectbox("Componente", componentes_disponiveis)
-        
-        st.markdown("---")
-        st.markdown("## ⚙️ Configurações")
-        
-        confidence_level = st.slider("Nível de Confiança", 0.8, 0.99, 0.95, 0.01)
-        show_individual_points = st.checkbox("Mostrar Pontos Individuais", True)
-        show_confidence_bands = st.checkbox("Mostrar Bandas de Confiança", True)
-        
-        st.markdown("---")
-        st.markdown(f"""
-        ### 📊 Dados Selecionados
-        **Frota:** {selected_fleet}  
-        **Subsistema:** {selected_subsystem}  
-        **Componente:** {selected_component}
-        """)
-    
-    # Filtrar dados
-    df_analysis = filter_data_for_analysis(df, selected_fleet, selected_component, selected_subsystem)
-    
-    if len(df_analysis) == 0:
-        st.error("❌ Nenhum dado encontrado com os filtros selecionados")
-        return
-    
-    # Preparar dados para Weibull
-    times, censored = prepare_weibull_data(df_analysis)
-    
-    if times is None:
-        st.error("❌ Dados insuficientes para análise Weibull")
-        return
-    
-    # Verificar quantidade mínima de falhas
-    n_failures = np.sum(~censored) if censored is not None else len(times)
-    
-    if n_failures < 3:
-        st.error(f"❌ Necessário pelo menos 3 falhas observadas. Encontradas: {n_failures}")
-        return
-    
-    st.success(f"✅ Dados preparados: {len(times)} registros, {n_failures} falhas observadas")
-    
-    # Tabs principais
-    tab1, tab2, tab3, tab4 = st.tabs(["🎯 Ajuste Principal", "📊 Gráficos", "🔍 Comparação de Modelos", "🤖 Análise IA"])
-    
-    with tab1:
-        st.markdown("## 🎯 Análise Weibull Principal")
-        
-        col1, col2 = st.columns([2, 1])
-        
-        with col1:
-            if st.button("📈 Executar Análise Weibull", type="primary"):
-                with st.spinner("Ajustando distribuição Weibull..."):
-                    try:
-                        # Executar análise
-                        weibull = WeibullAnalysis()
-                        results = weibull.fit_mle(times, censored)
-                        
-                        # Salvar resultados
-                        analysis_key = f"{selected_fleet}_{selected_subsystem}_{selected_component}"
-                        st.session_state.weibull_results[analysis_key] = {
-                            'component': selected_component,
-                            'results': results,
-                            'weibull_obj': weibull,
-                            'data': {'times': times, 'censored': censored}
-                        }
-                        
-                        st.success("✅ Análise concluída com sucesso!")
-                        
-                    except Exception as e:
-                        st.error(f"❌ Erro na análise: {str(e)}")
-        
-        with col2:
-            st.markdown("""
-            **Sobre a Análise:**
-            - Ajuste por MLE (Maximum Likelihood)
-            - Tratamento automático de censura
-            - Intervalos de confiança
-            - Validação de convergência
-            """)
-        
-        # Exibir resultados se disponíveis
-        analysis_key = f"{selected_fleet}_{selected_subsystem}_{selected_component}"
-        
-        if analysis_key in st.session_state.weibull_results:
-            results_data = st.session_state.weibull_results[analysis_key]
-            results = results_data['results']
-            weibull_obj = results_data['weibull_obj']
+# Política de manutenção
+policy = st.sidebar.selectbox(
+    "Política de Manutenção",
+    ["reliability_target", "fraction_of_eta"],
+    format_func=lambda x: {
+        "reliability_target": "Meta de Confiabilidade",
+        "fraction_of_eta": "Fração da Vida Característica"
+    }[x]
+)
+
+if policy == "reliability_target":
+    target_reliability = st.sidebar.slider("Confiabilidade Alvo", 0.5, 0.95, 0.8, 0.05)
+else:
+    fraction_of_eta = st.sidebar.slider("Fração de η", 0.3, 0.9, 0.75, 0.05)
+
+# Custos
+st.sidebar.markdown("### 💰 Custos")
+cost_failure = st.sidebar.number_input("Custo de Falha (R$)", 1000, 100000, 10000, 1000)
+cost_pm = st.sidebar.number_input("Custo de PM (R$)", 100, 10000, 1000, 100)
+
+# Calcular estratégia
+if st.button("🎯 Calcular Estratégia Ótima", type="primary"):
+    with st.spinner("Calculando..."):
+        try:
+            planner = MaintenancePlanner(results['beta'], results['eta'], selected_component)
             
+            if policy == "reliability_target":
+                strategy = planner.optimal_pm_interval(
+                    policy="reliability_target",
+                    target_reliability=target_reliability,
+                    cost_failure=cost_failure,
+                    cost_pm=cost_pm
+                )
+            else:
+                strategy = planner.optimal_pm_interval(
+                    policy="fraction_of_eta",
+                    fraction_of_eta=fraction_of_eta,
+                    cost_failure=cost_failure,
+                    cost_pm=cost_pm
+                )
+            
+            # Salvar estratégia
+            if 'maintenance_strategies' not in st.session_state:
+                st.session_state.maintenance_strategies = {}
+            
+            st.session_state.maintenance_strategies[selected_component] = strategy
+            
+            st.success("✅ Estratégia calculada!")
+            
+            # Mostrar resultados
             st.markdown("---")
+            st.markdown("## 📋 Estratégia Recomendada")
             
-            # Card resumo
-            st.markdown(create_weibull_summary_card(selected_component, results), unsafe_allow_html=True)
+            # Determinar cor do risco
+            risk_colors = {
+                "Baixo": "🟢",
+                "Médio": "🟡",
+                "Alto": "🔴"
+            }
+            risk_icon = risk_colors.get(strategy.risk_level, "⚪")
             
-            # Parâmetros detalhados
-            st.markdown("### 📋 Parâmetros Detalhados")
-            display_weibull_parameters(results)
-            
-            # Interpretação
-            st.markdown("### 🔍 Interpretação")
-            
-            beta_type, beta_desc = interpret_beta_value(results['beta'])
-            
-            col1, col2 = st.columns(2)
+            col1, col2, col3 = st.columns(3)
             
             with col1:
-                st.markdown(f"""
-                **Tipo de Falha:** {beta_type}
+                st.metric(
+                    "Intervalo Recomendado",
+                    f"{strategy.recommended_interval:.0f} horas"
+                )
+            
+            with col2:
+                st.metric(
+                    "Confiabilidade",
+                    f"{strategy.reliability_at_interval:.1%}"
+                )
+            
+            with col3:
+                st.metric(
+                    f"{risk_icon} Nível de Risco",
+                    strategy.risk_level
+                )
+            
+            # Informações adicionais
+            st.markdown("### 📊 Análise de Impacto")
+            
+            annual_pm_freq = 8760 / strategy.recommended_interval
+            annual_pm_cost = annual_pm_freq * cost_pm
+            
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                st.info(f"""
+                **Frequência Anual**
                 
-                {beta_desc}
+                {annual_pm_freq:.1f} PM por ano
                 
-                **Implicações:**
-                - β = {results['beta']:.2f}
-                - {'Manutenção preventiva recomendada' if results['beta'] > 1.2 else 'Investigar causas de falha prematura' if results['beta'] < 0.8 else 'Manutenção por condição adequada'}
+                (Aproximadamente a cada {strategy.recommended_interval/24:.0f} dias)
                 """)
             
             with col2:
-                # Recomendações de manutenção
-                if results['beta'] > 1.2:  # Desgaste
-                    pm_interval_70 = results['eta'] * ((-np.log(0.7))**(1/results['beta']))
-                    pm_interval_80 = results['eta'] * ((-np.log(0.8))**(1/results['beta']))
-                    
-                    st.markdown(f"""
-                    **Intervalos de Manutenção Sugeridos:**
-                    - **Conservador (80% confiabilidade):** {pm_interval_80:.0f}h
-                    - **Balanceado (70% confiabilidade):** {pm_interval_70:.0f}h
-                    - **Vida característica:** {results['eta']:.0f}h
-                    """)
-                else:
-                    st.markdown("""
-                    **Recomendações:**
-                    - Investigar causas raiz das falhas
-                    - Melhorar controle de qualidade
-                    - Considerar manutenção por condição
-                    """)
-    
-    with tab2:
-        st.markdown("## 📊 Gráficos de Análise")
+                st.info(f"""
+                **Custo Anual de PM**
+                
+                R$ {annual_pm_cost:,.0f}
+                
+                ({annual_pm_freq:.1f} PM × R$ {cost_pm:,})
+                """)
+            
+            with col3:
+                downtime_hours = annual_pm_freq * 4  # Assumir 4h por PM
+                st.info(f"""
+                **Parada Anual Estimada**
+                
+                {downtime_hours:.0f} horas
+                
+                (Assumindo 4h por PM)
+                """)
+            
+            # Recomendações
+            st.markdown("### 💡 Recomendações")
+            
+            if strategy.risk_level == "Baixo":
+                st.success("""
+                ✅ **Estratégia Conservadora**
+                
+                - Alta confiabilidade mantida
+                - Risco de falha minimizado
+                - Pode ser otimizada para reduzir custos
+                """)
+            elif strategy.risk_level == "Médio":
+                st.warning("""
+                ⚠️ **Estratégia Balanceada**
+                
+                - Bom equilíbrio entre custo e confiabilidade
+                - Monitorar performance
+                - Considerar manutenção preditiva
+                """)
+            else:
+                st.error("""
+                🔴 **Estratégia Agressiva**
+                
+                - Risco elevado de falha
+                - Reduzir intervalo recomendado
+                - Implementar monitoramento contínuo
+                """)
         
-        if analysis_key in st.session_state.weibull_results:
-            results_data = st.session_state.weibull_results[analysis_key]
-            weibull_obj = results_data['weibull_obj']
-            data = results_data['data']
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                st.markdown("### 📈 Gráfico de Probabilidade Weibull")
-                try:
-                    fig_prob = weibull_obj.create_probability_plot(data['times'], data['censored'])
-                    st.plotly_chart(fig_prob, use_container_width=True)
-                except Exception as e:
-                    st.error(f"Erro ao criar gráfico: {str(e)}")
-            
-            with col2:
-                st.markdown("### 📉 Funções de Confiabilidade")
-                try:
-                    fig_reliability = weibull_obj.create_reliability_curves()
-                    st.plotly_chart(fig_reliability, use_container_width=True)
-                except Exception as e:
-                    st.error(f"Erro ao criar gráfico: {str(e)}")
-            
-            # Gráfico de densidade e histograma
-            st.markdown("### 📊 Distribuição dos Dados")
-            
-            fig_hist = go.Figure()
-            
-            # Histograma dos dados
-            fig_hist.add_trace(go.Histogram(
-                x=data['times'][~data['censored']] if data['censored'] is not None else data['times'],
-                name='Falhas Observadas',
-                opacity=0.7,
-                nbinsx=20
-            ))
-            
-            # PDF teórica
-            if weibull_obj.fitted:
-                x_pdf = np.linspace(min(data['times']), max(data['times']), 100)
-                y_pdf = [weibull_obj.pdf(x) for x in x_pdf]
-                
-                # Normalizar para escala do histograma
-                scale_factor = len(data['times']) * (max(data['times']) - min(data['times'])) / 20
-                y_pdf_scaled = [y * scale_factor for y in y_pdf]
-                
-                fig_hist.add_trace(go.Scatter(
-                    x=x_pdf,
-                    y=y_pdf_scaled,
-                    mode='lines',
-                    name='PDF Weibull Ajustada',
-                    line=dict(color='red', width=2)
-                ))
-            
-            fig_hist.update_layout(
-                title='Distribuição dos Tempos de Falha',
-                xaxis_title='Tempo (horas)',
-                yaxis_title='Frequência',
-                template='plotly_white'
-            )
-            
-            st.plotly_chart(fig_hist, use_container_width=True)
-        
-        else:
-            st.info("🎯 Execute a análise na aba 'Ajuste Principal' primeiro")
-    
-    with tab3:
-        st.markdown("## 🔍 Comparação de Modelos")
-        
-        if st.button("🔄 Comparar Distribuições", type="secondary"):
-            with st.spinner("Comparando modelos..."):
-                try:
-                    comparison_results = compare_distributions(times, censored)
-                    
-                    # Criar DataFrame para exibição
-                    comparison_df = []
-                    for model, results in comparison_results.items():
-                        if 'error' not in results:
-                            comparison_df.append({
-                                'Modelo': model,
-                                'AIC': results['aic'],
-                                'BIC': results['bic'],
-                                'Log-Likelihood': results['log_likelihood'],
-                                'MTBF': results['mtbf'],
-                                'Parâmetros': str(results['parameters'])
-                            })
-                    
-                    if comparison_df:
-                        df_comparison = pd.DataFrame(comparison_df)
-                        df_comparison = df_comparison.sort_values('AIC')  # Menor AIC é melhor
-                        
-                        st.markdown("### 📊 Comparação de Modelos")
-                        st.dataframe(df_comparison, use_container_width=True)
-                        
-                        # Recomendação
-                        best_model = df_comparison.iloc[0]['Modelo']
-                        st.success(f"✅ **Modelo Recomendado:** {best_model} (menor AIC)")
-                        
-                        # Gráfico de comparação AIC
-                        fig_aic = px.bar(
-                            df_comparison, 
-                            x='Modelo', 
-                            y='AIC',
-                            title='Comparação AIC (menor é melhor)',
-                            color='AIC',
-                            color_continuous_scale='RdYlGn_r'
-                        )
-                        st.plotly_chart(fig_aic, use_container_width=True)
-                    
-                except Exception as e:
-                    st.error(f"❌ Erro na comparação: {str(e)}")
-    
-    with tab4:
-        st.markdown("## 🤖 Análise com IA")
-        
-        if analysis_key in st.session_state.weibull_results:
-            results_data = st.session_state.weibull_results[analysis_key]
-            results = results_data['results']
-            
-            if st.button("🧠 Gerar Explicação IA", type="primary"):
-                with st.spinner("IA analisando resultados..."):
-                    try:
-                        # Inicializar assistente IA
-                        ai_assistant = WeibullAIAssistant()
-                        
-                        # Gerar explicação
-                        explanation = ai_assistant.explain_weibull_results(
-                            beta=results['beta'],
-                            eta=results['eta'],
-                            component=selected_component,
-                            context={
-                                'sample_size': results['sample_size'],
-                                'censoring_rate': results['censoring_rate'],
-                                'mtbf': results['mtbf'],
-                                'fleet': selected_fleet,
-                                'subsystem': selected_subsystem
-                            }
-                        )
-                        
-                        if explanation.success:
-                            st.session_state.ai_explanations[analysis_key] = explanation
-                            
-                            st.markdown("### 🤖 Explicação da IA")
-                            st.markdown(explanation.content)
-                            
-                            if explanation.suggestions:
-                                st.markdown("### 💡 Sugestões da IA")
-                                for suggestion in explanation.suggestions:
-                                    st.info(f"💡 {suggestion}")
-                        else:
-                            st.error(f"❌ Erro na análise IA: {explanation.content}")
-                    
-                    except Exception as e:
-                        st.error(f"❌ Erro ao chamar IA: {str(e)}")
-            
-            # Exibir explicação salva
-            if analysis_key in st.session_state.ai_explanations:
-                explanation = st.session_state.ai_explanations[analysis_key]
-                
-                st.markdown("---")
-                st.markdown("### 🤖 Última Análise IA")
-                
-                with st.expander("Ver Explicação Completa", expanded=True):
-                    st.markdown(explanation.content)
-                    
-                    if explanation.suggestions:
-                        st.markdown("**Sugestões:**")
-                        for suggestion in explanation.suggestions:
-                            st.info(f"💡 {suggestion}")
-        
-        else:
-            st.info("🎯 Execute a análise Weibull primeiro")
-    
-    # Botões de navegação
-    st.markdown("---")
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        if st.button("⬅️ Voltar aos Dados"):
-            st.info("Navigate to '🗂️ Dados'")
-    
-    with col2:
-        if st.button("💾 Salvar Resultados"):
-            if analysis_key in st.session_state.weibull_results:
-                results = st.session_state.weibull_results[analysis_key]['results']
-                
-                # Criar DataFrame com resultados
-                results_df = pd.DataFrame([{
-                    'Component': selected_component,
-                    'Fleet': selected_fleet,
-                    'Subsystem': selected_subsystem,
-                    'Beta': results['beta'],
-                    'Eta': results['eta'],
-                    'MTBF': results['mtbf'],
-                    'Sample_Size': results['sample_size'],
-                    'Censoring_Rate': results['censoring_rate'],
-                    'AIC': results['aic'],
-                    'BIC': results['bic']
-                }])
-                
-                csv = results_df.to_csv(index=False).encode('utf-8')
-                
-                st.download_button(
-                    label="📥 Download Resultados CSV",
-                    data=csv,
-                    file_name=f'weibull_results_{selected_component.replace(" ", "_")}.csv',
-                    mime='text/csv'
-                )
-    
-    with col3:
-        if st.button("➡️ Planejamento PM"):
-            st.info("Navigate to '🛠️ Planejamento PM & Estoque'")
+        except Exception as e:
+            st.error(f"❌ Erro no cálculo: {e}")
+            import traceback
+            st.code(traceback.format_exc())
 
-if __name__ == "__main__":
-    main()
+# Mostrar estratégia salva
+if 'maintenance_strategies' in st.session_state and selected_component in st.session_state.maintenance_strategies:
+    st.markdown("---")
+    st.info("💾 Estratégia anterior disponível para este componente")
