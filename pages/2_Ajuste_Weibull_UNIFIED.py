@@ -1,4 +1,13 @@
 import streamlit as st
+
+# === CONFIGURAÇÃO DEVE SER A PRIMEIRA CHAMADA ===
+st.set_page_config(
+    page_title="Ajuste Weibull UNIFIED",
+    page_icon="📈",
+    layout="wide"
+)
+
+# Imports após configuração
 import pandas as pd
 from utils.state_manager import (
     initialize_session_state, 
@@ -10,15 +19,10 @@ from utils.weibull_analysis import (
     generate_data_quality_report,
     display_weibull_results
 )
+from utils.navigation import safe_navigate
 
 # === INICIALIZAÇÃO ===
 initialize_session_state()
-
-st.set_page_config(
-    page_title="Ajuste Weibull UNIFIED",
-    page_icon="📈",
-    layout="wide"
-)
 
 # === HEADER ===
 st.title("📈 Ajuste Weibull UNIFIED")
@@ -36,11 +40,12 @@ if st.session_state.dataset is None or st.session_state.dataset.empty:
     
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        if st.button("🔄 Ir para Dados UNIFIED", type="primary", use_container_width=True):
-            st.switch_page("pages/1_Dados_UNIFIED.py")
+        safe_navigate(
+            "pages/1_Dados_UNIFIED.py",
+            "🔄 Ir para Dados UNIFIED"
+        )
     
     st.stop()
-
 # === INFORMAÇÕES DO DATASET ===
 dataset = st.session_state.dataset
 st.success(f"✅ **Dataset carregado:** {len(dataset):,} registros")
@@ -177,18 +182,19 @@ if weibull_results:
         if result.get('success', False)
     ]
     
-    if successful_components:
-        col1, col2, col3 = st.columns([1, 2, 1])
-        with col2:
-            if st.button("➡️ **Prosseguir para Planejamento PM & Estoque**", 
-                        type="primary", use_container_width=True):
-                # Define componente padrão se não houver seleção
-                if not st.session_state.get("selected_component"):
-                    st.session_state.selected_component = successful_components[0]
-                
-                st.switch_page("pages/3_Planejamento_PM_Estoque.py")
-        
-        st.success(f"🎯 **{len(successful_components)} componentes** prontos para planejamento de manutenção")
+# === BOTÃO PARA PRÓXIMA ETAPA (CORRIGIDO) ===
+if successful_components:
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if safe_navigate(
+            "pages/3_Planejamento_PM_Estoque.py",
+            "➡️ **Prosseguir para Planejamento PM & Estoque**"
+        ):
+            # Define componente padrão se não houver seleção
+            if not st.session_state.get("selected_component"):
+                st.session_state.selected_component = successful_components[0]
+    
+    st.success(f"🎯 **{len(successful_components)} componentes** prontos para planejamento de manutenção")
     else:
         st.warning("⚠️ Nenhum componente foi analisado com sucesso. Verifique a qualidade dos dados.")
 
