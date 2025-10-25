@@ -1,6 +1,6 @@
 """
-Página de upload e gestão de dados - VERSÃO UNIFICADA
-Com mapeamento automático de colunas para múltiplos formatos
+Página de upload e gestão de dados - VERSÃO CORRIGIDA FINAL
+Com mapeamento automático de colunas e suporte multi-encoding
 """
 import streamlit as st
 import pandas as pd
@@ -216,71 +216,106 @@ def main():
                 
                 if uploaded_file is not None:
                     try:
-                        # Ler arquivo
+                        # ===================================================================
+                        # CORREÇÃO APLICADA AQUI: Suporte multi-encoding para CSV
+                        # ===================================================================
                         if file_format == "CSV" or uploaded_file.name.endswith('.csv'):
-                            df_raw = pd.read_csv(uploaded_file)
+                            # Tentar múltiplos encodings automaticamente
+                            encoding_used = None
+                            df_raw = None
+                            
+                            # Tentativa 1: UTF-8 (padrão)
+                            try:
+                                df_raw = pd.read_csv(uploaded_file, encoding='utf-8')
+                                encoding_used = 'UTF-8'
+                            except UnicodeDecodeError:
+                                # Tentativa 2: Latin-1 (ISO-8859-1) - comum no Brasil
+                                uploaded_file.seek(0)  # Resetar ponteiro do arquivo
+                                try:
+                                    df_raw = pd.read_csv(uploaded_file, encoding='latin-1')
+                                    encoding_used = 'Latin-1 (ISO-8859-1)'
+                                    st.info(f"ℹ️ Arquivo lido com encoding {encoding_used}")
+                                except UnicodeDecodeError:
+                                    # Tentativa 3: Windows-1252 (CP1252) - Excel brasileiro
+                                    uploaded_file.seek(0)
+                                    try:
+                                        df_raw = pd.read_csv(uploaded_file, encoding='cp1252')
+                                        encoding_used = 'Windows-1252 (CP1252)'
+                                        st.info(f"ℹ️ Arquivo lido com encoding {encoding_used}")
+                                    except Exception as e:
+                                        st.error(f"❌ Erro ao ler CSV: {str(e)}")
+                                        st.error("Tente salvar o arquivo em UTF-8 e fazer upload novamente")
+                                        df_raw = None
                         else:
+                            # Excel: pandas detecta automaticamente
                             df_raw = pd.read_excel(uploaded_file)
+                            encoding_used = 'Excel (auto-detectado)'
+                        # ===================================================================
+                        # FIM DA CORREÇÃO
+                        # ===================================================================
                         
-                        st.info(f"📄 Arquivo lido: {len(df_raw)} registros, {len(df_raw.columns)} colunas")
-                        
-                        # Mostrar preview dos dados originais
-                        with st.expander("👁️ Preview dos Dados Originais", expanded=False):
-                            st.dataframe(df_raw.head(10), use_container_width=True)
-                            st.text(f"Colunas: {', '.join(df_raw.columns.tolist())}")
-                        
-                        # Padronizar automaticamente
-                        with st.spinner("🔄 Padronizando formato dos dados..."):
-                            df_standardized, report = standardize_dataframe(df_raw)
+                        if df_raw is not None:
+                            st.info(f"📄 Arquivo lido: {len(df_raw)} registros, {len(df_raw.columns)} colunas")
+                            if encoding_used:
+                                st.success(f"✅ Encoding detectado: {encoding_used}")
                             
-                            if report['success']:
-                                st.success("✅ Dados padronizados com sucesso!")
-                                
-                                # Salvar no session state
-                                st.session_state.dataset = df_standardized
-                                st.session_state.standardization_report = report
-                                
-                                # Mostrar relatório de padronização
-                                display_standardization_report(report)
-                                
-                                # Preview dos dados padronizados
-                                st.markdown("#### 📊 Dados Padronizados")
-                                st.dataframe(df_standardized.head(10), use_container_width=True)
-                                
-                                # Estatísticas rápidas
-                                col_a, col_b, col_c = st.columns(3)
-                                with col_a:
-                                    st.metric("Registros Válidos", len(df_standardized))
-                                with col_b:
-                                    failures = (~df_standardized['censored']).sum()
-                                    st.metric("Falhas Observadas", failures)
-                                with col_c:
-                                    censored = df_standardized['censored'].sum()
-                                    st.metric("Dados Censurados", censored)
+                            # Mostrar preview dos dados originais
+                            with st.expander("👁️ Preview dos Dados Originais", expanded=False):
+                                st.dataframe(df_raw.head(10), use_container_width=True)
+                                st.text(f"Colunas: {', '.join(df_raw.columns.tolist())}")
                             
-                            else:
-                                st.error("❌ Falha na padronização dos dados")
+                            # Padronizar automaticamente
+                            with st.spinner("🔄 Padronizando formato dos dados..."):
+                                df_standardized, report = standardize_dataframe(df_raw)
                                 
-                                if report['missing_columns']:
-                                    st.error(f"**Colunas Obrigatórias Faltando:** {', '.join(report['missing_columns'])}")
+                                if report['success']:
+                                    st.success("✅ Dados padronizados com sucesso!")
                                     
-                                    st.markdown("### 💡 Solução:")
-                                    st.markdown("""
-                                    Seu arquivo precisa ter pelo menos estas 3 colunas (com nomes aceitos):
+                                    # Salvar no session state
+                                    st.session_state.dataset = df_standardized
+                                    st.session_state.standardization_report = report
                                     
-                                    1. **ID do Componente**: `component_id`, `asset_id`, `equipment_id`, ou `id`
-                                    2. **Tipo do Componente**: `component_type`, `component`, ou `tipo`
-                                    3. **Tempo de Falha**: `failure_time`, `operating_hours`, ou `hours`
+                                    # Mostrar relatório de padronização
+                                    display_standardization_report(report)
                                     
-                                    A coluna `censored` é opcional - será inferida automaticamente se não fornecida.
-                                    """)
+                                    # Preview dos dados padronizados
+                                    st.markdown("#### 📊 Dados Padronizados")
+                                    st.dataframe(df_standardized.head(10), use_container_width=True)
+                                    
+                                    # Estatísticas rápidas
+                                    col_a, col_b, col_c = st.columns(3)
+                                    with col_a:
+                                        st.metric("Registros Válidos", len(df_standardized))
+                                    with col_b:
+                                        failures = (~df_standardized['censored']).sum()
+                                        st.metric("Falhas Observadas", failures)
+                                    with col_c:
+                                        censored = df_standardized['censored'].sum()
+                                        st.metric("Dados Censurados", censored)
                                 
-                                if 'error' in report:
-                                    st.error(f"**Erro:** {report['error']}")
-                                
-                                # Mostrar colunas encontradas
-                                st.markdown("#### 📋 Colunas Encontradas no Arquivo:")
-                                st.code(", ".join(report['original_columns']))
+                                else:
+                                    st.error("❌ Falha na padronização dos dados")
+                                    
+                                    if report['missing_columns']:
+                                        st.error(f"**Colunas Obrigatórias Faltando:** {', '.join(report['missing_columns'])}")
+                                        
+                                        st.markdown("### 💡 Solução:")
+                                        st.markdown("""
+                                        Seu arquivo precisa ter pelo menos estas 3 colunas (com nomes aceitos):
+                                        
+                                        1. **ID do Componente**: `component_id`, `asset_id`, `equipment_id`, ou `id`
+                                        2. **Tipo do Componente**: `component_type`, `component`, ou `tipo`
+                                        3. **Tempo de Falha**: `failure_time`, `operating_hours`, ou `hours`
+                                        
+                                        A coluna `censored` é opcional - será inferida automaticamente se não fornecida.
+                                        """)
+                                    
+                                    if 'error' in report:
+                                        st.error(f"**Erro:** {report['error']}")
+                                    
+                                    # Mostrar colunas encontradas
+                                    st.markdown("#### 📋 Colunas Encontradas no Arquivo:")
+                                    st.code(", ".join(report['original_columns']))
                     
                     except Exception as e:
                         st.error(f"❌ Erro ao processar arquivo: {str(e)}")
@@ -328,6 +363,11 @@ def main():
             **Formatos Aceitos:**
             - CSV (.csv)
             - Excel (.xlsx, .xls)
+            
+            **Encodings Suportados:**
+            - UTF-8
+            - Latin-1 (ISO-8859-1)
+            - Windows-1252 (CP1252)
             
             **Mapeamento Automático:**
             O sistema reconhece automaticamente diferentes nomes de colunas e padroniza para o formato interno.
