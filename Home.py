@@ -1,18 +1,26 @@
 import streamlit as st
-from utils.state_manager import initialize_session_state, display_pipeline_status
 
-# === INICIALIZAÇÃO OBRIGATÓRIA ===
-initialize_session_state()
-
+# === CONFIGURAÇÃO DEVE SER A PRIMEIRA CHAMADA ===
 st.set_page_config(
     page_title="Planejamento PM & Estoque",
     page_icon="🔧",
     layout="wide"
 )
 
+# Imports após st.set_page_config
+from utils.state_manager import initialize_session_state, display_pipeline_status
+from utils.navigation import safe_navigate, create_page_links, check_streamlit_version
+
+# === INICIALIZAÇÃO ===
+initialize_session_state()
+
 # === HEADER ===
 st.title("🔧 Planejamento PM & Estoque")
 st.markdown("**Sistema integrado de otimização de manutenção preventiva e gestão de peças de reposição**")
+
+# === VERIFICAÇÃO DE VERSÃO ===
+with st.expander("🔧 **Verificar Compatibilidade**"):
+    check_streamlit_version()
 
 # === DESCRIÇÃO DO SISTEMA ===
 st.markdown("""
@@ -73,16 +81,45 @@ with col3:
     - Cenários de risco
     """)
 
+# === NAVEGAÇÃO RÁPIDA ===
+st.markdown("---")
+st.subheader("🧭 Navegação Rápida")
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    safe_navigate(
+        "pages/1_Dados_UNIFIED.py",
+        "📤 **Carregar Dados**",
+        button_type="secondary"
+    )
+
+with col2:
+    safe_navigate(
+        "pages/2_Ajuste_Weibull_UNIFIED.py", 
+        "📈 **Análise Weibull**",
+        button_type="secondary"
+    )
+
+with col3:
+    safe_navigate(
+        "pages/3_Planejamento_PM_Estoque.py",
+        "🔧 **Planejamento PM**", 
+        button_type="secondary"
+    )
+
+# === FALLBACK DE NAVEGAÇÃO ===
+create_page_links()
+
 # === INFORMAÇÕES TÉCNICAS ===
 st.markdown("---")
-
 with st.expander("🔧 **Informações Técnicas**"):
     st.markdown("""
     **Bibliotecas utilizadas:**
     - `lifelines`: Análise de sobrevivência e Weibull
     - `streamlit`: Interface web interativa
     - `pandas`: Manipulação de dados
-    - `plotly`: Visualizações interativas
+    - `numpy`: Computação numérica
     
     **Requisitos de dados:**
     - Mínimo de 3 observações por componente
@@ -94,24 +131,6 @@ with st.expander("🔧 **Informações Técnicas**"):
     - **ρ (rho)**: Parâmetro de forma
     - **MTBF**: Tempo médio entre falhas
     """)
-
-# === NAVEGAÇÃO RÁPIDA ===
-st.markdown("---")
-st.subheader("🧭 Navegação Rápida")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    if st.button("📤 **Carregar Dados**", use_container_width=True, type="secondary"):
-        st.switch_page("pages/1_Dados_UNIFIED.py")
-
-with col2:
-    if st.button("📈 **Análise Weibull**", use_container_width=True, type="secondary"):
-        st.switch_page("pages/2_Ajuste_Weibull_UNIFIED.py")
-
-with col3:
-    if st.button("🔧 **Planejamento PM**", use_container_width=True, type="secondary"):
-        st.switch_page("pages/3_Planejamento_PM_Estoque.py")
 
 # === FOOTER ===
 st.markdown("---")
