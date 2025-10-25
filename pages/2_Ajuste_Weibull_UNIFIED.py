@@ -7,15 +7,9 @@ st.set_page_config(
     layout="wide"
 )
 
-# === IMPORTS ===
-from utils.navigation import handle_navigation
-# ... outros imports ...
-
-# === PROCESSA NAVEGAÇÃO PENDENTE ===
-handle_navigation()
-
 # === IMPORTS APÓS CONFIGURAÇÃO ===
 import pandas as pd
+import numpy as np
 import sys
 from pathlib import Path
 
@@ -33,10 +27,68 @@ from utils.weibull_analysis import (
     generate_data_quality_report,
     display_weibull_results
 )
-from utils.navigation import safe_navigate
+from utils.navigation import (
+    handle_navigation,
+    create_navigation_button
+)
+
+# === PROCESSA NAVEGAÇÃO PENDENTE ===
+handle_navigation()
 
 # === INICIALIZAÇÃO ===
 initialize_session_state()
+
+# === FUNÇÕES AUXILIARES PARA GRÁFICOS ===
+
+def weibull_reliability_plot(lambda_param: float, rho_param: float, max_time: float = None) -> pd.DataFrame:
+    """Gera dados para plotar curva de confiabilidade Weibull"""
+    if max_time is None:
+        max_time = lambda_param * 2
+    
+    times = np.linspace(0, max_time, 100)
+    reliabilities = np.exp(-((times / lambda_param) ** rho_param))
+    
+    return pd.DataFrame({
+        'Tempo (horas)': times,
+        'Confiabilidade R(t)': reliabilities
+    })
+
+def weibull_hazard_rate_plot(lambda_param: float, rho_param: float, max_time: float = None) -> pd.DataFrame:
+    """Gera dados para plotar taxa de falha Weibull"""
+    if max_time is None:
+        max_time = lambda_param * 2
+    
+    times = np.linspace(0.1, max_time, 100)  # Evita divisão por zero
+    hazard_rates = (rho_param / lambda_param) * ((times / lambda_param) ** (rho_param - 1))
+    
+    return pd.DataFrame({
+        'Tempo (horas)': times,
+        'Taxa de Falha h(t)': hazard_rates
+    })
+
+def weibull_pdf_plot(lambda_param: float, rho_param: float, max_time: float = None) -> pd.DataFrame:
+    """Gera dados para plotar função densidade de probabilidade Weibull"""
+    if max_time is None:
+        max_time = lambda_param * 2
+    
+    times = np.linspace(0.1, max_time, 100)
+    pdf_values = (rho_param / lambda_param) * ((times / lambda_param) ** (rho_param - 1)) * \
+                 np.exp(-((times / lambda_param) ** rho_param))
+    
+    return pd.DataFrame({
+        'Tempo (horas)': times,
+        'Densidade f(t)': pdf_values
+    })
+
+def create_histogram_data(failure_times: np.ndarray, n_bins: int = 20) -> pd.DataFrame:
+    """Cria dados para histograma de tempos de falha"""
+    hist, bin_edges = np.histogram(failure_times, bins=n_bins)
+    bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
+    
+    return pd.DataFrame({
+        'Tempo (horas)': bin_centers,
+        'Frequência': hist
+    })
 
 # === HEADER ===
 st.title("📈 Ajuste Weibull UNIFIED")
@@ -46,7 +98,6 @@ st.markdown("---")
 # === STATUS DO PIPELINE ===
 st.subheader("📊 Status do Pipeline de Análise")
 display_pipeline_status()
-
 st.markdown("---")
 
 # === VERIFICAÇÃO DE PRÉ-REQUISITOS ===
@@ -68,15 +119,15 @@ if st.session_state.dataset is None or st.session_state.dataset.empty:
     3. **Ter dados suficientes**: Mínimo 3 observações por componente
     """)
     
-    st.info("👈 **Próximo passo:** Use a barra lateral para navegar até 'Dados UNIFIED'")
+    st.info("👈 Use a barra lateral para navegar até 'Dados UNIFIED'")
     
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        if st.button("🔄 **Ir para Dados UNIFIED**", type="primary", use_container_width=True):
-            try:
-                st.switch_page("pages/1_Dados_UNIFIED.py")
-            except:
-                st.info("👈 Use o menu lateral para navegar até **Dados UNIFIED**")
+        create_navigation_button(
+            "pages/1_Dados_UNIFIED.py",
+            "🔄 **Ir para Dados UNIFIED**",
+            key="weibull_to_dados"
+        )
     
     st.stop()
 
@@ -150,7 +201,7 @@ with st.sidebar:
         
         # Problemas encontrados
         if quality_report.get("issues"):
-            with st.expander("⚠️ Problemas Encontrados", expanded=True):
+            with st.expander("⚠️ Problemas", expanded=True):
                 for issue in quality_report["issues"]:
                     st.warning(f"• {issue}")
         
@@ -159,14 +210,6 @@ with st.sidebar:
             with st.expander("💡 Recomendações"):
                 for rec in quality_report["recommendations"]:
                     st.info(f"• {rec}")
-        
-        # Estatísticas
-        if quality_report.get("statistics"):
-            with st.expander("📊 Estatísticas"):
-                stats = quality_report["statistics"]
-                for key, value in stats.items():
-                    if value is not None:
-                        st.write(f"**{key}:** {value}")
     
     st.markdown("---")
     
@@ -193,16 +236,16 @@ with st.sidebar:
         reset_downstream_data('weibull')
         
         # Executa análise
-        with st.spinner("🔄 Executando análise Weibull... Isso pode levar alguns segundos."):
+        with st.spinner("🔄 Executando análise Weibull..."):
             weibull_results = execute_weibull_analysis(dataset)
             
             if weibull_results:
                 st.session_state.weibull_results = weibull_results
                 st.session_state.analysis_timestamp = pd.Timestamp.now()
-                st.success("✅ Análise concluída com sucesso!")
+                st.success("✅ Análise concluída!")
                 st.rerun()
             else:
-                st.error("❌ Falha na execução da análise")
+                st.error("❌ Falha na análise")
     
     # Informação sobre última análise
     if st.session_state.get("analysis_timestamp"):
@@ -214,26 +257,7 @@ with st.sidebar:
         st.markdown("---")
         if st.button("🗑️ **Limpar Resultados**", use_container_width=True):
             reset_downstream_data('weibull')
-            st.success("Resultados limpos!")
             st.rerun()
-    
-    st.markdown("---")
-    
-    # === AJUDA ===
-    with st.expander("❓ Ajuda"):
-        st.markdown("""
-        **Como usar esta página:**
-        
-        1. **Analisar Qualidade**: Verifica se os dados estão adequados
-        2. **Executar Análise**: Ajusta parâmetros Weibull para cada componente
-        3. **Revisar Resultados**: Examine os parâmetros calculados
-        4. **Prosseguir**: Vá para o Planejamento PM
-        
-        **Requisitos mínimos:**
-        - 3+ observações por componente
-        - Tempos de falha > 0
-        - Valores de censura válidos (0 ou 1)
-        """)
 
 # === SEÇÃO PRINCIPAL - VISÃO GERAL DOS DADOS ===
 st.markdown("---")
@@ -271,12 +295,12 @@ with col1:
         total_components = len(component_counts)
         
         if total_adequate == total_components:
-            st.success(f"✅ **Todos os {total_components} componentes** têm dados suficientes para análise Weibull")
+            st.success(f"✅ **Todos os {total_components} componentes** têm dados suficientes")
         else:
-            st.warning(f"⚠️ **{total_adequate} de {total_components} componentes** têm dados suficientes para análise")
+            st.warning(f"⚠️ **{total_adequate} de {total_components} componentes** têm dados suficientes")
 
 with col2:
-    st.markdown("#### 📈 Distribuição de Dados")
+    st.markdown("#### 📈 Distribuição")
     
     if 'component_type' in dataset.columns:
         # Gráfico de barras simples
@@ -297,15 +321,6 @@ with col2:
 # === PREVIEW DOS DADOS ===
 with st.expander("👀 **Preview dos Dados Brutos**"):
     st.dataframe(dataset.head(20), use_container_width=True)
-    
-    # Botão para download
-    csv = dataset.to_csv(index=False)
-    st.download_button(
-        "💾 **Download Dataset Completo (CSV)**",
-        data=csv,
-        file_name="dataset_weibull.csv",
-        mime="text/csv"
-    )
 
 # === RESULTADOS DA ANÁLISE WEIBULL ===
 st.markdown("---")
@@ -328,60 +343,256 @@ if weibull_results:
     if successful_results:
         st.success(f"✅ **{len(successful_results)} componentes** analisados com sucesso")
         
-        # Exibe resultados
-        display_weibull_results(weibull_results)
+        # === TABELA RESUMO ===
+        st.markdown("#### 📊 Tabela Resumo dos Parâmetros")
         
-        # Resumo estatístico
+        summary_data = []
+        for component, result in successful_results.items():
+            summary_data.append({
+                'Componente': component,
+                'λ (Escala)': f"{result['lambda']:.4f}",
+                'ρ (Forma)': f"{result['rho']:.4f}",
+                'MTBF': f"{result.get('MTBF', 0):.2f}" if result.get('MTBF') else "N/A",
+                'Observações': result['n_observations'],
+                'Eventos': result['n_events'],
+                'AIC': f"{result.get('AIC', 0):.2f}" if result.get('AIC') else "N/A"
+            })
+        
+        df_summary = pd.DataFrame(summary_data)
+        st.dataframe(df_summary, use_container_width=True, hide_index=True)
+        
+        # === SELETOR DE COMPONENTE PARA GRÁFICOS ===
         st.markdown("---")
-        st.markdown("#### 📊 Resumo Estatístico")
+        st.markdown("#### 📊 Visualizações Detalhadas por Componente")
         
-        col1, col2, col3, col4 = st.columns(4)
+        selected_comp = st.selectbox(
+            "Selecione um componente para visualizar gráficos:",
+            options=list(successful_results.keys()),
+            key="weibull_viz_selector"
+        )
         
-        # Calcula estatísticas
-        lambdas = [r['lambda'] for r in successful_results.values()]
-        rhos = [r['rho'] for r in successful_results.values()]
-        mtbfs = [r.get('MTBF', 0) for r in successful_results.values() if r.get('MTBF')]
+        if selected_comp:
+            result = successful_results[selected_comp]
+            lambda_param = result['lambda']
+            rho_param = result['rho']
+            mtbf = result.get('MTBF', lambda_param)
+            
+            # === MÉTRICAS DO COMPONENTE ===
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.metric("λ (Escala)", f"{lambda_param:.4f}", help="Parâmetro de escala Weibull")
+            
+            with col2:
+                st.metric("ρ (Forma)", f"{rho_param:.4f}", help="Parâmetro de forma Weibull")
+            
+            with col3:
+                st.metric("MTBF", f"{mtbf:.2f}h", help="Tempo médio entre falhas")
+            
+            with col4:
+                st.metric("Observações", result['n_observations'], help="Número de dados usados")
+            
+            # === INTERPRETAÇÃO DO PADRÃO DE FALHA ===
+            st.markdown("---")
+            
+            if rho_param < 0.9:
+                pattern_icon = "🔽"
+                pattern_name = "Mortalidade Infantil"
+                pattern_desc = "Taxa de falha **decrescente** - Falhas precoces são mais comuns"
+                pattern_color = "blue"
+            elif rho_param <= 1.1:
+                pattern_icon = "➡️"
+                pattern_name = "Taxa Constante"
+                pattern_desc = "Taxa de falha **constante** - Falhas aleatórias"
+                pattern_color = "gray"
+            else:
+                pattern_icon = "📈"
+                pattern_name = "Desgaste"
+                pattern_desc = "Taxa de falha **crescente** - Falhas por envelhecimento"
+                pattern_color = "red"
+            
+            st.info(f"""
+            **{pattern_icon} Padrão de Falha Identificado: {pattern_name}**
+            
+            {pattern_desc}
+            
+            - **ρ = {rho_param:.3f}** (ρ < 1: decrescente | ρ ≈ 1: constante | ρ > 1: crescente)
+            - Este padrão indica como a taxa de falha evolui ao longo do tempo
+            """)
+            
+            # === TABS COM GRÁFICOS ===
+            st.markdown("---")
+            
+            tab1, tab2, tab3, tab4 = st.tabs([
+                "📉 Confiabilidade R(t)",
+                "📈 Taxa de Falha h(t)",
+                "📊 Densidade f(t)",
+                "🔢 Dados Brutos"
+            ])
+            
+            # TAB 1: CONFIABILIDADE
+            with tab1:
+                st.markdown("##### Função de Confiabilidade R(t)")
+                st.caption("Probabilidade de o componente sobreviver até o tempo t")
+                
+                reliability_data = weibull_reliability_plot(lambda_param, rho_param, mtbf * 2.5)
+                st.line_chart(reliability_data.set_index('Tempo (horas)'), height=400)
+                
+                # Métricas adicionais
+                col1, col2, col3 = st.columns(3)
+                
+                with col1:
+                    # R(MTBF)
+                    r_mtbf = np.exp(-((mtbf / lambda_param) ** rho_param))
+                    st.metric("R(MTBF)", f"{r_mtbf:.1%}", help="Confiabilidade no MTBF")
+                
+                with col2:
+                    # B10 Life
+                    b10 = lambda_param * ((-np.log(0.9)) ** (1/rho_param))
+                    st.metric("B10 Life", f"{b10:.0f}h", help="Tempo para 10% de falhas")
+                
+                with col3:
+                    # Vida Mediana
+                    median = lambda_param * (np.log(2) ** (1/rho_param))
+                    st.metric("Vida Mediana", f"{median:.0f}h", help="Tempo para 50% de falhas")
+                
+                with st.expander("ℹ️ Como interpretar"):
+                    st.markdown("""
+                    **Função de Confiabilidade R(t):**
+                    - **Eixo Y:** Probabilidade de sobrevivência (0 a 1)
+                    - **Eixo X:** Tempo em horas
+                    - **Curva:** Mostra como a confiabilidade diminui com o tempo
+                    
+                    **Valores importantes:**
+                    - **R(t) = 0.9:** 90% de chance de sobreviver até t
+                    - **R(MTBF):** Confiabilidade no tempo médio entre falhas
+                    - **B10:** Tempo até 10% de falhas (90% de confiabilidade)
+                    """)
+            
+            # TAB 2: TAXA DE FALHA
+            with tab2:
+                st.markdown("##### Taxa de Falha h(t)")
+                st.caption("Taxa instantânea de falha ao longo do tempo")
+                
+                hazard_data = weibull_hazard_rate_plot(lambda_param, rho_param, mtbf * 2.5)
+                st.line_chart(hazard_data.set_index('Tempo (horas)'), height=400)
+                
+                # Interpretação
+                if rho_param < 1:
+                    interpretation = "📉 **Taxa decrescente:** Componente melhora com o tempo (burn-in)"
+                elif rho_param <= 1.1:
+                    interpretation = "➡️ **Taxa constante:** Falhas aleatórias, não relacionadas ao tempo"
+                else:
+                    interpretation = "📈 **Taxa crescente:** Componente deteriora com o tempo (desgaste)"
+                
+                st.info(interpretation)
+                
+                with st.expander("ℹ️ Como interpretar"):
+                    st.markdown("""
+                    **Taxa de Falha h(t):**
+                    - **Eixo Y:** Taxa instantânea de falha
+                    - **Eixo X:** Tempo em horas
+                    - **Curva:** Mostra como o risco de falha evolui
+                    
+                    **Padrões:**
+                    - **Decrescente (ρ < 1):** Mortalidade infantil
+                    - **Constante (ρ ≈ 1):** Falhas aleatórias
+                    - **Crescente (ρ > 1):** Desgaste/envelhecimento
+                    """)
+            
+            # TAB 3: DENSIDADE
+            with tab3:
+                st.markdown("##### Função Densidade de Probabilidade f(t)")
+                st.caption("Distribuição dos tempos de falha")
+                
+                pdf_data = weibull_pdf_plot(lambda_param, rho_param, mtbf * 2.5)
+                st.area_chart(pdf_data.set_index('Tempo (horas)'), height=400)
+                
+                # Estatísticas
+                col1, col2, col3 = st.columns(3)
+                
+                with col1:
+                    # Moda (pico da distribuição)
+                    if rho_param > 1:
+                        mode = lambda_param * ((rho_param - 1) / rho_param) ** (1/rho_param)
+                        st.metric("Moda", f"{mode:.0f}h", help="Tempo mais provável de falha")
+                    else:
+                        st.metric("Moda", "0h", help="Falhas mais prováveis no início")
+                
+                with col2:
+                    st.metric("Média (MTBF)", f"{mtbf:.0f}h", help="Tempo médio de falha")
+                
+                with col3:
+                    # Desvio padrão aproximado
+                    if rho_param > 0:
+                        variance = (lambda_param ** 2) * (
+                            np.exp(np.log(2) / rho_param) - 
+                            np.exp(2 * np.log(2) / rho_param)
+                        )
+                        std_dev = np.sqrt(abs(variance))
+                        st.metric("Desvio Padrão", f"{std_dev:.0f}h", help="Dispersão dos tempos")
+                
+                with st.expander("ℹ️ Como interpretar"):
+                    st.markdown("""
+                    **Função Densidade f(t):**
+                    - **Eixo Y:** Densidade de probabilidade
+                    - **Eixo X:** Tempo em horas
+                    - **Área sob a curva:** Probabilidade de falha em um intervalo
+                    
+                    **Características:**
+                    - **Pico (Moda):** Tempo mais provável de falha
+                    - **Largura:** Variabilidade dos tempos de falha
+                    - **Assimetria:** Depende do parâmetro ρ
+                    """)
+            
+            # TAB 4: DADOS BRUTOS
+            with tab4:
+                st.markdown("##### Dados do Componente")
+                
+                # Filtra dados do componente
+                component_data = dataset[dataset['component_type'] == selected_comp].copy()
+                
+                st.write(f"**Total de observações:** {len(component_data)}")
+                st.write(f"**Eventos observados:** {component_data['censored'].sum()}")
+                st.write(f"**Dados censurados:** {(~component_data['censored'].astype(bool)).sum()}")
+                
+                st.dataframe(component_data, use_container_width=True)
+                
+                # Histograma dos dados
+                if 'failure_time' in component_data.columns:
+                    st.markdown("##### Histograma dos Tempos de Falha")
+                    
+                    failure_times = component_data['failure_time'].dropna()
+                    if len(failure_times) > 0:
+                        hist_data = create_histogram_data(failure_times.values)
+                        st.bar_chart(hist_data.set_index('Tempo (horas)'), height=300)
         
-        with col1:
-            st.metric("λ Médio", f"{sum(lambdas)/len(lambdas):.2f}")
-        
-        with col2:
-            st.metric("ρ Médio", f"{sum(rhos)/len(rhos):.2f}")
-        
-        with col3:
-            if mtbfs:
-                st.metric("MTBF Médio", f"{sum(mtbfs)/len(mtbfs):.0f}h")
-        
-        with col4:
-            total_obs = sum(r['n_observations'] for r in successful_results.values())
-            st.metric("Total Observações", f"{total_obs:,}")
-        
-        # Classificação por padrão de falha
+        # === CLASSIFICAÇÃO POR PADRÃO DE FALHA ===
         st.markdown("---")
         st.markdown("#### 🔍 Classificação por Padrão de Falha")
         
         patterns = {
-            "Mortalidade Infantil (ρ < 1)": [],
-            "Taxa Constante (ρ ≈ 1)": [],
-            "Desgaste (ρ > 1)": []
+            "🔽 Mortalidade Infantil (ρ < 1)": [],
+            "➡️ Taxa Constante (ρ ≈ 1)": [],
+            "📈 Desgaste (ρ > 1)": []
         }
         
         for name, result in successful_results.items():
             rho = result['rho']
             if rho < 0.9:
-                patterns["Mortalidade Infantil (ρ < 1)"].append(name)
+                patterns["🔽 Mortalidade Infantil (ρ < 1)"].append(name)
             elif rho <= 1.1:
-                patterns["Taxa Constante (ρ ≈ 1)"].append(name)
+                patterns["➡️ Taxa Constante (ρ ≈ 1)"].append(name)
             else:
-                patterns["Desgaste (ρ > 1)"].append(name)
+                patterns["📈 Desgaste (ρ > 1)"].append(name)
         
         col1, col2, col3 = st.columns(3)
         
         with col1:
             st.markdown("**🔽 Mortalidade Infantil**")
             st.caption("Falhas precoces")
-            if patterns["Mortalidade Infantil (ρ < 1)"]:
-                for comp in patterns["Mortalidade Infantil (ρ < 1)"]:
+            if patterns["🔽 Mortalidade Infantil (ρ < 1)"]:
+                for comp in patterns["🔽 Mortalidade Infantil (ρ < 1)"]:
                     st.write(f"• {comp}")
             else:
                 st.write("_Nenhum componente_")
@@ -389,8 +600,8 @@ if weibull_results:
         with col2:
             st.markdown("**➡️ Taxa Constante**")
             st.caption("Falhas aleatórias")
-            if patterns["Taxa Constante (ρ ≈ 1)"]:
-                for comp in patterns["Taxa Constante (ρ ≈ 1)"]:
+            if patterns["➡️ Taxa Constante (ρ ≈ 1)"]:
+                for comp in patterns["➡️ Taxa Constante (ρ ≈ 1)"]:
                     st.write(f"• {comp}")
             else:
                 st.write("_Nenhum componente_")
@@ -398,16 +609,16 @@ if weibull_results:
         with col3:
             st.markdown("**📈 Desgaste**")
             st.caption("Falhas por envelhecimento")
-            if patterns["Desgaste (ρ > 1)"]:
-                for comp in patterns["Desgaste (ρ > 1)"]:
+            if patterns["📈 Desgaste (ρ > 1)"]:
+                for comp in patterns["📈 Desgaste (ρ > 1)"]:
                     st.write(f"• {comp}")
             else:
                 st.write("_Nenhum componente_")
         
-        # Componentes com falha
+        # === COMPONENTES COM FALHA ===
         if failed_results:
             st.markdown("---")
-            with st.expander(f"⚠️ **{len(failed_results)} componentes falharam** (clique para detalhes)"):
+            with st.expander(f"⚠️ **{len(failed_results)} componentes falharam**"):
                 for comp_name, result in failed_results.items():
                     error_msg = result.get('error', 'Erro desconhecido')
                     st.error(f"**{comp_name}:** {error_msg}")
@@ -418,20 +629,13 @@ if weibull_results:
         
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
-            if st.button("🔧 **Prosseguir para Planejamento PM & Estoque**", 
-                        type="primary", 
-                        use_container_width=True):
-                
-                # Define componente padrão se não houver seleção
-                if not st.session_state.get("selected_component"):
-                    st.session_state.selected_component = list(successful_results.keys())[0]
-                
-                try:
-                    st.switch_page("pages/3_Planejamento_PM_Estoque.py")
-                except:
-                    st.info("👈 Use o menu lateral para navegar até **Planejamento PM & Estoque**")
+            create_navigation_button(
+                "pages/3_Planejamento_PM_Estoque.py",
+                "🔧 **Prosseguir para Planejamento PM & Estoque**",
+                key="weibull_to_planning"
+            )
         
-        st.success(f"🎯 **{len(successful_results)} componentes** prontos para planejamento de manutenção")
+        st.success(f"🎯 **{len(successful_results)} componentes** prontos para planejamento")
     
     else:
         st.error("❌ **Nenhum componente foi analisado com sucesso**")
@@ -445,47 +649,9 @@ else:
     1. **Revise** a visão geral dos dados acima
     2. **Execute** a análise de qualidade (barra lateral)
     3. **Clique** em "Executar Análise Weibull" (barra lateral)
-    4. **Aguarde** o processamento (pode levar alguns segundos)
-    5. **Revise** os resultados nesta seção
+    4. **Aguarde** o processamento
+    5. **Revise** os resultados e gráficos
     """)
-    
-    # Preview dos dados como guia
-    with st.expander("👀 **Preview dos Dados**"):
-        st.dataframe(dataset.head(10), use_container_width=True)
-
-# === SEÇÃO DE DEBUG (OPCIONAL) ===
-if st.sidebar.checkbox("🐛 **Modo Debug**"):
-    st.markdown("---")
-    st.subheader("🔍 Informações de Debug")
-    
-    debug_tabs = st.tabs(["📊 Dataset", "🔧 Weibull", "💾 Session State"])
-    
-    with debug_tabs[0]:
-        st.write("**Informações do Dataset:**")
-        st.write(f"- Shape: {dataset.shape}")
-        st.write(f"- Colunas: {list(dataset.columns)}")
-        st.write(f"- Tipos: {dataset.dtypes.to_dict()}")
-        st.write(f"- Memória: {dataset.memory_usage(deep=True).sum() / 1024**2:.2f} MB")
-    
-    with debug_tabs[1]:
-        st.write("**Informações Weibull:**")
-        st.write(f"- Resultados disponíveis: {len(weibull_results)}")
-        st.write(f"- Análises bem-sucedidas: {sum(1 for r in weibull_results.values() if r.get('success'))}")
-        
-        if weibull_results:
-            st.json(weibull_results)
-    
-    with debug_tabs[2]:
-        st.write("**Session State:**")
-        state_info = {
-            "dataset": "Carregado" if st.session_state.get("dataset") is not None else "None",
-            "weibull_results": len(st.session_state.get("weibull_results", {})),
-            "data_quality_report": "Disponível" if st.session_state.get("data_quality_report") else "None",
-            "analysis_timestamp": str(st.session_state.get("analysis_timestamp", "Nunca"))
-        }
-        
-        for key, value in state_info.items():
-            st.write(f"- **{key}:** {value}")
 
 # === FOOTER ===
 st.markdown("---")
