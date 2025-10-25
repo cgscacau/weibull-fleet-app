@@ -308,7 +308,7 @@ if uploaded_file is not None:
         
         with col1:
             if st.button("🧼 Verificar Qualidade dos Dados", use_container_width=True):
-                st.switch_page("pages/2_Qualidade.py")
+                st.switch_page("pages/2_Qualidade_dos_Dados.py")
         
         with col2:
             if st.button("📈 Ir Direto para Análise Weibull", use_container_width=True):
@@ -370,7 +370,7 @@ elif st.session_state.df is not None:
     
     with col1:
         if st.button("🧼 Verificar Qualidade dos Dados", use_container_width=True):
-            st.switch_page("pages/2_Qualidade.py")
+            st.switch_page("pages/2_Qualidade_dos_Dados.py")
     
     with col2:
         if st.button("📈 Ir Direto para Análise Weibull", use_container_width=True):
