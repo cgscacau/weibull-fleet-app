@@ -10,6 +10,10 @@ import plotly.graph_objects as go
 from pathlib import Path
 import sys
 
+
+from utils.state_manager import initialize_session_state
+initialize_session_state()
+
 # Adicionar diretórios ao path
 project_root = Path(__file__).parent.parent
 sys.path.append(str(project_root))
