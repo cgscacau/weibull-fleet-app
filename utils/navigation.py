@@ -1,23 +1,37 @@
+"""
+Sistema de navegação robusto para Streamlit com múltiplos fallbacks.
+"""
+
 import streamlit as st
 from typing import Optional
 import warnings
 
-def safe_navigate_to_page(page_path: str):
+def handle_navigation():
     """
-    Função auxiliar para navegação que deve ser chamada FORA de callbacks.
+    Processa navegação pendente armazenada no session state.
+    Deve ser chamada no início de cada página, logo após st.set_page_config().
     """
-    try:
-        st.switch_page(page_path)
-    except Exception as e:
-        st.error(f"Erro na navegação: {str(e)}")
-        st.info(f"👈 Por favor, use a barra lateral para navegar até: **{page_path}**")
+    if st.session_state.get("navigation_triggered", False):
+        page_path = st.session_state.get("navigate_to")
+        
+        if page_path:
+            # Limpa flags
+            st.session_state.navigation_triggered = False
+            st.session_state.navigate_to = None
+            
+            # Executa navegação
+            try:
+                st.switch_page(page_path)
+            except Exception as e:
+                st.error(f"Erro ao navegar: {str(e)}")
+                st.info(f"👈 Use a barra lateral para acessar: **{page_path}**")
 
 def create_navigation_button(page_path: str, button_text: str, 
                             button_type: str = "primary", 
                             use_container_width: bool = True,
                             key: Optional[str] = None) -> bool:
     """
-    Cria um botão de navegação com session state.
+    Cria um botão de navegação que armazena a intenção no session state.
     
     Args:
         page_path: Caminho da página (ex: "pages/1_Dados_UNIFIED.py")
@@ -42,28 +56,18 @@ def create_navigation_button(page_path: str, button_text: str,
     
     return False
 
-def handle_navigation():
+def safe_navigate(page_path: str, button_text: str, 
+                 button_type: str = "primary", 
+                 use_container_width: bool = True,
+                 key: Optional[str] = None) -> bool:
     """
-    Processa navegação pendente. Deve ser chamada no início de cada página.
+    Alias para create_navigation_button (compatibilidade com código antigo).
     """
-    if st.session_state.get("navigation_triggered", False):
-        page_path = st.session_state.get("navigate_to")
-        
-        if page_path:
-            # Limpa flags
-            st.session_state.navigation_triggered = False
-            st.session_state.navigate_to = None
-            
-            # Executa navegação
-            try:
-                st.switch_page(page_path)
-            except Exception as e:
-                st.error(f"Erro ao navegar: {str(e)}")
-                st.info(f"👈 Use a barra lateral para acessar: **{page_path}**")
+    return create_navigation_button(page_path, button_text, button_type, use_container_width, key)
 
 def create_page_navigation_links():
     """
-    Cria links de navegação manual como fallback.
+    Cria seção com instruções de navegação manual.
     """
     st.markdown("---")
     st.markdown("### 📍 Navegação Manual")
@@ -71,21 +75,21 @@ def create_page_navigation_links():
     st.info("""
     **Como navegar entre páginas:**
     
-    1. Use a **barra lateral** (seta no canto superior esquerdo)
-    2. Clique na página desejada no menu
-    3. Ou execute diretamente: `streamlit run [caminho_da_página]`
+    1. Use a **barra lateral** (clique no ☰ no canto superior esquerdo)
+    2. Selecione a página desejada no menu
+    3. A página será carregada automaticamente
     """)
     
-    pages = {
-        "🏠 Home": "Home.py",
-        "📤 Dados UNIFIED": "pages/1_Dados_UNIFIED.py",
-        "📈 Ajuste Weibull": "pages/2_Ajuste_Weibull_UNIFIED.py", 
-        "🔧 Planejamento PM": "pages/3_Planejamento_PM_Estoque.py"
+    pages_info = {
+        "🏠 Home": ("Home.py", "Página inicial do sistema"),
+        "📤 Dados UNIFIED": ("pages/1_Dados_UNIFIED.py", "Carregamento de dados"),
+        "📈 Ajuste Weibull": ("pages/2_Ajuste_Weibull_UNIFIED.py", "Análise de confiabilidade"), 
+        "🔧 Planejamento PM": ("pages/3_Planejamento_PM_Estoque.py", "Otimização de manutenção")
     }
     
     st.markdown("**Páginas Disponíveis:**")
-    for name, path in pages.items():
-        st.markdown(f"• {name}")
+    for name, (path, description) in pages_info.items():
+        st.markdown(f"• **{name}** - {description}")
 
 def check_streamlit_version():
     """
@@ -99,14 +103,14 @@ def check_streamlit_version():
             st.warning(f"""
             ⚠️ **Versão do Streamlit: {version}**
             
-            Recomendamos atualizar para >= 1.29.0:
+            Recomendamos atualizar para >= 1.29.0 para melhor suporte à navegação:
             ```bash
             pip install --upgrade streamlit>=1.29.0
             ```
             """)
             return False
         else:
-            st.success(f"✅ Streamlit {version} - Compatível")
+            st.success(f"✅ Streamlit {version} - Versão compatível")
             return True
             
     except Exception as e:
