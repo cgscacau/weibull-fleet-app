@@ -1,5 +1,5 @@
 """
-🔧 Planejamento PM & Estoque - Versão Autônoma
+🔧 Planejamento PM & Estoque - Versão Final Corrigida
 Otimização de intervalos de manutenção preventiva e gestão de peças de reposição
 """
 
@@ -146,11 +146,59 @@ st.title("🔧 Planejamento PM & Estoque")
 st.markdown("*Otimização de intervalos de manutenção preventiva e gestão de peças de reposição*")
 
 # ============================================================================
-# VERIFICAÇÃO DE DADOS
+# DETECÇÃO INTELIGENTE DE DADOS
 # ============================================================================
 
-if 'weibull_data' not in st.session_state or st.session_state.weibull_data is None:
+# Lista de possíveis chaves onde os dados Weibull podem estar
+possible_keys = [
+    'weibull_data',
+    'df_weibull', 
+    'weibull_results',
+    'analise_weibull',
+    'resultados_weibull',
+    'weibull_por_equipamento',
+    'weibull_por_componente'
+]
+
+# Procura a chave correta
+df_weibull = None
+key_encontrada = None
+
+for key in possible_keys:
+    if key in st.session_state and st.session_state[key] is not None:
+        try:
+            temp_df = st.session_state[key]
+            # Verifica se tem as colunas necessárias
+            if isinstance(temp_df, pd.DataFrame):
+                # Procura por colunas de identificador
+                id_cols = ['identificador', 'equipamento', 'componente', 'item', 'id']
+                has_id = any(col in temp_df.columns for col in id_cols)
+                
+                # Procura por parâmetros Weibull
+                has_eta = any(col in temp_df.columns for col in ['eta', 'η', 'scale', 'escala'])
+                has_beta = any(col in temp_df.columns for col in ['beta', 'β', 'shape', 'forma'])
+                
+                if has_id and has_eta and has_beta:
+                    df_weibull = temp_df.copy()
+                    key_encontrada = key
+                    break
+        except:
+            continue
+
+# Se não encontrou, tenta ver o que tem no session_state
+if df_weibull is None:
     st.warning("⚠️ **Nenhum dado Weibull carregado!**")
+    
+    # Mostra debug info
+    with st.expander("🔍 Debug: Session State Disponível"):
+        st.write("**Chaves disponíveis:**")
+        for key in st.session_state.keys():
+            valor = st.session_state[key]
+            if isinstance(valor, pd.DataFrame):
+                st.write(f"- `{key}`: DataFrame com {len(valor)} linhas e colunas: {list(valor.columns)}")
+            else:
+                st.write(f"- `{key}`: {type(valor).__name__}")
+    
     st.info("""
     📋 **Para usar esta página, você precisa:**
     
@@ -158,19 +206,57 @@ if 'weibull_data' not in st.session_state or st.session_state.weibull_data is No
     2. Fazer upload dos dados
     3. Executar a análise Weibull
     4. Depois voltar para esta página
+    
+    Os dados devem conter as colunas:
+    - Identificador (equipamento/componente)
+    - `eta` ou `η` (parâmetro de escala)
+    - `beta` ou `β` (parâmetro de forma)
     """)
     st.stop()
 
 # ============================================================================
-# CARREGA DADOS
+# NORMALIZAÇÃO DE NOMES DE COLUNAS
 # ============================================================================
 
-df_weibull = st.session_state.weibull_data.copy()
+# Identifica a coluna de identificador
+id_col = None
+for col in ['identificador', 'equipamento', 'componente', 'item', 'id']:
+    if col in df_weibull.columns:
+        id_col = col
+        break
+
+if id_col is None:
+    st.error("❌ Coluna de identificador não encontrada!")
+    st.stop()
+
+# Padroniza nome para 'identificador'
+if id_col != 'identificador':
+    df_weibull = df_weibull.rename(columns={id_col: 'identificador'})
+
+# Identifica coluna eta
+eta_col = None
+for col in ['eta', 'η', 'scale', 'escala']:
+    if col in df_weibull.columns:
+        eta_col = col
+        break
+
+if eta_col and eta_col != 'eta':
+    df_weibull = df_weibull.rename(columns={eta_col: 'eta'})
+
+# Identifica coluna beta
+beta_col = None
+for col in ['beta', 'β', 'shape', 'forma']:
+    if col in df_weibull.columns:
+        beta_col = col
+        break
+
+if beta_col and beta_col != 'beta':
+    df_weibull = df_weibull.rename(columns={beta_col: 'beta'})
 
 # Valida colunas necessárias
-colunas_requeridas = ['identificador', 'eta', 'beta']
-if not all(col in df_weibull.columns for col in colunas_requeridas):
-    st.error(f"❌ **Erro:** Dados não contêm as colunas necessárias: {colunas_requeridas}")
+if 'eta' not in df_weibull.columns or 'beta' not in df_weibull.columns:
+    st.error(f"❌ **Erro:** Dados não contêm parâmetros Weibull necessários (eta e beta)")
+    st.write("**Colunas disponíveis:**", list(df_weibull.columns))
     st.stop()
 
 # Remove registros com valores inválidos
@@ -189,7 +275,7 @@ if len(df_weibull) == 0:
 # MENSAGEM DE SUCESSO
 # ============================================================================
 
-st.success(f"✅ **Dados e resultados Weibull encontrados!**")
+st.success(f"✅ **Dados Weibull encontrados!** (Fonte: `{key_encontrada}` com {len(df_weibull)} registros)")
 
 # ============================================================================
 # TABS
@@ -429,3 +515,8 @@ with st.sidebar:
         st.metric("Total de Equipamentos/Componentes", len(df_weibull))
         st.metric("β Médio", f"{df_weibull['beta'].mean():.2f}")
         st.metric("η Médio", f"{df_weibull['eta'].mean():.1f}h")
+        
+        # Mostra fonte dos dados
+        st.markdown("---")
+        st.markdown(f"**🔗 Fonte dos dados:**")
+        st.code(key_encontrada, language=None)
