@@ -2,62 +2,79 @@ import streamlit as st
 from typing import Optional
 import warnings
 
-def safe_navigate(page_path: str, button_text: str, 
-                 button_type: str = "primary", 
-                 use_container_width: bool = True) -> bool:
+def safe_navigate_to_page(page_path: str):
     """
-    Sistema de navegação robusto com múltiplos fallbacks.
+    Função auxiliar para navegação que deve ser chamada FORA de callbacks.
+    """
+    try:
+        st.switch_page(page_path)
+    except Exception as e:
+        st.error(f"Erro na navegação: {str(e)}")
+        st.info(f"👈 Por favor, use a barra lateral para navegar até: **{page_path}**")
+
+def create_navigation_button(page_path: str, button_text: str, 
+                            button_type: str = "primary", 
+                            use_container_width: bool = True,
+                            key: Optional[str] = None) -> bool:
+    """
+    Cria um botão de navegação com session state.
     
     Args:
         page_path: Caminho da página (ex: "pages/1_Dados_UNIFIED.py")
         button_text: Texto do botão
         button_type: Tipo do botão ("primary", "secondary")
         use_container_width: Se deve usar largura completa
+        key: Chave única para o botão
     
     Returns:
-        True se navegação foi acionada
+        True se botão foi clicado
     """
+    # Gera key única se não fornecida
+    if key is None:
+        key = f"nav_btn_{page_path.replace('/', '_').replace('.py', '')}"
     
-    if st.button(button_text, type=button_type, use_container_width=use_container_width):
-        
-        # Método 1: st.switch_page (Streamlit >= 1.29)
-        try:
-            st.switch_page(page_path)
-            return True
-        except (AttributeError, Exception) as e:
-            # Log do erro para debug
-            if hasattr(st, 'error'):
-                st.warning(f"Navegação automática falhou. Use o menu lateral.")
-        
-        # Método 2: Session state navigation
-        try:
-            st.session_state.navigate_to = page_path
-            st.rerun()
-            return True
-        except Exception:
-            pass
-        
-        # Método 3: Query parameters  
-        try:
-            page_name = page_path.split('/')[-1].replace('.py', '')
-            st.query_params.page = page_name
-            st.rerun()
-            return True
-        except Exception:
-            pass
-        
-        # Fallback: Instrução manual
-        st.info(f"👈 **Navegue manualmente para:** {page_path}")
-        st.info("**Use a barra lateral do Streamlit para acessar a página desejada**")
+    # Cria o botão
+    if st.button(button_text, type=button_type, use_container_width=use_container_width, key=key):
+        # Armazena no session state
+        st.session_state.navigate_to = page_path
+        st.session_state.navigation_triggered = True
         return True
     
     return False
 
-def create_page_links():
-    """Cria links de navegação como fallback universal."""
-    
+def handle_navigation():
+    """
+    Processa navegação pendente. Deve ser chamada no início de cada página.
+    """
+    if st.session_state.get("navigation_triggered", False):
+        page_path = st.session_state.get("navigate_to")
+        
+        if page_path:
+            # Limpa flags
+            st.session_state.navigation_triggered = False
+            st.session_state.navigate_to = None
+            
+            # Executa navegação
+            try:
+                st.switch_page(page_path)
+            except Exception as e:
+                st.error(f"Erro ao navegar: {str(e)}")
+                st.info(f"👈 Use a barra lateral para acessar: **{page_path}**")
+
+def create_page_navigation_links():
+    """
+    Cria links de navegação manual como fallback.
+    """
     st.markdown("---")
-    st.subheader("📍 Navegação Manual")
+    st.markdown("### 📍 Navegação Manual")
+    
+    st.info("""
+    **Como navegar entre páginas:**
+    
+    1. Use a **barra lateral** (seta no canto superior esquerdo)
+    2. Clique na página desejada no menu
+    3. Ou execute diretamente: `streamlit run [caminho_da_página]`
+    """)
     
     pages = {
         "🏠 Home": "Home.py",
@@ -66,41 +83,30 @@ def create_page_links():
         "🔧 Planejamento PM": "pages/3_Planejamento_PM_Estoque.py"
     }
     
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("**Páginas Disponíveis:**")
-        for name, path in pages.items():
-            st.markdown(f"• {name}")
-    
-    with col2:
-        st.markdown("**Como navegar:**")
-        st.markdown("1. Use a **barra lateral** do Streamlit")
-        st.markdown("2. Clique na página desejada")
-        st.markdown("3. Ou execute: `streamlit run [caminho]`")
+    st.markdown("**Páginas Disponíveis:**")
+    for name, path in pages.items():
+        st.markdown(f"• {name}")
 
 def check_streamlit_version():
-    """Verifica versão do Streamlit e sugere atualizações."""
-    
+    """
+    Verifica versão do Streamlit e exibe informações.
+    """
     try:
-        import streamlit as st
         version = st.__version__
-        
-        # Converte versão para comparação
         version_parts = [int(x) for x in version.split('.')]
         
         if version_parts[0] < 1 or (version_parts[0] == 1 and version_parts[1] < 29):
             st.warning(f"""
-            ⚠️ **Versão do Streamlit desatualizada: {version}**
+            ⚠️ **Versão do Streamlit: {version}**
             
             Recomendamos atualizar para >= 1.29.0:
             ```bash
-            pip install --upgrade streamlit
+            pip install --upgrade streamlit>=1.29.0
             ```
             """)
             return False
         else:
-            st.success(f"✅ **Streamlit {version}** - Versão compatível")
+            st.success(f"✅ Streamlit {version} - Compatível")
             return True
             
     except Exception as e:
