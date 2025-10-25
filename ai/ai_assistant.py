@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 from dataclasses import dataclass
 import os
+from scipy.special import gamma
 
 
 @dataclass
@@ -203,7 +204,7 @@ class WeibullAIAssistant:
         Parâmetros Weibull:
         - Beta (forma): {beta:.2f}
         - Eta (escala): {eta:.0f} horas
-        - MTBF: {eta * np.exp(np.log(np.math.gamma(1 + 1/beta))):.0f} horas
+        - MTBF: {eta * gamma(1 + 1/beta):.0f} horas
         
         Contexto adicional: {json.dumps(context or {}, indent=2, default=str)}
         """
