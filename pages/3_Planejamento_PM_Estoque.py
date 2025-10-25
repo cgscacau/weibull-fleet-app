@@ -719,37 +719,455 @@ else:
     
     st.success(f"✨ **Melhor cenário:** Intervalo de {best_interval:.0f}h")
 
-# === GRÁFICO DE ANÁLISE ===
+# === GRÁFICOS E VISUALIZAÇÕES ===
 st.markdown("---")
-st.subheader("📈 Análise Visual: Custo vs Intervalo")
+st.subheader("📈 Análise Visual e Gráficos")
 
-# Prepara dados para gráfico
-intervals_range = np.linspace(mtbf * 0.2, mtbf * 2, 50)
-cost_rates = []
+# Tabs para diferentes visualizações
+tab1, tab2, tab3, tab4 = st.tabs([
+    "📊 Custo vs Intervalo", 
+    "📉 Confiabilidade", 
+    "💰 Análise de Custos",
+    "🎯 Comparação de Cenários"
+])
 
-for interval in intervals_range:
-    reliability = weibull_reliability(interval, lambda_param, rho_param)
-    expected_cycle = expected_cycle_length_numerical(interval, lambda_param, rho_param)
+# === TAB 1: CUSTO VS INTERVALO ===
+with tab1:
+    st.markdown("#### 📊 Taxa de Custo por Intervalo de Manutenção")
     
-    if expected_cycle > 0:
-        cost_rate = ((cost_pm + cost_downtime_pm) * reliability + 
-                    (cost_cm + cost_downtime_cm) * (1 - reliability)) / expected_cycle
-        cost_rates.append(cost_rate)
-    else:
-        cost_rates.append(None)
+    # Prepara dados para gráfico de custo
+    intervals_range = np.linspace(mtbf * 0.2, mtbf * 2.5, 100)
+    cost_rates = []
+    
+    total_cost_pm = cost_pm + cost_downtime_pm
+    total_cost_cm = cost_cm + cost_downtime_cm
+    
+    for interval in intervals_range:
+        reliability = weibull_reliability(interval, lambda_param, rho_param)
+        expected_cycle = expected_cycle_length_numerical(interval, lambda_param, rho_param)
+        
+        if expected_cycle > 0:
+            cost_rate = ((total_cost_pm * reliability + total_cost_cm * (1 - reliability)) / 
+                        expected_cycle)
+            cost_rates.append(cost_rate)
+        else:
+            cost_rates.append(None)
+    
+    # Remove None values
+    valid_data = [(i, c) for i, c in zip(intervals_range, cost_rates) if c is not None]
+    if valid_data:
+        intervals_valid, costs_valid = zip(*valid_data)
+        
+        chart_data = pd.DataFrame({
+            'Intervalo (horas)': intervals_valid,
+            'Taxa de Custo ($/h)': costs_valid
+        })
+        
+        st.line_chart(chart_data.set_index('Intervalo (horas)'), height=400)
+        
+        # Marca ponto ótimo
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            st.success(f"""
+            🎯 **Ponto Ótimo Identificado**
+            
+            - **Intervalo:** {optimal_interval:.0f} horas ({optimal_interval/24:.1f} dias)
+            - **Taxa de Custo:** ${optimal_cost_rate:.2f}/hora
+            - **Economia vs MTBF:** {((cost_rate_function(mtbf) - optimal_cost_rate) / cost_rate_function(mtbf) * 100):.1f}%
+            """)
+            
+            # Função auxiliar para taxa de custo
+            def cost_rate_function(T):
+                if T <= 0:
+                    return float('inf')
+                rel = weibull_reliability(T, lambda_param, rho_param)
+                exp_cycle = expected_cycle_length_numerical(T, lambda_param, rho_param)
+                if exp_cycle <= 0:
+                    return float('inf')
+                return (total_cost_pm * rel + total_cost_cm * (1 - rel)) / exp_cycle
+    
+    # Interpretação
+    with st.expander("📖 **Como Interpretar este Gráfico**"):
+        st.markdown("""
+        **Curva de Taxa de Custo:**
+        
+        - **Eixo X:** Intervalo entre manutenções (horas)
+        - **Eixo Y:** Custo por hora de operação ($)
+        
+        **Interpretação:**
+        - **Ponto mais baixo:** Intervalo ótimo que minimiza custos
+        - **Antes do ótimo:** Manutenções muito frequentes (desperdício)
+        - **Depois do ótimo:** Maior risco de falhas caras
+        
+        **Por que existe um ótimo?**
+        - Intervalos curtos → Muitas MPs → Custos altos de MP
+        - Intervalos longos → Mais falhas → Custos altos de MC
+        - O ótimo balanceia ambos os custos
+        """)
 
-# Cria DataFrame para gráfico
-chart_data = pd.DataFrame({
-    'Intervalo (h)': intervals_range,
-    'Taxa de Custo ($/h)': cost_rates
-})
+# === TAB 2: CONFIABILIDADE ===
+with tab2:
+    st.markdown("#### 📉 Curva de Confiabilidade Weibull")
+    
+    # Prepara dados de confiabilidade
+    time_range = np.linspace(0, mtbf * 2, 100)
+    reliability_values = [weibull_reliability(t, lambda_param, rho_param) for t in time_range]
+    
+    reliability_df = pd.DataFrame({
+        'Tempo (horas)': time_range,
+        'Confiabilidade': reliability_values
+    })
+    
+    st.line_chart(reliability_df.set_index('Tempo (horas)'), height=400)
+    
+    # Métricas de confiabilidade
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        r_optimal = weibull_reliability(optimal_interval, lambda_param, rho_param)
+        st.metric(
+            "R(T*) - Ótimo",
+            f"{r_optimal:.1%}",
+            help="Confiabilidade no intervalo ótimo"
+        )
+    
+    with col2:
+        r_mtbf = weibull_reliability(mtbf, lambda_param, rho_param)
+        st.metric(
+            "R(MTBF)",
+            f"{r_mtbf:.1%}",
+            help="Confiabilidade no MTBF"
+        )
+    
+    with col3:
+        # B10 life (tempo para 10% de falhas)
+        b10 = lambda_param * ((-np.log(0.9)) ** (1/rho_param))
+        st.metric(
+            "B10 Life",
+            f"{b10:.0f}h",
+            help="Tempo até 10% de falhas"
+        )
+    
+    with col4:
+        # Tempo para 50% de confiabilidade
+        median_life = lambda_param * (np.log(2) ** (1/rho_param))
+        st.metric(
+            "Vida Mediana",
+            f"{median_life:.0f}h",
+            help="Tempo para 50% de confiabilidade"
+        )
+    
+    # Tabela de confiabilidade
+    with st.expander("📊 **Tabela de Confiabilidade**"):
+        intervals_table = [optimal_interval * i for i in [0.5, 0.75, 1.0, 1.25, 1.5, 2.0]]
+        reliability_table = []
+        
+        for interval in intervals_table:
+            rel = weibull_reliability(interval, lambda_param, rho_param)
+            failure_prob = 1 - rel
+            
+            reliability_table.append({
+                'Intervalo (h)': f"{interval:.0f}",
+                'Dias': f"{interval/24:.1f}",
+                'Confiabilidade': f"{rel:.1%}",
+                'Prob. Falha': f"{failure_prob:.1%}",
+                'Status': '🟢' if rel >= 0.9 else '🟡' if rel >= 0.8 else '🔴'
+            })
+        
+        st.dataframe(pd.DataFrame(reliability_table), use_container_width=True, hide_index=True)
 
-st.line_chart(chart_data.set_index('Intervalo (h)'), height=400)
+# === TAB 3: ANÁLISE DE CUSTOS ===
+with tab3:
+    st.markdown("#### 💰 Decomposição de Custos Anuais")
+    
+    # Calcula custos para diferentes intervalos
+    intervals_cost = np.array([0.5, 0.7, 1.0, 1.2, 1.5]) * optimal_interval
+    
+    cost_breakdown = []
+    for interval in intervals_cost:
+        reliability = weibull_reliability(interval, lambda_param, rho_param)
+        expected_cycle = expected_cycle_length_numerical(interval, lambda_param, rho_param)
+        
+        if expected_cycle > 0:
+            cycles_per_year = 8760 / expected_cycle
+            pm_per_year = reliability * cycles_per_year
+            cm_per_year = (1 - reliability) * cycles_per_year
+            
+            cost_pm_annual = pm_per_year * cost_pm
+            cost_cm_annual = cm_per_year * cost_cm
+            cost_total = cost_pm_annual + cost_cm_annual
+            
+            cost_breakdown.append({
+                'Intervalo': f"{interval:.0f}h",
+                'Custo MP': cost_pm_annual,
+                'Custo MC': cost_cm_annual,
+                'Total': cost_total
+            })
+    
+    cost_df = pd.DataFrame(cost_breakdown)
+    
+    # Gráfico de barras empilhadas (simulado com métricas)
+    st.markdown("**Comparação de Custos Anuais por Estratégia:**")
+    
+    for idx, row in cost_df.iterrows():
+        col1, col2, col3, col4 = st.columns([2, 2, 2, 1])
+        
+        with col1:
+            st.write(f"**{row['Intervalo']}**")
+        
+        with col2:
+            st.write(f"MP: ${row['Custo MP']:,.0f}")
+        
+        with col3:
+            st.write(f"MC: ${row['Custo MC']:,.0f}")
+        
+        with col4:
+            is_optimal = idx == 2  # Assume que índice 2 é o ótimo (1.0x)
+            if is_optimal:
+                st.write("✅ **Ótimo**")
+            else:
+                diff = ((row['Total'] - cost_df.iloc[2]['Total']) / cost_df.iloc[2]['Total'] * 100)
+                st.write(f"+{diff:.1f}%")
+        
+        # Barra de progresso visual
+        max_total = cost_df['Total'].max()
+        progress = row['Total'] / max_total
+        st.progress(progress)
+    
+    # Gráfico de pizza (composição do custo ótimo)
+    st.markdown("---")
+    st.markdown("**Composição do Custo no Intervalo Ótimo:**")
+    
+    optimal_costs = cost_df.iloc[2]
+    pm_pct = optimal_costs['Custo MP'] / optimal_costs['Total']
+    cm_pct = optimal_costs['Custo MC'] / optimal_costs['Total']
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.metric("💚 Custo de MP", f"${optimal_costs['Custo MP']:,.0f}", f"{pm_pct:.1%} do total")
+        st.metric("🔴 Custo de MC", f"${optimal_costs['Custo MC']:,.0f}", f"{cm_pct:.1%} do total")
+    
+    with col2:
+        # Simulação de gráfico de pizza com barras
+        st.write("**Distribuição:**")
+        st.progress(pm_pct, text=f"MP: {pm_pct:.1%}")
+        st.progress(cm_pct, text=f"MC: {cm_pct:.1%}")
+    
+    # Análise de sensibilidade
+    with st.expander("🔍 **Análise de Sensibilidade**"):
+        st.markdown("**Impacto de Mudanças nos Custos:**")
+        
+        # Simula mudanças de ±20% nos custos
+        sensitivities = []
+        
+        for pm_change in [-0.2, 0, 0.2]:
+            for cm_change in [-0.2, 0, 0.2]:
+                new_pm = cost_pm * (1 + pm_change)
+                new_cm = cost_cm * (1 + cm_change)
+                
+                # Recalcula ótimo
+                new_optimal = age_replacement_optimization(
+                    lambda_param, rho_param, new_pm, new_cm,
+                    cost_downtime_pm, cost_downtime_cm
+                )
+                
+                if new_optimal.get("success"):
+                    sensitivities.append({
+                        'Mudança MP': f"{pm_change:+.0%}",
+                        'Mudança MC': f"{cm_change:+.0%}",
+                        'Novo Intervalo': f"{new_optimal['optimal_interval']:.0f}h",
+                        'Nova Taxa': f"${new_optimal['optimal_cost_rate']:.2f}/h"
+                    })
+        
+        st.dataframe(pd.DataFrame(sensitivities), use_container_width=True, hide_index=True)
 
-# Marca ponto ótimo
-col1, col2, col3 = st.columns([1, 2, 1])
+# === TAB 4: COMPARAÇÃO DE CENÁRIOS ===
+with tab4:
+    st.markdown("#### 🎯 Comparação Visual de Cenários")
+    
+    if not scenarios_df.empty:
+        # Gráfico de comparação de cenários
+        st.markdown("**Comparação de Métricas entre Cenários:**")
+        
+        # Prepara dados para visualização
+        scenarios_viz = scenarios_df.copy()
+        scenarios_viz['Intervalo_num'] = scenarios_viz['Intervalo (h)']
+        
+        # Gráfico 1: Taxa de Custo
+        st.markdown("##### Taxa de Custo por Cenário")
+        cost_chart = scenarios_viz[['Intervalo (h)', 'Taxa de Custo ($/h)']].copy()
+        cost_chart = cost_chart.set_index('Intervalo (h)')
+        st.bar_chart(cost_chart, height=300)
+        
+        # Gráfico 2: Confiabilidade
+        st.markdown("##### Confiabilidade por Cenário")
+        reliability_chart = scenarios_viz[['Intervalo (h)', 'Confiabilidade']].copy()
+        reliability_chart = reliability_chart.set_index('Intervalo (h)')
+        st.bar_chart(reliability_chart, height=300)
+        
+        # Tabela comparativa destacada
+        st.markdown("---")
+        st.markdown("**Tabela Comparativa Detalhada:**")
+        
+        # Destaca o melhor cenário
+        best_idx = scenarios_df['Taxa de Custo ($/h)'].idxmin()
+        
+        # Adiciona coluna de destaque
+        scenarios_display = scenarios_df.copy()
+        scenarios_display['Recomendação'] = ''
+        scenarios_display.loc[best_idx, 'Recomendação'] = '⭐ ÓTIMO'
+        
+        # Adiciona análise de risco
+        scenarios_display['Análise'] = scenarios_display.apply(
+            lambda row: (
+                '✅ Conservador' if row['Confiabilidade'] > 0.9 else
+                '⚠️ Moderado' if row['Confiabilidade'] > 0.8 else
+                '❌ Arriscado'
+            ), axis=1
+        )
+        
+        st.dataframe(scenarios_display, use_container_width=True, hide_index=True)
+        
+        # Resumo executivo dos cenários
+        st.markdown("---")
+        st.markdown("**📊 Resumo Executivo dos Cenários:**")
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            st.markdown("##### 🟢 Cenário Conservador")
+            conservative = scenarios_df.iloc[0]
+            st.write(f"**Intervalo:** {conservative['Intervalo (h)']:.0f}h")
+            st.write(f"**Confiabilidade:** {conservative['Confiabilidade']:.1%}")
+            st.write(f"**Custo Anual:** ${conservative['Custo Total/ano']:,.0f}")
+            st.caption("Máxima confiabilidade, custos mais altos")
+        
+        with col2:
+            st.markdown("##### 🎯 Cenário Ótimo")
+            optimal_scenario = scenarios_df.loc[best_idx]
+            st.write(f"**Intervalo:** {optimal_scenario['Intervalo (h)']:.0f}h")
+            st.write(f"**Confiabilidade:** {optimal_scenario['Confiabilidade']:.1%}")
+            st.write(f"**Custo Anual:** ${optimal_scenario['Custo Total/ano']:,.0f}")
+            st.caption("Melhor relação custo-benefício")
+        
+        with col3:
+            st.markdown("##### 🔴 Cenário Agressivo")
+            aggressive = scenarios_df.iloc[-1]
+            st.write(f"**Intervalo:** {aggressive['Intervalo (h)']:.0f}h")
+            st.write(f"**Confiabilidade:** {aggressive['Confiabilidade']:.1%}")
+            st.write(f"**Custo Anual:** ${aggressive['Custo Total/ano']:,.0f}")
+            st.caption("Menor custo, maior risco")
+
+# === INSIGHTS E RECOMENDAÇÕES ===
+st.markdown("---")
+st.subheader("💡 Insights e Recomendações")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("#### ✅ **Pontos Fortes da Estratégia**")
+    
+    insights_positive = []
+    
+    # Análise do padrão de falha
+    if rho_param > 1:
+        insights_positive.append(
+            "🔧 **Desgaste previsível:** Componente apresenta padrão de desgaste (ρ > 1), "
+            "ideal para manutenção preventiva programada"
+        )
+    
+    # Análise de custo
+    if cost_ratio >= 3:
+        insights_positive.append(
+            f"💰 **Alto ROI:** Razão MC/MP de {cost_ratio:.1f}x justifica fortemente "
+            "investimento em manutenção preventiva"
+        )
+    
+    # Análise de confiabilidade
+    if reliability_optimal >= 0.85:
+        insights_positive.append(
+            f"📊 **Alta confiabilidade:** {reliability_optimal:.1%} de confiabilidade "
+            "no intervalo ótimo minimiza riscos operacionais"
+        )
+    
+    # Economia potencial
+    cost_reactive = cost_cm * (8760 / mtbf)  # Custo se fosse apenas reativa
+    cost_optimal = optimal_cost_rate * 8760
+    savings = cost_reactive - cost_optimal
+    
+    if savings > 0:
+        savings_pct = (savings / cost_reactive) * 100
+        insights_positive.append(
+            f"💵 **Economia significativa:** Estratégia otimizada economiza "
+            f"${savings:,.0f}/ano ({savings_pct:.1f}%) vs manutenção puramente reativa"
+        )
+    
+    for insight in insights_positive:
+        st.success(insight)
+
 with col2:
-    st.info(f"🎯 **Ponto ótimo:** {optimal_interval:.0f}h com taxa de ${optimal_cost_rate:.2f}/h")
+    st.markdown("#### ⚠️ **Pontos de Atenção**")
+    
+    insights_caution = []
+    
+    # Análise de dados
+    if weibull_params['n_observations'] < 10:
+        insights_caution.append(
+            f"📊 **Dados limitados:** Apenas {weibull_params['n_observations']} observações. "
+            "Recomenda-se coletar mais dados para aumentar precisão"
+        )
+    
+    # Taxa de censura
+    censored_rate = weibull_params['n_censored'] / weibull_params['n_observations']
+    if censored_rate > 0.5:
+        insights_caution.append(
+            f"⏱️ **Alta censura:** {censored_rate:.1%} dos dados são censurados. "
+            "Pode afetar precisão das estimativas"
+        )
+    
+    # Padrão de falha
+    if rho_param < 1:
+        insights_caution.append(
+            "🔍 **Mortalidade infantil:** Padrão de falhas precoces (ρ < 1). "
+            "Considere melhorar controle de qualidade na instalação"
+        )
+    
+    # Variabilidade
+    if rho_param < 2:
+        insights_caution.append(
+            "📈 **Variabilidade moderada:** Considere monitoramento contínuo "
+            "para ajustar intervalos conforme necessário"
+        )
+    
+    # Custo de estoque
+    if inventory_params.get("success"):
+        holding_cost_annual = inventory_params['annual_holding_cost']
+        if holding_cost_annual > cost_pm:
+            insights_caution.append(
+                f"📦 **Custo de estoque elevado:** ${holding_cost_annual:.2f}/ano. "
+                "Considere negociar lead times menores com fornecedores"
+            )
+    
+    for insight in insights_caution:
+        st.warning(insight)
+
+# Recomendações finais
+st.markdown("---")
+st.info(f"""
+### 🎯 **Recomendação Final**
+
+Com base na análise completa, recomendamos:
+
+1. **Implementar intervalo de {optimal_interval:.0f} horas** ({optimal_interval/24:.1f} dias) para manutenção preventiva
+2. **Manter estoque de segurança de {inventory_params['safety_stock']:.0f} peças**
+3. **Fazer pedidos quando estoque atingir {inventory_params['reorder_point']:.0f} peças**
+4. **Revisar estratégia a cada 6-12 meses** ou após {weibull_params['n_observations']} novas observações
+5. **Monitorar taxa real de falhas** para validar modelo e ajustar se necessário
+
+**Economia Anual Estimada:** ${savings:,.0f} ({savings_pct:.1f}% de redução nos custos de manutenção)
+""")
+
 
 # === GESTÃO DE ESTOQUE ===
 st.markdown("---")
