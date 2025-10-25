@@ -9,6 +9,10 @@ import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
+from utils.state_manager import initialize_session_state
+initialize_session_state()
+
+
 # ============================================================================
 # CONFIGURAÇÃO DA PÁGINA
 # ============================================================================
