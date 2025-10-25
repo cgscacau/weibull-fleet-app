@@ -1,509 +1,386 @@
-"""
-Página de upload e gestão de dados - VERSÃO UNIFICADA
-Com mapeamento automático de colunas para múltiplos formatos
-"""
 import streamlit as st
 import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
-from pathlib import Path
 import sys
-import io
+from pathlib import Path
 
-# Adicionar diretórios ao path
-project_root = Path(__file__).parent.parent
-sys.path.append(str(project_root))
+# Adiciona o diretório raiz ao path
+root_path = Path(__file__).parent.parent
+sys.path.insert(0, str(root_path))
 
-from dataops.column_mapper import (
-    standardize_dataframe, 
-    get_column_requirements_text,
-    create_example_dataframe,
-    STANDARD_SCHEMA
-)
-import warnings
-warnings.filterwarnings('ignore')
-
+# Configuração da página
 st.set_page_config(
-    page_title="Dados - Weibull Fleet Analytics",
-    page_icon="🗂️",
+    page_title="Carregar Dados",
+    page_icon="📁",
     layout="wide"
 )
 
-st.markdown("# 🗂️ Gestão de Dados")
-st.markdown("Upload, validação e preparação de dados para análise de confiabilidade")
+# CSS customizado
+st.markdown("""
+<style>
+    .main-header {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #1f77b4;
+        margin-bottom: 1rem;
+    }
+    .upload-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2rem;
+        border-radius: 10px;
+        color: white;
+        margin-bottom: 2rem;
+    }
+    .info-box {
+        background: #e7f3ff;
+        border-left: 4px solid #2196f3;
+        padding: 1rem;
+        border-radius: 5px;
+        margin: 1rem 0;
+    }
+    .success-box {
+        background: #d4edda;
+        border-left: 4px solid #28a745;
+        padding: 1rem;
+        border-radius: 5px;
+        margin: 1rem 0;
+    }
+    .warning-box {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 1rem;
+        border-radius: 5px;
+        margin: 1rem 0;
+    }
+</style>
+""", unsafe_allow_html=True)
 
-# Inicializar session state
-if 'dataset' not in st.session_state:
-    st.session_state.dataset = None
-if 'standardization_report' not in st.session_state:
-    st.session_state.standardization_report = None
-if 'data_quality_report' not in st.session_state:
-    st.session_state.data_quality_report = None
+# Header
+st.markdown('<div class="main-header">📁 Carregar Dados</div>', unsafe_allow_html=True)
+st.markdown("**Upload de dados históricos de falhas para análise de confiabilidade**")
+st.markdown("---")
 
+# Inicializar session_state
+if 'df' not in st.session_state:
+    st.session_state.df = None
 
-def display_data_overview(df):
-    """Exibir overview dos dados"""
-    col1, col2, col3, col4 = st.columns(4)
+# Seção de upload
+st.markdown("""
+<div class="upload-section">
+    <h3 style="color: white; margin-bottom: 1rem;">📤 Upload de Arquivo</h3>
+    <p style="color: white; opacity: 0.9;">
+    Carregue seu arquivo com dados históricos de falhas.<br>
+    <strong>Formatos aceitos:</strong> CSV (.csv) ou Excel (.xlsx, .xls)
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+# Informações sobre formato
+with st.expander("📋 Formato do Arquivo Requerido", expanded=True):
+    st.markdown("""
+    ### Colunas Obrigatórias:
     
-    with col1:
-        st.metric("Total de Registros", f"{len(df):,}")
+    | Coluna | Descrição | Exemplo | Tipo |
+    |--------|-----------|---------|------|
+    | `component_id` | Identificador único do equipamento | "MOTOR_001" | Texto |
+    | `component_type` | Tipo/modelo do componente | "Motor Elétrico" | Texto |
+    | `failure_time` | Tempo até falha (horas) | 5420 | Número |
+    | `censored` | 0=falhou, 1=ainda funcionando | 0 ou 1 | Número |
     
-    with col2:
-        n_components = df['component_type'].nunique() if 'component_type' in df.columns else 0
-        st.metric("Tipos de Componentes", n_components)
+    ### Colunas Opcionais:
     
-    with col3:
-        n_assets = df['component_id'].nunique() if 'component_id' in df.columns else 0
-        st.metric("Componentes Únicos", n_assets)
+    - `installation_date` - Data de instalação (YYYY-MM-DD)
+    - `failure_date` - Data da falha (YYYY-MM-DD)
+    - `location` - Localização do equipamento
+    - `severity` - Gravidade da falha (1-5)
+    - `operating_hours_per_day` - Horas de operação por dia
     
-    with col4:
-        if 'censored' in df.columns:
-            censoring_rate = df['censored'].mean() * 100
-            st.metric("Taxa de Censura", f"{censoring_rate:.1f}%")
+    ### Exemplo de Dados:
+    
+    ```csv
+    component_id,component_type,failure_time,censored
+    MOTOR_001,Motor Elétrico,5420,0
+    MOTOR_002,Motor Elétrico,3890,0
+    BOMBA_001,Bomba Hidráulica,6100,1
+    ```
+    """)
+
+# Seção de templates
+st.markdown("### 📥 Não Tem Dados Ainda?")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("""
+    <div class="info-box">
+    <h4>📋 Baixe um Template</h4>
+    <p>Use os templates prontos da página <strong>"📚 Como Usar"</strong> → Tab "Templates"</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if st.button("📚 Ir para Templates", use_container_width=True):
+        st.switch_page("pages/0_Como_Usar.py")
+
+with col2:
+    st.markdown("""
+    <div class="info-box">
+    <h4>🧪 Use Dados de Exemplo</h4>
+    <p>Teste o sistema com dados sintéticos prontos</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if st.button("🧪 Carregar Dados de Exemplo", use_container_width=True):
+        # Gera dados de exemplo
+        import numpy as np
+        np.random.seed(42)
+        
+        n_samples = 100
+        tipos = ['Motor Elétrico', 'Bomba Hidráulica', 'Válvula']
+        
+        example_df = pd.DataFrame({
+            'component_id': [f'EQUIP_{i:03d}' for i in range(1, n_samples + 1)],
+            'component_type': np.random.choice(tipos, n_samples),
+            'failure_time': np.random.weibull(2, n_samples) * 5000 + 1000,
+            'censored': np.random.choice([0, 1], n_samples, p=[0.7, 0.3])
+        })
+        
+        st.session_state.df = example_df
+        st.success("✅ Dados de exemplo carregados com sucesso!")
+        st.rerun()
+
+st.markdown("---")
+
+# Upload de arquivo
+st.markdown("### 📤 Carregar Seu Arquivo")
+
+uploaded_file = st.file_uploader(
+    "Escolha um arquivo CSV ou Excel",
+    type=['csv', 'xlsx', 'xls'],
+    help="Arraste e solte ou clique para selecionar"
+)
+
+if uploaded_file is not None:
+    try:
+        # Detecta o tipo de arquivo e lê apropriadamente
+        file_extension = uploaded_file.name.split('.')[-1].lower()
+        
+        if file_extension == 'csv':
+            # Tenta diferentes encodings para CSV
+            try:
+                df = pd.read_csv(uploaded_file, encoding='utf-8')
+            except UnicodeDecodeError:
+                uploaded_file.seek(0)  # Reset file pointer
+                try:
+                    df = pd.read_csv(uploaded_file, encoding='latin1')
+                except:
+                    uploaded_file.seek(0)
+                    df = pd.read_csv(uploaded_file, encoding='iso-8859-1')
+        
+        elif file_extension in ['xlsx', 'xls']:
+            # Lê Excel
+            df = pd.read_excel(uploaded_file)
+        
         else:
-            st.metric("Taxa de Censura", "N/A")
-
-
-def display_standardization_report(report):
-    """Exibe relatório de padronização"""
-    st.markdown("### 📊 Relatório de Padronização")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("#### ✅ Mapeamento de Colunas")
-        if report['mapping']:
-            mapping_df = pd.DataFrame([
-                {'Coluna Padrão': k, 'Coluna Original': v} 
-                for k, v in report['mapping'].items()
-            ])
-            st.dataframe(mapping_df, use_container_width=True)
-        else:
-            st.warning("Nenhum mapeamento detectado")
-    
-    with col2:
-        st.markdown("#### 🧹 Limpeza de Dados")
-        if 'cleaning' in report and report['cleaning']:
-            cleaning = report['cleaning']
-            st.metric("Linhas Iniciais", cleaning.get('initial_rows', 0))
-            st.metric("Linhas Removidas", cleaning.get('removed_rows', 0))
-            st.metric("Linhas Finais", cleaning.get('final_rows', 0))
+            st.error(f"❌ Formato de arquivo não suportado: .{file_extension}")
+            st.stop()
+        
+        # Valida colunas obrigatórias
+        required_columns = ['component_id', 'component_type', 'failure_time', 'censored']
+        missing_columns = [col for col in required_columns if col not in df.columns]
+        
+        if missing_columns:
+            st.markdown("""
+            <div class="warning-box">
+            <h4>⚠️ Colunas Obrigatórias Faltando</h4>
+            <p>Seu arquivo não contém as seguintes colunas obrigatórias:</p>
+            </div>
+            """, unsafe_allow_html=True)
             
-            if cleaning.get('issues'):
-                for issue in cleaning['issues']:
-                    st.info(f"ℹ️ {issue}")
-    
-    # Avisos
-    if report.get('warnings'):
-        st.markdown("#### ⚠️ Avisos")
-        for warning in report['warnings']:
-            st.warning(warning)
-
-
-def create_data_quality_charts(df):
-    """Criar gráficos de qualidade dos dados"""
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        # Gráfico de dados faltantes
-        missing_data = df.isnull().sum()
-        missing_pct = (missing_data / len(df) * 100).round(1)
-        
-        if missing_pct.sum() > 0:
-            fig_missing = px.bar(
-                x=missing_pct.values,
-                y=missing_pct.index,
-                orientation='h',
-                title="Dados Faltantes por Coluna (%)",
-                labels={'x': 'Percentual Faltante', 'y': 'Coluna'}
-            )
-            fig_missing.update_layout(height=300, template='plotly_white')
-            st.plotly_chart(fig_missing, use_container_width=True)
-        else:
-            st.success("✅ Nenhum dado faltante detectado!")
-    
-    with col2:
-        # Distribuição de componentes
-        if 'component_type' in df.columns:
-            component_counts = df['component_type'].value_counts().head(10)
-            fig_components = px.bar(
-                x=component_counts.values,
-                y=component_counts.index,
-                orientation='h',
-                title="Top 10 Tipos de Componentes",
-                labels={'x': 'Quantidade', 'y': 'Tipo'}
-            )
-            fig_components.update_layout(height=300, template='plotly_white')
-            st.plotly_chart(fig_components, use_container_width=True)
-    
-    # Distribuição de tempos de falha
-    if 'failure_time' in df.columns:
-        # Separar censurados e não censurados
-        if 'censored' in df.columns:
-            df_failures = df[~df['censored']]
-            df_censored = df[df['censored']]
+            for col in missing_columns:
+                st.error(f"❌ Faltando: `{col}`")
             
-            fig_times = go.Figure()
+            st.markdown("""
+            **Como corrigir:**
+            1. Abra seu arquivo no Excel
+            2. Renomeie as colunas para corresponder exatamente aos nomes acima
+            3. Salve e faça upload novamente
             
-            fig_times.add_trace(go.Histogram(
-                x=df_failures['failure_time'],
-                name='Falhas Observadas',
-                opacity=0.7,
-                nbinsx=30
-            ))
-            
-            if len(df_censored) > 0:
-                fig_times.add_trace(go.Histogram(
-                    x=df_censored['failure_time'],
-                    name='Dados Censurados',
-                    opacity=0.7,
-                    nbinsx=30
-                ))
-            
-            fig_times.update_layout(
-                title="Distribuição dos Tempos de Falha",
-                xaxis_title="Tempo (horas)",
-                yaxis_title="Frequência",
-                template='plotly_white',
-                barmode='stack'
-            )
-        else:
-            fig_times = px.histogram(
-                df, 
-                x='failure_time',
-                title="Distribuição dos Tempos de Falha",
-                nbins=50
-            )
-            fig_times.update_layout(template='plotly_white')
-        
-        st.plotly_chart(fig_times, use_container_width=True)
-
-
-def main():
-    # Sidebar com configurações
-    with st.sidebar:
-        st.markdown("## ⚙️ Configurações")
-        
-        data_source = st.selectbox(
-            "Fonte de Dados",
-            ["Upload de Arquivo", "Dados de Exemplo"]
-        )
-        
-        if data_source == "Upload de Arquivo":
-            file_format = st.selectbox("Formato", ["CSV", "Excel (XLSX/XLS)"])
-        
-        st.markdown("---")
-        
-        # Mostrar requisitos de colunas
-        with st.expander("📋 Requisitos de Colunas", expanded=False):
-            st.markdown(get_column_requirements_text())
-    
-    # Área principal
-    tab1, tab2, tab3 = st.tabs(["📥 Upload", "🔍 Exploração", "✅ Validação"])
-    
-    with tab1:
-        st.markdown("## 📥 Carregar Dados")
-        
-        col1, col2 = st.columns([2, 1])
-        
-        with col1:
-            if data_source == "Upload de Arquivo":
-                uploaded_file = st.file_uploader(
-                    f"Escolha um arquivo {file_format}",
-                    type=['csv', 'xlsx', 'xls']
-                )
-                
-                if uploaded_file is not None:
-                    try:
-                        # Ler arquivo
-                        if file_format == "CSV" or uploaded_file.name.endswith('.csv'):
-                            df_raw = pd.read_csv(uploaded_file)
-                        else:
-                            df_raw = pd.read_excel(uploaded_file)
-                        
-                        st.info(f"📄 Arquivo lido: {len(df_raw)} registros, {len(df_raw.columns)} colunas")
-                        
-                        # Mostrar preview dos dados originais
-                        with st.expander("👁️ Preview dos Dados Originais", expanded=False):
-                            st.dataframe(df_raw.head(10), use_container_width=True)
-                            st.text(f"Colunas: {', '.join(df_raw.columns.tolist())}")
-                        
-                        # Padronizar automaticamente
-                        with st.spinner("🔄 Padronizando formato dos dados..."):
-                            df_standardized, report = standardize_dataframe(df_raw)
-                            
-                            if report['success']:
-                                st.success("✅ Dados padronizados com sucesso!")
-                                
-                                # Salvar no session state
-                                st.session_state.dataset = df_standardized
-                                st.session_state.standardization_report = report
-                                
-                                # Mostrar relatório de padronização
-                                display_standardization_report(report)
-                                
-                                # Preview dos dados padronizados
-                                st.markdown("#### 📊 Dados Padronizados")
-                                st.dataframe(df_standardized.head(10), use_container_width=True)
-                                
-                                # Estatísticas rápidas
-                                col_a, col_b, col_c = st.columns(3)
-                                with col_a:
-                                    st.metric("Registros Válidos", len(df_standardized))
-                                with col_b:
-                                    failures = (~df_standardized['censored']).sum()
-                                    st.metric("Falhas Observadas", failures)
-                                with col_c:
-                                    censored = df_standardized['censored'].sum()
-                                    st.metric("Dados Censurados", censored)
-                            
-                            else:
-                                st.error("❌ Falha na padronização dos dados")
-                                
-                                if report['missing_columns']:
-                                    st.error(f"**Colunas Obrigatórias Faltando:** {', '.join(report['missing_columns'])}")
-                                    
-                                    st.markdown("### 💡 Solução:")
-                                    st.markdown("""
-                                    Seu arquivo precisa ter pelo menos estas 3 colunas (com nomes aceitos):
-                                    
-                                    1. **ID do Componente**: `component_id`, `asset_id`, `equipment_id`, ou `id`
-                                    2. **Tipo do Componente**: `component_type`, `component`, ou `tipo`
-                                    3. **Tempo de Falha**: `failure_time`, `operating_hours`, ou `hours`
-                                    
-                                    A coluna `censored` é opcional - será inferida automaticamente se não fornecida.
-                                    """)
-                                
-                                if 'error' in report:
-                                    st.error(f"**Erro:** {report['error']}")
-                                
-                                # Mostrar colunas encontradas
-                                st.markdown("#### 📋 Colunas Encontradas no Arquivo:")
-                                st.code(", ".join(report['original_columns']))
-                    
-                    except Exception as e:
-                        st.error(f"❌ Erro ao processar arquivo: {str(e)}")
-                        st.exception(e)
-            
-            elif data_source == "Dados de Exemplo":
-                st.markdown("### 📦 Carregar Dados de Exemplo")
-                
-                example_format = st.radio(
-                    "Escolha o formato de exemplo:",
-                    ["Padrão (standard)", "Legado (legacy)", "SAP"],
-                    help="Diferentes formatos para demonstrar o mapeamento automático"
-                )
-                
-                format_map = {
-                    "Padrão (standard)": "standard",
-                    "Legado (legacy)": "legacy",
-                    "SAP": "sap"
-                }
-                
-                if st.button("🔄 Carregar Dados de Exemplo", type="primary"):
-                    try:
-                        # Criar dados de exemplo
-                        df_example = create_example_dataframe(format_map[example_format])
-                        
-                        # Padronizar
-                        df_standardized, report = standardize_dataframe(df_example)
-                        
-                        if report['success']:
-                            st.session_state.dataset = df_standardized
-                            st.session_state.standardization_report = report
-                            
-                            st.success(f"✅ Dados de exemplo carregados: {len(df_standardized)} registros")
-                            
-                            display_standardization_report(report)
-                        else:
-                            st.error("❌ Erro ao padronizar dados de exemplo")
-                    
-                    except Exception as e:
-                        st.error(f"❌ Erro: {str(e)}")
-        
-        with col2:
-            st.markdown("### ℹ️ Informações")
-            st.info("""
-            **Formatos Aceitos:**
-            - CSV (.csv)
-            - Excel (.xlsx, .xls)
-            
-            **Mapeamento Automático:**
-            O sistema reconhece automaticamente diferentes nomes de colunas e padroniza para o formato interno.
-            
-            **Validação:**
-            - Remove valores nulos
-            - Remove tempos negativos
-            - Infere censura automática
-            - Valida tipos de dados
+            **Ou baixe um template na página "📚 Como Usar"**
             """)
-    
-    with tab2:
-        if st.session_state.dataset is not None:
-            df = st.session_state.dataset
             
-            st.markdown("## 🔍 Exploração dos Dados")
-            
-            # Overview geral
-            display_data_overview(df)
-            
-            st.markdown("---")
-            
-            # Visualizar amostra dos dados
-            st.markdown("### 📋 Amostra dos Dados Padronizados")
-            n_rows = st.slider("Número de linhas para exibir", 5, 50, 10)
-            st.dataframe(df.head(n_rows), use_container_width=True)
-            
-            # Informações das colunas
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                st.markdown("### 📊 Informações das Colunas")
-                col_info = pd.DataFrame({
-                    'Tipo': df.dtypes.astype(str),
-                    'Não Nulos': df.count(),
-                    'Valores Únicos': df.nunique(),
-                    'Faltantes': df.isnull().sum()
-                })
-                st.dataframe(col_info, use_container_width=True)
-            
-            with col2:
-                st.markdown("### 🎯 Valores Únicos")
-                selected_col = st.selectbox("Selecionar Coluna", df.columns)
-                if selected_col:
-                    unique_vals = df[selected_col].value_counts().head(10)
-                    st.dataframe(unique_vals, use_container_width=True)
-            
-            # Gráficos de qualidade
-            st.markdown("---")
-            st.markdown("### 📈 Visualizações")
-            create_data_quality_charts(df)
+            st.stop()
         
-        else:
-            st.info("📥 Carregue os dados primeiro na aba 'Upload'")
-    
-    with tab3:
-        if st.session_state.dataset is not None:
-            df = st.session_state.dataset
-            
-            st.markdown("## ✅ Validação e Qualidade")
-            
-            # Validação de schema
-            st.markdown("### 🔍 Validação de Schema")
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                st.markdown("#### ✅ Colunas Obrigatórias")
-                for col in STANDARD_SCHEMA.keys():
-                    if col in df.columns:
-                        st.success(f"✅ `{col}` - OK")
-                    else:
-                        st.error(f"❌ `{col}` - FALTANDO")
-            
-            with col2:
-                st.markdown("#### 📊 Estatísticas de Qualidade")
-                
-                # Taxa de completude
-                completeness = (1 - df.isnull().sum() / len(df)) * 100
-                avg_completeness = completeness.mean()
-                
-                st.metric("Completude Média", f"{avg_completeness:.1f}%")
-                
-                # Contagem de registros válidos
-                valid_records = len(df)
-                st.metric("Registros Válidos", valid_records)
-                
-                # Falhas vs Censura
-                failures = (~df['censored']).sum()
-                censored = df['censored'].sum()
-                failure_rate = failures / len(df) * 100
-                
-                st.metric("Taxa de Falhas", f"{failure_rate:.1f}%")
-            
-            # Análise detalhada
-            st.markdown("---")
-            st.markdown("### 📊 Análise Detalhada")
-            
-            # Estatísticas descritivas
-            if 'failure_time' in df.columns:
-                st.markdown("#### ⏱️ Estatísticas de Tempo de Falha")
-                
-                stats_df = df['failure_time'].describe().to_frame()
-                stats_df.columns = ['Valor']
-                st.dataframe(stats_df, use_container_width=True)
-                
-                # Boxplot
-                fig_box = px.box(
-                    df, 
-                    y='failure_time',
-                    x='component_type' if 'component_type' in df.columns else None,
-                    title="Distribuição de Tempos por Tipo de Componente",
-                    color='censored' if 'censored' in df.columns else None
-                )
-                fig_box.update_layout(template='plotly_white')
-                st.plotly_chart(fig_box, use_container_width=True)
+        # Validações básicas
+        errors = []
         
-        else:
-            st.info("📥 Carregue os dados primeiro na aba 'Upload'")
-    
-    # Footer com ações
-    if st.session_state.dataset is not None:
-        st.markdown("---")
+        # Valida tipos de dados
+        if not pd.api.types.is_numeric_dtype(df['failure_time']):
+            errors.append("❌ Coluna 'failure_time' deve conter apenas números")
         
+        if not pd.api.types.is_numeric_dtype(df['censored']):
+            errors.append("❌ Coluna 'censored' deve conter apenas números (0 ou 1)")
+        
+        # Valida valores de censored
+        if df['censored'].isin([0, 1]).sum() != len(df):
+            errors.append("❌ Coluna 'censored' deve conter apenas valores 0 ou 1")
+        
+        # Valida valores negativos
+        if (df['failure_time'] <= 0).any():
+            errors.append("❌ Coluna 'failure_time' não pode ter valores negativos ou zero")
+        
+        # Valida dados faltando
+        for col in required_columns:
+            if df[col].isna().any():
+                errors.append(f"❌ Coluna '{col}' tem valores faltando (células vazias)")
+        
+        if errors:
+            st.markdown("""
+            <div class="warning-box">
+            <h4>⚠️ Problemas Encontrados nos Dados</h4>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            for error in errors:
+                st.error(error)
+            
+            st.markdown("""
+            **Como corrigir:**
+            - Verifique os dados no Excel
+            - Corrija os problemas listados acima
+            - Faça upload novamente
+            
+            **Ou use a página "🧼 Qualidade dos Dados" para limpeza assistida por IA**
+            """)
+            
+            # Permite visualizar mesmo com erros
+            if st.checkbox("🔍 Visualizar dados mesmo com erros (para diagnóstico)"):
+                st.dataframe(df.head(20), use_container_width=True)
+            
+            st.stop()
+        
+        # Dados válidos!
+        st.session_state.df = df
+        
+        st.markdown("""
+        <div class="success-box">
+        <h4>✅ Arquivo Carregado com Sucesso!</h4>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Estatísticas
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
-            # Download dados padronizados
-            df = st.session_state.dataset
-            csv = df.to_csv(index=False).encode('utf-8')
-            
-            st.download_button(
-                label="💾 Download CSV Padronizado",
-                data=csv,
-                file_name='dados_padronizados.csv',
-                mime='text/csv'
-            )
+            st.metric("📊 Total de Registros", len(df))
         
         with col2:
-            # Download relatório de padronização
-            if st.session_state.standardization_report:
-                report = st.session_state.standardization_report
-                report_text = f"""
-RELATÓRIO DE PADRONIZAÇÃO
-=========================
-
-Sucesso: {report['success']}
-Linhas Finais: {report.get('final_shape', ('?', '?'))[0]}
-Colunas Finais: {', '.join(report.get('final_columns', []))}
-
-MAPEAMENTO:
-{chr(10).join([f"  {k} <- {v}" for k, v in report.get('mapping', {}).items()])}
-
-LIMPEZA:
-{chr(10).join([f"  - {issue}" for issue in report.get('cleaning', {}).get('issues', [])])}
-
-AVISOS:
-{chr(10).join([f"  - {warning}" for warning in report.get('warnings', [])])}
-"""
-                st.download_button(
-                    label="📄 Download Relatório",
-                    data=report_text,
-                    file_name='relatorio_padronizacao.txt',
-                    mime='text/plain'
-                )
+            n_types = df['component_type'].nunique()
+            st.metric("🔧 Tipos de Componentes", n_types)
         
         with col3:
-            if st.button("➡️ Prosseguir para Análise Weibull", type="primary"):
-                st.success("✅ Dados prontos! Vá para a página '📈 Ajuste Weibull'")
+            n_failures = (df['censored'] == 0).sum()
+            st.metric("❌ Falhas Observadas", n_failures)
         
         with col4:
-            if st.button("🔄 Resetar Tudo"):
-                st.session_state.dataset = None
-                st.session_state.standardization_report = None
-                st.session_state.data_quality_report = None
-                st.rerun()
+            n_censored = (df['censored'] == 1).sum()
+            st.metric("⏱️ Dados Censurados", n_censored)
+        
+        # Preview dos dados
+        st.markdown("### 🔍 Preview dos Dados")
+        st.dataframe(df.head(20), use_container_width=True)
+        
+        # Informações por tipo de componente
+        st.markdown("### 📊 Resumo por Componente")
+        
+        summary = df.groupby('component_type').agg({
+            'component_id': 'count',
+            'failure_time': ['mean', 'min', 'max'],
+            'censored': lambda x: (x == 1).sum()
+        }).round(0)
+        
+        summary.columns = ['Qtd', 'Tempo Médio (h)', 'Mín (h)', 'Máx (h)', 'Censurados']
+        st.dataframe(summary, use_container_width=True)
+        
+        # Próximos passos
+        st.markdown("---")
+        st.markdown("### 🚀 Próximos Passos")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if st.button("🧼 Verificar Qualidade dos Dados", use_container_width=True):
+                st.switch_page("pages/2_Qualidade.py")
+        
+        with col2:
+            if st.button("📈 Ir Direto para Análise Weibull", use_container_width=True):
+                st.switch_page("pages/3_Weibull.py")
+        
+    except Exception as e:
+        st.error(f"❌ Erro ao processar arquivo: {str(e)}")
+        
+        st.markdown("""
+        **Dicas:**
+        - Verifique se o arquivo não está corrompido
+        - Tente salvar novamente no Excel
+        - Use o formato CSV (mais confiável)
+        - Baixe um template da página "📚 Como Usar"
+        """)
 
-if __name__ == "__main__":
-    main()
+# Se já tem dados carregados
+elif st.session_state.df is not None:
+    st.markdown("""
+    <div class="success-box">
+    <h4>✅ Dados já Carregados na Sessão</h4>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    df = st.session_state.df
+    
+    # Estatísticas
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric("📊 Total de Registros", len(df))
+    
+    with col2:
+        n_types = df['component_type'].nunique()
+        st.metric("🔧 Tipos de Componentes", n_types)
+    
+    with col3:
+        n_failures = (df['censored'] == 0).sum()
+        st.metric("❌ Falhas Observadas", n_failures)
+    
+    with col4:
+        n_censored = (df['censored'] == 1).sum()
+        st.metric("⏱️ Dados Censurados", n_censored)
+    
+    # Preview dos dados
+    st.markdown("### 🔍 Dados Atuais")
+    st.dataframe(df.head(20), use_container_width=True)
+    
+    # Opção de limpar dados
+    if st.button("🗑️ Limpar Dados e Carregar Novos", use_container_width=True):
+        st.session_state.df = None
+        st.rerun()
+    
+    # Próximos passos
+    st.markdown("---")
+    st.markdown("### 🚀 Próximos Passos")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if st.button("🧼 Verificar Qualidade dos Dados", use_container_width=True):
+            st.switch_page("pages/2_Qualidade.py")
+    
+    with col2:
+        if st.button("📈 Ir Direto para Análise Weibull", use_container_width=True):
+            st.switch_page("pages/3_Weibull.py")
+
+# Footer
+st.markdown("---")
+st.markdown("""
+<div style='text-align: center; color: #666; padding: 2rem;'>
+    <p><strong>💡 Dica:</strong> Use a página "📚 Como Usar" para baixar templates prontos!</p>
+    <p style='font-size: 0.9rem; color: #999;'>Formatos suportados: CSV, Excel (.xlsx, .xls)</p>
+</div>
+""", unsafe_allow_html=True)
