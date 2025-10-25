@@ -33,6 +33,13 @@ st.set_page_config(
     layout="wide"
 )
 
+# === IMPORTS ===
+from utils.navigation import handle_navigation
+# ... outros imports ...
+
+# === PROCESSA NAVEGAÇÃO PENDENTE ===
+handle_navigation()
+
 st.markdown("# 🗂️ Gestão de Dados")
 st.markdown("Upload, validação e preparação de dados para análise de confiabilidade")
 
