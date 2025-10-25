@@ -7,6 +7,13 @@ st.set_page_config(
     layout="wide"
 )
 
+# === IMPORTS ===
+from utils.navigation import handle_navigation
+# ... outros imports ...
+
+# === PROCESSA NAVEGAÇÃO PENDENTE ===
+handle_navigation()
+
 # === IMPORTS APÓS CONFIGURAÇÃO ===
 import pandas as pd
 import sys
