@@ -375,7 +375,11 @@ if weibull_results:
             result = successful_results[selected_comp]
             lambda_param = result['lambda']
             rho_param = result['rho']
-            mtbf = result.get('MTBF', lambda_param)
+            
+            # Garante que MTBF não é None
+            mtbf = result.get('MTBF')
+            if mtbf is None or np.isnan(mtbf):
+                mtbf = lambda_param  # Fallback para lambda
             
             # === MÉTRICAS DO COMPONENTE ===
             col1, col2, col3, col4 = st.columns(4)
@@ -399,17 +403,14 @@ if weibull_results:
                 pattern_icon = "🔽"
                 pattern_name = "Mortalidade Infantil"
                 pattern_desc = "Taxa de falha **decrescente** - Falhas precoces são mais comuns"
-                pattern_color = "blue"
             elif rho_param <= 1.1:
                 pattern_icon = "➡️"
                 pattern_name = "Taxa Constante"
                 pattern_desc = "Taxa de falha **constante** - Falhas aleatórias"
-                pattern_color = "gray"
             else:
                 pattern_icon = "📈"
                 pattern_name = "Desgaste"
                 pattern_desc = "Taxa de falha **crescente** - Falhas por envelhecimento"
-                pattern_color = "red"
             
             st.info(f"""
             **{pattern_icon} Padrão de Falha Identificado: {pattern_name}**
@@ -435,26 +436,39 @@ if weibull_results:
                 st.markdown("##### Função de Confiabilidade R(t)")
                 st.caption("Probabilidade de o componente sobreviver até o tempo t")
                 
-                reliability_data = weibull_reliability_plot(lambda_param, rho_param, mtbf * 2.5)
-                st.line_chart(reliability_data.set_index('Tempo (horas)'), height=400)
-                
-                # Métricas adicionais
-                col1, col2, col3 = st.columns(3)
-                
-                with col1:
-                    # R(MTBF)
-                    r_mtbf = np.exp(-((mtbf / lambda_param) ** rho_param))
-                    st.metric("R(MTBF)", f"{r_mtbf:.1%}", help="Confiabilidade no MTBF")
-                
-                with col2:
-                    # B10 Life
-                    b10 = lambda_param * ((-np.log(0.9)) ** (1/rho_param))
-                    st.metric("B10 Life", f"{b10:.0f}h", help="Tempo para 10% de falhas")
-                
-                with col3:
-                    # Vida Mediana
-                    median = lambda_param * (np.log(2) ** (1/rho_param))
-                    st.metric("Vida Mediana", f"{median:.0f}h", help="Tempo para 50% de falhas")
+                try:
+                    reliability_data = weibull_reliability_plot(lambda_param, rho_param, mtbf * 2.5)
+                    st.line_chart(reliability_data.set_index('Tempo (horas)'), height=400)
+                    
+                    # Métricas adicionais
+                    col1, col2, col3 = st.columns(3)
+                    
+                    with col1:
+                        # R(MTBF)
+                        try:
+                            r_mtbf = np.exp(-((mtbf / lambda_param) ** rho_param))
+                            st.metric("R(MTBF)", f"{r_mtbf:.1%}", help="Confiabilidade no MTBF")
+                        except:
+                            st.metric("R(MTBF)", "N/A", help="Não calculável")
+                    
+                    with col2:
+                        # B10 Life
+                        try:
+                            b10 = lambda_param * ((-np.log(0.9)) ** (1/rho_param))
+                            st.metric("B10 Life", f"{b10:.0f}h", help="Tempo para 10% de falhas")
+                        except:
+                            st.metric("B10 Life", "N/A", help="Não calculável")
+                    
+                    with col3:
+                        # Vida Mediana
+                        try:
+                            median = lambda_param * (np.log(2) ** (1/rho_param))
+                            st.metric("Vida Mediana", f"{median:.0f}h", help="Tempo para 50% de falhas")
+                        except:
+                            st.metric("Vida Mediana", "N/A", help="Não calculável")
+                    
+                except Exception as e:
+                    st.error(f"Erro ao gerar gráfico de confiabilidade: {str(e)}")
                 
                 with st.expander("ℹ️ Como interpretar"):
                     st.markdown("""
@@ -474,18 +488,22 @@ if weibull_results:
                 st.markdown("##### Taxa de Falha h(t)")
                 st.caption("Taxa instantânea de falha ao longo do tempo")
                 
-                hazard_data = weibull_hazard_rate_plot(lambda_param, rho_param, mtbf * 2.5)
-                st.line_chart(hazard_data.set_index('Tempo (horas)'), height=400)
-                
-                # Interpretação
-                if rho_param < 1:
-                    interpretation = "📉 **Taxa decrescente:** Componente melhora com o tempo (burn-in)"
-                elif rho_param <= 1.1:
-                    interpretation = "➡️ **Taxa constante:** Falhas aleatórias, não relacionadas ao tempo"
-                else:
-                    interpretation = "📈 **Taxa crescente:** Componente deteriora com o tempo (desgaste)"
-                
-                st.info(interpretation)
+                try:
+                    hazard_data = weibull_hazard_rate_plot(lambda_param, rho_param, mtbf * 2.5)
+                    st.line_chart(hazard_data.set_index('Tempo (horas)'), height=400)
+                    
+                    # Interpretação
+                    if rho_param < 1:
+                        interpretation = "📉 **Taxa decrescente:** Componente melhora com o tempo (burn-in)"
+                    elif rho_param <= 1.1:
+                        interpretation = "➡️ **Taxa constante:** Falhas aleatórias, não relacionadas ao tempo"
+                    else:
+                        interpretation = "📈 **Taxa crescente:** Componente deteriora com o tempo (desgaste)"
+                    
+                    st.info(interpretation)
+                    
+                except Exception as e:
+                    st.error(f"Erro ao gerar gráfico de taxa de falha: {str(e)}")
                 
                 with st.expander("ℹ️ Como interpretar"):
                     st.markdown("""
@@ -505,32 +523,48 @@ if weibull_results:
                 st.markdown("##### Função Densidade de Probabilidade f(t)")
                 st.caption("Distribuição dos tempos de falha")
                 
-                pdf_data = weibull_pdf_plot(lambda_param, rho_param, mtbf * 2.5)
-                st.area_chart(pdf_data.set_index('Tempo (horas)'), height=400)
-                
-                # Estatísticas
-                col1, col2, col3 = st.columns(3)
-                
-                with col1:
-                    # Moda (pico da distribuição)
-                    if rho_param > 1:
-                        mode = lambda_param * ((rho_param - 1) / rho_param) ** (1/rho_param)
-                        st.metric("Moda", f"{mode:.0f}h", help="Tempo mais provável de falha")
-                    else:
-                        st.metric("Moda", "0h", help="Falhas mais prováveis no início")
-                
-                with col2:
-                    st.metric("Média (MTBF)", f"{mtbf:.0f}h", help="Tempo médio de falha")
-                
-                with col3:
-                    # Desvio padrão aproximado
-                    if rho_param > 0:
-                        variance = (lambda_param ** 2) * (
-                            np.exp(np.log(2) / rho_param) - 
-                            np.exp(2 * np.log(2) / rho_param)
-                        )
-                        std_dev = np.sqrt(abs(variance))
-                        st.metric("Desvio Padrão", f"{std_dev:.0f}h", help="Dispersão dos tempos")
+                try:
+                    pdf_data = weibull_pdf_plot(lambda_param, rho_param, mtbf * 2.5)
+                    st.area_chart(pdf_data.set_index('Tempo (horas)'), height=400)
+                    
+                    # Estatísticas
+                    col1, col2, col3 = st.columns(3)
+                    
+                    with col1:
+                        # Moda (pico da distribuição)
+                        try:
+                            if rho_param > 1:
+                                mode = lambda_param * ((rho_param - 1) / rho_param) ** (1/rho_param)
+                                st.metric("Moda", f"{mode:.0f}h", help="Tempo mais provável de falha")
+                            else:
+                                st.metric("Moda", "0h", help="Falhas mais prováveis no início")
+                        except:
+                            st.metric("Moda", "N/A", help="Não calculável")
+                    
+                    with col2:
+                        st.metric("Média (MTBF)", f"{mtbf:.0f}h", help="Tempo médio de falha")
+                    
+                    with col3:
+                        # Desvio padrão aproximado
+                        try:
+                            if rho_param > 0:
+                                # Cálculo mais seguro do desvio padrão
+                                gamma_1 = np.exp(np.log(lambda_param) + np.log(2) / rho_param)
+                                gamma_2 = np.exp(2 * np.log(lambda_param) + 2 * np.log(2) / rho_param)
+                                variance = gamma_2 - gamma_1 ** 2
+                                
+                                if variance > 0:
+                                    std_dev = np.sqrt(variance)
+                                    st.metric("Desvio Padrão", f"{std_dev:.0f}h", help="Dispersão dos tempos")
+                                else:
+                                    st.metric("Desvio Padrão", "N/A", help="Variância negativa")
+                            else:
+                                st.metric("Desvio Padrão", "N/A", help="ρ inválido")
+                        except:
+                            st.metric("Desvio Padrão", "N/A", help="Não calculável")
+                    
+                except Exception as e:
+                    st.error(f"Erro ao gerar gráfico de densidade: {str(e)}")
                 
                 with st.expander("ℹ️ Como interpretar"):
                     st.markdown("""
@@ -549,23 +583,35 @@ if weibull_results:
             with tab4:
                 st.markdown("##### Dados do Componente")
                 
-                # Filtra dados do componente
-                component_data = dataset[dataset['component_type'] == selected_comp].copy()
-                
-                st.write(f"**Total de observações:** {len(component_data)}")
-                st.write(f"**Eventos observados:** {component_data['censored'].sum()}")
-                st.write(f"**Dados censurados:** {(~component_data['censored'].astype(bool)).sum()}")
-                
-                st.dataframe(component_data, use_container_width=True)
-                
-                # Histograma dos dados
-                if 'failure_time' in component_data.columns:
-                    st.markdown("##### Histograma dos Tempos de Falha")
+                try:
+                    # Filtra dados do componente
+                    component_data = dataset[dataset['component_type'] == selected_comp].copy()
                     
-                    failure_times = component_data['failure_time'].dropna()
-                    if len(failure_times) > 0:
-                        hist_data = create_histogram_data(failure_times.values)
-                        st.bar_chart(hist_data.set_index('Tempo (horas)'), height=300)
+                    st.write(f"**Total de observações:** {len(component_data)}")
+                    
+                    if 'censored' in component_data.columns:
+                        events = component_data['censored'].sum()
+                        censored = len(component_data) - events
+                        st.write(f"**Eventos observados:** {events}")
+                        st.write(f"**Dados censurados:** {censored}")
+                    
+                    st.dataframe(component_data, use_container_width=True)
+                    
+                    # Histograma dos dados
+                    if 'failure_time' in component_data.columns:
+                        st.markdown("##### Histograma dos Tempos de Falha")
+                        
+                        failure_times = component_data['failure_time'].dropna()
+                        if len(failure_times) > 0:
+                            try:
+                                hist_data = create_histogram_data(failure_times.values)
+                                st.bar_chart(hist_data.set_index('Tempo (horas)'), height=300)
+                            except Exception as e:
+                                st.warning(f"Não foi possível gerar histograma: {str(e)}")
+                
+                except Exception as e:
+                    st.error(f"Erro ao processar dados do componente: {str(e)}")
+
         
         # === CLASSIFICAÇÃO POR PADRÃO DE FALHA ===
         st.markdown("---")
