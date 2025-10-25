@@ -44,13 +44,30 @@ if 'data_quality_report' not in st.session_state:
 def detect_csv_separator(file_content):
     """
     Detecta automaticamente o separador do CSV (vírgula ou ponto-e-vírgula)
+    Usa lógica mais robusta para evitar falsos positivos
     """
-    # Ler primeiras linhas para detectar
-    first_lines = file_content.split('\n')[:3]
+    # Ler primeiras linhas para detectar (ignora linhas vazias)
+    lines = [line.strip() for line in file_content.split('\n')[:5] if line.strip()]
     
-    comma_count = sum(line.count(',') for line in first_lines)
-    semicolon_count = sum(line.count(';') for line in first_lines)
+    if not lines:
+        return ','
     
+    # Contar separadores na primeira linha (header)
+    header = lines[0]
+    comma_in_header = header.count(',')
+    semicolon_in_header = header.count(';')
+    
+    # Se o header tem mais de um separador de um tipo, provavelmente é esse
+    if semicolon_in_header >= 2 and semicolon_in_header > comma_in_header:
+        return ';'
+    elif comma_in_header >= 2:
+        return ','
+    
+    # Fallback: contar em múltiplas linhas
+    comma_count = sum(line.count(',') for line in lines)
+    semicolon_count = sum(line.count(';') for line in lines)
+    
+    # Preferir vírgula em caso de empate (padrão internacional)
     if semicolon_count > comma_count:
         return ';'
     else:
@@ -86,6 +103,17 @@ def read_csv_smart(uploaded_file):
             
             # Tentar ler como DataFrame
             df_raw = pd.read_csv(io.StringIO(content), sep=separator)
+            
+            # VALIDAÇÃO CRÍTICA: Verificar se foi lido corretamente
+            # Se o CSV tem apenas 1 coluna, provavelmente o separador está errado
+            if len(df_raw.columns) == 1 and separator == ';':
+                # Tentar com vírgula
+                df_raw = pd.read_csv(io.StringIO(content), sep=',')
+                separator = ','
+            elif len(df_raw.columns) == 1 and separator == ',':
+                # Tentar com ponto-e-vírgula
+                df_raw = pd.read_csv(io.StringIO(content), sep=';')
+                separator = ';'
             
             # Se chegou aqui, sucesso!
             encoding_used = encoding_name
@@ -164,83 +192,99 @@ def display_standardization_report(report):
 
 
 def create_data_quality_charts(df):
-    """Criar gráficos de qualidade dos dados"""
+    """Criar gráficos de qualidade dos dados com tratamento robusto de erros"""
     
     col1, col2 = st.columns(2)
     
     with col1:
-        # Gráfico de dados faltantes
-        missing_data = df.isnull().sum()
-        missing_pct = (missing_data / len(df) * 100).round(1)
-        
-        if missing_pct.sum() > 0:
-            fig_missing = px.bar(
-                x=missing_pct.values,
-                y=missing_pct.index,
-                orientation='h',
-                title="Dados Faltantes por Coluna (%)",
-                labels={'x': 'Percentual Faltante', 'y': 'Coluna'}
-            )
-            fig_missing.update_layout(height=300, template='plotly_white')
-            st.plotly_chart(fig_missing, use_container_width=True)
-        else:
-            st.success("✅ Nenhum dado faltante detectado!")
+        try:
+            # Gráfico de dados faltantes
+            missing_data = df.isnull().sum()
+            missing_pct = (missing_data / len(df) * 100).round(1)
+            
+            if missing_pct.sum() > 0:
+                fig_missing = px.bar(
+                    x=missing_pct.values,
+                    y=missing_pct.index,
+                    orientation='h',
+                    title="Dados Faltantes por Coluna (%)",
+                    labels={'x': 'Percentual Faltante', 'y': 'Coluna'}
+                )
+                fig_missing.update_layout(height=300, template='plotly_white')
+                st.plotly_chart(fig_missing, use_container_width=True)
+            else:
+                st.success("✅ Nenhum dado faltante detectado!")
+        except Exception as e:
+            st.warning(f"⚠️ Não foi possível gerar gráfico de dados faltantes: {str(e)}")
     
     with col2:
-        # Distribuição de componentes
-        if 'component_type' in df.columns:
-            component_counts = df['component_type'].value_counts().head(10)
-            fig_components = px.bar(
-                x=component_counts.values,
-                y=component_counts.index,
-                orientation='h',
-                title="Top 10 Tipos de Componentes",
-                labels={'x': 'Quantidade', 'y': 'Tipo'}
-            )
-            fig_components.update_layout(height=300, template='plotly_white')
-            st.plotly_chart(fig_components, use_container_width=True)
+        try:
+            # Distribuição de componentes
+            if 'component_type' in df.columns:
+                component_counts = df['component_type'].value_counts().head(10)
+                fig_components = px.bar(
+                    x=component_counts.values,
+                    y=component_counts.index,
+                    orientation='h',
+                    title="Top 10 Tipos de Componentes",
+                    labels={'x': 'Quantidade', 'y': 'Tipo'}
+                )
+                fig_components.update_layout(height=300, template='plotly_white')
+                st.plotly_chart(fig_components, use_container_width=True)
+        except Exception as e:
+            st.warning(f"⚠️ Não foi possível gerar gráfico de componentes: {str(e)}")
     
     # Distribuição de tempos de falha
-    if 'failure_time' in df.columns:
-        # Separar censurados e não censurados
-        if 'censored' in df.columns:
-            df_failures = df[~df['censored']]
-            df_censored = df[df['censored']]
+    try:
+        if 'failure_time' in df.columns:
+            # Remover valores inválidos antes de plotar
+            df_plot = df[df['failure_time'].notna() & (df['failure_time'] > 0)].copy()
             
-            fig_times = go.Figure()
-            
-            fig_times.add_trace(go.Histogram(
-                x=df_failures['failure_time'],
-                name='Falhas Observadas',
-                opacity=0.7,
-                nbinsx=30
-            ))
-            
-            if len(df_censored) > 0:
-                fig_times.add_trace(go.Histogram(
-                    x=df_censored['failure_time'],
-                    name='Dados Censurados',
-                    opacity=0.7,
-                    nbinsx=30
-                ))
-            
-            fig_times.update_layout(
-                title="Distribuição dos Tempos de Falha",
-                xaxis_title="Tempo (horas)",
-                yaxis_title="Frequência",
-                template='plotly_white',
-                barmode='stack'
-            )
-        else:
-            fig_times = px.histogram(
-                df, 
-                x='failure_time',
-                title="Distribuição dos Tempos de Falha",
-                nbins=50
-            )
-            fig_times.update_layout(template='plotly_white')
-        
-        st.plotly_chart(fig_times, use_container_width=True)
+            if len(df_plot) > 0:
+                # Separar censurados e não censurados
+                if 'censored' in df_plot.columns:
+                    df_failures = df_plot[~df_plot['censored']]
+                    df_censored = df_plot[df_plot['censored']]
+                    
+                    fig_times = go.Figure()
+                    
+                    if len(df_failures) > 0:
+                        fig_times.add_trace(go.Histogram(
+                            x=df_failures['failure_time'],
+                            name='Falhas Observadas',
+                            opacity=0.7,
+                            nbinsx=min(30, len(df_failures))
+                        ))
+                    
+                    if len(df_censored) > 0:
+                        fig_times.add_trace(go.Histogram(
+                            x=df_censored['failure_time'],
+                            name='Dados Censurados',
+                            opacity=0.7,
+                            nbinsx=min(30, len(df_censored))
+                        ))
+                    
+                    fig_times.update_layout(
+                        title="Distribuição dos Tempos de Falha",
+                        xaxis_title="Tempo (horas)",
+                        yaxis_title="Frequência",
+                        template='plotly_white',
+                        barmode='stack'
+                    )
+                else:
+                    fig_times = px.histogram(
+                        df_plot, 
+                        x='failure_time',
+                        title="Distribuição dos Tempos de Falha",
+                        nbins=min(50, len(df_plot))
+                    )
+                    fig_times.update_layout(template='plotly_white')
+                
+                st.plotly_chart(fig_times, use_container_width=True)
+            else:
+                st.warning("⚠️ Nenhum dado válido para plotar histograma de tempos")
+    except Exception as e:
+        st.warning(f"⚠️ Não foi possível gerar gráfico de distribuição: {str(e)}")
 
 
 def main():
@@ -298,6 +342,12 @@ def main():
                         # ===================================================================
                         # FIM DA CORREÇÃO
                         # ===================================================================
+                        
+                        # VALIDAÇÃO ADICIONAL: Alertar se DataFrame parece suspeito
+                        if len(df_raw.columns) == 1:
+                            st.warning("⚠️ **Atenção:** O arquivo foi lido com apenas 1 coluna. Isso pode indicar problema no separador.")
+                        elif len(df_raw.columns) < 3:
+                            st.warning(f"⚠️ **Atenção:** O arquivo tem apenas {len(df_raw.columns)} colunas. Verifique se o separador foi detectado corretamente.")
                         
                         st.info(f"📄 Arquivo lido: {len(df_raw)} registros, {len(df_raw.columns)} colunas")
                         
@@ -522,16 +572,25 @@ def main():
                 stats_df.columns = ['Valor']
                 st.dataframe(stats_df, use_container_width=True)
                 
-                # Boxplot
-                fig_box = px.box(
-                    df, 
-                    y='failure_time',
-                    x='component_type' if 'component_type' in df.columns else None,
-                    title="Distribuição de Tempos por Tipo de Componente",
-                    color='censored' if 'censored' in df.columns else None
-                )
-                fig_box.update_layout(template='plotly_white')
-                st.plotly_chart(fig_box, use_container_width=True)
+                # Boxplot com tratamento de erro
+                try:
+                    # Remover valores inválidos
+                    df_box = df[df['failure_time'].notna() & (df['failure_time'] > 0)].copy()
+                    
+                    if len(df_box) > 0:
+                        fig_box = px.box(
+                            df_box, 
+                            y='failure_time',
+                            x='component_type' if 'component_type' in df_box.columns else None,
+                            title="Distribuição de Tempos por Tipo de Componente",
+                            color='censored' if 'censored' in df_box.columns else None
+                        )
+                        fig_box.update_layout(template='plotly_white')
+                        st.plotly_chart(fig_box, use_container_width=True)
+                    else:
+                        st.warning("⚠️ Nenhum dado válido para boxplot")
+                except Exception as e:
+                    st.warning(f"⚠️ Não foi possível gerar boxplot: {str(e)}")
         
         else:
             st.info("📥 Carregue os dados primeiro na aba 'Upload'")
