@@ -1,20 +1,11 @@
 import streamlit as st
 
-# === CONFIGURAÇÃO - DEVE SER A PRIMEIRA CHAMADA ===
 st.set_page_config(
     page_title="Planejamento PM & Estoque",
     page_icon="🔧",
     layout="wide"
 )
 
-# === IMPORTS ===
-from utils.navigation import handle_navigation
-# ... outros imports ...
-
-# === PROCESSA NAVEGAÇÃO PENDENTE ===
-handle_navigation()
-
-# === IMPORTS APÓS CONFIGURAÇÃO ===
 import pandas as pd
 import numpy as np
 import math
@@ -25,7 +16,6 @@ from pathlib import Path
 
 warnings.filterwarnings('ignore')
 
-# Adiciona o diretório raiz ao path
 root_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(root_dir))
 
@@ -36,8 +26,17 @@ from utils.state_manager import (
     get_available_components
 )
 
+from utils.navigation import (
+    handle_navigation,
+    create_navigation_button
+)
+
+# === PROCESSA NAVEGAÇÃO ===
+handle_navigation()
+
 # === INICIALIZAÇÃO ===
 initialize_session_state()
+
 
 # === FUNÇÕES MATEMÁTICAS CORE ===
 
