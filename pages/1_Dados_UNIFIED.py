@@ -1,6 +1,6 @@
 """
-Página de upload e gestão de dados - VERSÃO CORRIGIDA FINAL
-Com mapeamento automático de colunas e suporte multi-encoding
+Página de upload e gestão de dados - VERSÃO FINAL COMPLETA
+Com mapeamento automático de colunas, multi-encoding E detecção de separador
 """
 import streamlit as st
 import pandas as pd
@@ -39,6 +39,69 @@ if 'standardization_report' not in st.session_state:
     st.session_state.standardization_report = None
 if 'data_quality_report' not in st.session_state:
     st.session_state.data_quality_report = None
+
+
+def detect_csv_separator(file_content):
+    """
+    Detecta automaticamente o separador do CSV (vírgula ou ponto-e-vírgula)
+    """
+    # Ler primeiras linhas para detectar
+    first_lines = file_content.split('\n')[:3]
+    
+    comma_count = sum(line.count(',') for line in first_lines)
+    semicolon_count = sum(line.count(';') for line in first_lines)
+    
+    if semicolon_count > comma_count:
+        return ';'
+    else:
+        return ','
+
+
+def read_csv_smart(uploaded_file):
+    """
+    Lê CSV com detecção automática de encoding E separador
+    
+    Returns:
+        tuple: (dataframe, encoding_usado, separador_usado)
+    """
+    # Tentar múltiplos encodings
+    encodings_to_try = [
+        ('utf-8', 'UTF-8'),
+        ('latin-1', 'Latin-1 (ISO-8859-1)'),
+        ('cp1252', 'Windows-1252 (CP1252)')
+    ]
+    
+    df_raw = None
+    encoding_used = None
+    separator_used = None
+    
+    for encoding, encoding_name in encodings_to_try:
+        try:
+            # Ler arquivo como texto primeiro
+            uploaded_file.seek(0)
+            content = uploaded_file.read().decode(encoding)
+            
+            # Detectar separador
+            separator = detect_csv_separator(content)
+            
+            # Tentar ler como DataFrame
+            df_raw = pd.read_csv(io.StringIO(content), sep=separator)
+            
+            # Se chegou aqui, sucesso!
+            encoding_used = encoding_name
+            separator_used = 'ponto-e-vírgula (;)' if separator == ';' else 'vírgula (,)'
+            break
+            
+        except UnicodeDecodeError:
+            continue
+        except Exception as e:
+            # Se falhar por outro motivo, tentar próximo encoding
+            continue
+    
+    if df_raw is None:
+        raise Exception("Não foi possível ler o arquivo com nenhum encoding suportado")
+    
+    return df_raw, encoding_used, separator_used
 
 
 def display_data_overview(df):
@@ -217,105 +280,84 @@ def main():
                 if uploaded_file is not None:
                     try:
                         # ===================================================================
-                        # CORREÇÃO APLICADA AQUI: Suporte multi-encoding para CSV
+                        # CORREÇÃO COMPLETA: Multi-encoding + Detecção de Separador
                         # ===================================================================
                         if file_format == "CSV" or uploaded_file.name.endswith('.csv'):
-                            # Tentar múltiplos encodings automaticamente
-                            encoding_used = None
-                            df_raw = None
+                            # Usar função inteligente de leitura
+                            df_raw, encoding_used, separator_used = read_csv_smart(uploaded_file)
                             
-                            # Tentativa 1: UTF-8 (padrão)
-                            try:
-                                df_raw = pd.read_csv(uploaded_file, encoding='utf-8')
-                                encoding_used = 'UTF-8'
-                            except UnicodeDecodeError:
-                                # Tentativa 2: Latin-1 (ISO-8859-1) - comum no Brasil
-                                uploaded_file.seek(0)  # Resetar ponteiro do arquivo
-                                try:
-                                    df_raw = pd.read_csv(uploaded_file, encoding='latin-1')
-                                    encoding_used = 'Latin-1 (ISO-8859-1)'
-                                    st.info(f"ℹ️ Arquivo lido com encoding {encoding_used}")
-                                except UnicodeDecodeError:
-                                    # Tentativa 3: Windows-1252 (CP1252) - Excel brasileiro
-                                    uploaded_file.seek(0)
-                                    try:
-                                        df_raw = pd.read_csv(uploaded_file, encoding='cp1252')
-                                        encoding_used = 'Windows-1252 (CP1252)'
-                                        st.info(f"ℹ️ Arquivo lido com encoding {encoding_used}")
-                                    except Exception as e:
-                                        st.error(f"❌ Erro ao ler CSV: {str(e)}")
-                                        st.error("Tente salvar o arquivo em UTF-8 e fazer upload novamente")
-                                        df_raw = None
+                            # Mostrar detecção
+                            st.success(f"✅ **Encoding detectado:** {encoding_used}")
+                            st.success(f"✅ **Separador detectado:** {separator_used}")
+                        
                         else:
                             # Excel: pandas detecta automaticamente
                             df_raw = pd.read_excel(uploaded_file)
                             encoding_used = 'Excel (auto-detectado)'
+                            separator_used = 'N/A'
                         # ===================================================================
                         # FIM DA CORREÇÃO
                         # ===================================================================
                         
-                        if df_raw is not None:
-                            st.info(f"📄 Arquivo lido: {len(df_raw)} registros, {len(df_raw.columns)} colunas")
-                            if encoding_used:
-                                st.success(f"✅ Encoding detectado: {encoding_used}")
+                        st.info(f"📄 Arquivo lido: {len(df_raw)} registros, {len(df_raw.columns)} colunas")
+                        
+                        # Mostrar preview dos dados originais
+                        with st.expander("👁️ Preview dos Dados Originais", expanded=True):
+                            st.dataframe(df_raw.head(10), use_container_width=True)
+                            st.text(f"Colunas encontradas: {', '.join(df_raw.columns.tolist())}")
+                        
+                        # Padronizar automaticamente
+                        with st.spinner("🔄 Padronizando formato dos dados..."):
+                            df_standardized, report = standardize_dataframe(df_raw)
                             
-                            # Mostrar preview dos dados originais
-                            with st.expander("👁️ Preview dos Dados Originais", expanded=False):
-                                st.dataframe(df_raw.head(10), use_container_width=True)
-                                st.text(f"Colunas: {', '.join(df_raw.columns.tolist())}")
+                            if report['success']:
+                                st.success("✅ Dados padronizados com sucesso!")
+                                
+                                # Salvar no session state
+                                st.session_state.dataset = df_standardized
+                                st.session_state.standardization_report = report
+                                
+                                # Mostrar relatório de padronização
+                                display_standardization_report(report)
+                                
+                                # Preview dos dados padronizados
+                                st.markdown("#### 📊 Dados Padronizados")
+                                st.dataframe(df_standardized.head(10), use_container_width=True)
+                                
+                                # Estatísticas rápidas
+                                col_a, col_b, col_c = st.columns(3)
+                                with col_a:
+                                    st.metric("Registros Válidos", len(df_standardized))
+                                with col_b:
+                                    failures = (~df_standardized['censored']).sum()
+                                    st.metric("Falhas Observadas", failures)
+                                with col_c:
+                                    censored = df_standardized['censored'].sum()
+                                    st.metric("Dados Censurados", censored)
                             
-                            # Padronizar automaticamente
-                            with st.spinner("🔄 Padronizando formato dos dados..."):
-                                df_standardized, report = standardize_dataframe(df_raw)
+                            else:
+                                st.error("❌ Falha na padronização dos dados")
                                 
-                                if report['success']:
-                                    st.success("✅ Dados padronizados com sucesso!")
+                                if report['missing_columns']:
+                                    st.error(f"**Colunas Obrigatórias Faltando:** {', '.join(report['missing_columns'])}")
                                     
-                                    # Salvar no session state
-                                    st.session_state.dataset = df_standardized
-                                    st.session_state.standardization_report = report
+                                    st.markdown("### 💡 Solução:")
+                                    st.markdown("""
+                                    Seu arquivo precisa ter pelo menos estas 3 colunas (com nomes aceitos):
                                     
-                                    # Mostrar relatório de padronização
-                                    display_standardization_report(report)
+                                    1. **ID do Componente**: `component_id`, `asset_id`, `equipment_id`, ou `id`
+                                    2. **Tipo do Componente**: `component_type`, `component`, ou `tipo`
+                                    3. **Tempo de Falha**: `failure_time`, `operating_hours`, ou `hours`
                                     
-                                    # Preview dos dados padronizados
-                                    st.markdown("#### 📊 Dados Padronizados")
-                                    st.dataframe(df_standardized.head(10), use_container_width=True)
-                                    
-                                    # Estatísticas rápidas
-                                    col_a, col_b, col_c = st.columns(3)
-                                    with col_a:
-                                        st.metric("Registros Válidos", len(df_standardized))
-                                    with col_b:
-                                        failures = (~df_standardized['censored']).sum()
-                                        st.metric("Falhas Observadas", failures)
-                                    with col_c:
-                                        censored = df_standardized['censored'].sum()
-                                        st.metric("Dados Censurados", censored)
+                                    A coluna `censored` é opcional - será inferida automaticamente se não fornecida.
+                                    """)
                                 
-                                else:
-                                    st.error("❌ Falha na padronização dos dados")
-                                    
-                                    if report['missing_columns']:
-                                        st.error(f"**Colunas Obrigatórias Faltando:** {', '.join(report['missing_columns'])}")
-                                        
-                                        st.markdown("### 💡 Solução:")
-                                        st.markdown("""
-                                        Seu arquivo precisa ter pelo menos estas 3 colunas (com nomes aceitos):
-                                        
-                                        1. **ID do Componente**: `component_id`, `asset_id`, `equipment_id`, ou `id`
-                                        2. **Tipo do Componente**: `component_type`, `component`, ou `tipo`
-                                        3. **Tempo de Falha**: `failure_time`, `operating_hours`, ou `hours`
-                                        
-                                        A coluna `censored` é opcional - será inferida automaticamente se não fornecida.
-                                        """)
-                                    
-                                    if 'error' in report:
-                                        st.error(f"**Erro:** {report['error']}")
-                                    
-                                    # Mostrar colunas encontradas
-                                    st.markdown("#### 📋 Colunas Encontradas no Arquivo:")
-                                    st.code(", ".join(report['original_columns']))
+                                if 'error' in report:
+                                    st.error(f"**Erro:** {report['error']}")
+                                
+                                # Mostrar colunas encontradas
+                                st.markdown("#### 📋 Colunas Encontradas no Arquivo:")
+                                st.code(", ".join(report.get('original_columns', df_raw.columns.tolist())))
                     
                     except Exception as e:
                         st.error(f"❌ Erro ao processar arquivo: {str(e)}")
@@ -369,8 +411,14 @@ def main():
             - Latin-1 (ISO-8859-1)
             - Windows-1252 (CP1252)
             
-            **Mapeamento Automático:**
-            O sistema reconhece automaticamente diferentes nomes de colunas e padroniza para o formato interno.
+            **Separadores Suportados:**
+            - Vírgula (,)
+            - Ponto-e-vírgula (;)
+            
+            **Detecção Automática:**
+            - Encoding
+            - Separador
+            - Nomes de colunas
             
             **Validação:**
             - Remove valores nulos
