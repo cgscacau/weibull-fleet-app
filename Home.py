@@ -1,10 +1,26 @@
+"""
+Página principal do Weibull Fleet Analytics
+ENTRYPOINT para Streamlit Cloud - mantém estrutura multipage
+"""
 import streamlit as st
-import sys
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
 from pathlib import Path
+import sys
+import os
 
-# Adiciona o diretório raiz ao path
-root_path = Path(__file__).parent
-sys.path.insert(0, str(root_path))
+# Adicionar diretórios ao path
+project_root = Path(__file__).parent
+sys.path.append(str(project_root))
+sys.path.append(str(project_root / "app"))
+
+# Garantir que o Python encontra os módulos
+os.chdir(str(project_root))
+
+from core.weibull import WeibullAnalysis
+from dataops.clean import DataCleaner
+from ai.ai_assistant import WeibullAIAssistant
 
 # Configuração da página
 st.set_page_config(
@@ -17,533 +33,317 @@ st.set_page_config(
 # CSS customizado
 st.markdown("""
 <style>
-    /* Estilo geral */
     .main-header {
         font-size: 3rem;
         font-weight: bold;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 1rem;
+        color: #1e3a8a;
         text-align: center;
-    }
-    
-    .subtitle {
-        font-size: 1.3rem;
-        color: #666;
-        text-align: center;
-        margin-bottom: 3rem;
-    }
-    
-    /* Cards de funcionalidades */
-    .feature-card {
-        background: white;
-        padding: 2rem;
-        border-radius: 15px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border-left: 5px solid;
-        margin-bottom: 1.5rem;
-        height: 100%;
-    }
-    
-    .feature-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 12px rgba(0,0,0,0.15);
-    }
-    
-    .feature-card.blue {
-        border-left-color: #667eea;
-    }
-    
-    .feature-card.purple {
-        border-left-color: #764ba2;
-    }
-    
-    .feature-card.orange {
-        border-left-color: #f093fb;
-    }
-    
-    .feature-card.red {
-        border-left-color: #f5576c;
-    }
-    
-    .feature-card.green {
-        border-left-color: #4facfe;
-    }
-    
-    .feature-card.yellow {
-        border-left-color: #43e97b;
-    }
-    
-    .feature-icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        display: block;
-    }
-    
-    .feature-title {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-        color: #333;
-    }
-    
-    .feature-description {
-        color: #666;
-        line-height: 1.6;
-        margin-bottom: 1rem;
-    }
-    
-    .feature-list {
-        list-style: none;
-        padding: 0;
-    }
-    
-    .feature-list li {
-        padding: 0.3rem 0;
-        color: #555;
-    }
-    
-    .feature-list li:before {
-        content: "✓ ";
-        color: #43e97b;
-        font-weight: bold;
-        margin-right: 0.5rem;
-    }
-    
-    /* Seção de benefícios */
-    .benefit-box {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 2.5rem;
-        border-radius: 15px;
-        margin: 2rem 0;
-        text-align: center;
-    }
-    
-    .benefit-title {
-        font-size: 2rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-    }
-    
-    .benefit-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.5rem;
-        margin-top: 2rem;
-    }
-    
-    .benefit-item {
-        background: rgba(255,255,255,0.2);
-        padding: 1.5rem;
-        border-radius: 10px;
-        backdrop-filter: blur(10px);
-    }
-    
-    .benefit-number {
-        font-size: 2.5rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-    }
-    
-    .benefit-text {
-        font-size: 1rem;
-        opacity: 0.95;
-    }
-    
-    /* Seção CTA */
-    .cta-box {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        color: white;
-        padding: 3rem;
-        border-radius: 15px;
-        text-align: center;
-        margin: 3rem 0;
-    }
-    
-    .cta-title {
-        font-size: 2.5rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-    }
-    
-    .cta-subtitle {
-        font-size: 1.3rem;
-        opacity: 0.95;
         margin-bottom: 2rem;
     }
-    
-    /* Botões */
-    .stButton > button {
-        width: 100%;
+    .feature-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        padding: 0.8rem 2rem;
-        font-size: 1.1rem;
-        font-weight: bold;
+        padding: 1.5rem;
         border-radius: 10px;
-        cursor: pointer;
-        transition: transform 0.2s ease;
+        color: white;
+        margin: 1rem 0;
     }
-    
-    .stButton > button:hover {
-        transform: scale(1.05);
-    }
-    
-    /* Remover padding extra */
-    .block-container {
-        padding-top: 3rem;
-        padding-bottom: 3rem;
-    }
-    
-    /* Esconder menu e footer padrão */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    
-    /* Responsividade */
-    @media (max-width: 768px) {
-        .main-header {
-            font-size: 2rem;
-        }
-        .subtitle {
-            font-size: 1rem;
-        }
-        .benefit-grid {
-            grid-template-columns: 1fr;
-        }
+    .metric-card {
+        background: #f8fafc;
+        padding: 1rem;
+        border-radius: 8px;
+        border-left: 4px solid #3b82f6;
+        margin: 0.5rem 0;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Header principal
-st.markdown('<div class="main-header">⚙️ Weibull Fleet Analytics</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">Sistema Avançado de Análise de Confiabilidade com IA Assistida para Gestão de Frotas Industriais</div>', unsafe_allow_html=True)
+def load_sample_data():
+    """Carregar dados de exemplo se disponíveis"""
+    sample_file = project_root / "storage" / "sample_fleet_data.csv"
+    if sample_file.exists():
+        return pd.read_csv(sample_file)
+    return None
 
-# Seção de benefícios
-st.markdown("""
-<div class="benefit-box">
-    <div class="benefit-title">🎯 Resultados Comprovados</div>
-    <div class="benefit-grid">
-        <div class="benefit-item">
-            <div class="benefit-number">30-50%</div>
-            <div class="benefit-text">Redução em paradas não planejadas</div>
-        </div>
-        <div class="benefit-item">
-            <div class="benefit-number">20-40%</div>
-            <div class="benefit-text">Economia em custos de manutenção</div>
-        </div>
-        <div class="benefit-item">
-            <div class="benefit-number">25-35%</div>
-            <div class="benefit-text">Otimização de estoque de peças</div>
-        </div>
-        <div class="benefit-item">
-            <div class="benefit-number">15-25%</div>
-            <div class="benefit-text">Aumento de disponibilidade</div>
-        </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-# Funcionalidades principais
-st.markdown("## 🚀 Funcionalidades Principais")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown("""
-    <div class="feature-card blue">
-        <span class="feature-icon">📊</span>
-        <div class="feature-title">Análise Weibull Avançada</div>
-        <div class="feature-description">
-        Modelagem estatística de ponta para análise de confiabilidade
-        </div>
-        <ul class="feature-list">
-            <li>Estimação MLE com censura</li>
-            <li>8 tipos de gráficos interativos</li>
-            <li>Intervalos de confiança 95%</li>
-            <li>Testes de aderência</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col2:
-    st.markdown("""
-    <div class="feature-card purple">
-        <span class="feature-icon">🤖</span>
-        <div class="feature-title">IA Assistiva</div>
-        <div class="feature-description">
-        Inteligência artificial para otimização e insights
-        </div>
-        <ul class="feature-list">
-            <li>Limpeza automática de dados</li>
-            <li>Explicações em linguagem natural</li>
-            <li>Sugestões de melhorias</li>
-            <li>Relatórios executivos automáticos</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col3:
-    st.markdown("""
-    <div class="feature-card orange">
-        <span class="feature-icon">🛠️</span>
-        <div class="feature-title">Planejamento PM</div>
-        <div class="feature-description">
-        Otimização de manutenção preventiva baseada em dados
-        </div>
-        <ul class="feature-list">
-            <li>3 políticas de manutenção</li>
-            <li>Análise de custo-benefício</li>
-            <li>Intervalos ótimos de PM</li>
-            <li>Simulações de cenários</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-col4, col5, col6 = st.columns(3)
-
-with col4:
-    st.markdown("""
-    <div class="feature-card red">
-        <span class="feature-icon">📦</span>
-        <div class="feature-title">Gestão de Estoque</div>
-        <div class="feature-description">
-        Dimensionamento inteligente de peças sobressalentes
-        </div>
-        <ul class="feature-list">
-            <li>Cálculo de EOQ otimizado</li>
-            <li>Safety stock dinâmico</li>
-            <li>Ponto de reposição automático</li>
-            <li>Análise de custos de estoque</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col5:
-    st.markdown("""
-    <div class="feature-card green">
-        <span class="feature-icon">📈</span>
-        <div class="feature-title">Comparativos</div>
-        <div class="feature-description">
-        Benchmarking e análise comparativa de componentes
-        </div>
-        <ul class="feature-list">
-            <li>Comparação entre equipamentos</li>
-            <li>Análise de frota completa</li>
-            <li>Identificação de outliers</li>
-            <li>Tendências de confiabilidade</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col6:
-    st.markdown("""
-    <div class="feature-card yellow">
-        <span class="feature-icon">📑</span>
-        <div class="feature-title">Relatórios IA</div>
-        <div class="feature-description">
-        Relatórios executivos gerados automaticamente
-        </div>
-        <ul class="feature-list">
-            <li>Sumário executivo automático</li>
-            <li>Insights acionáveis</li>
-            <li>Recomendações personalizadas</li>
-            <li>Exportação para Excel/PDF</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-# Seção "Como Funciona"
-st.markdown("---")
-st.markdown("## 🔄 Como Funciona")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown("""
-    <div style="text-align: center; padding: 2rem;">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">📁</div>
-        <div style="font-size: 1.3rem; font-weight: bold; margin-bottom: 0.5rem;">1. Upload de Dados</div>
-        <div style="color: #666;">
-            Carregue seu histórico de falhas em CSV ou Excel. Suporte para múltiplas fontes de dados.
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col2:
-    st.markdown("""
-    <div style="text-align: center; padding: 2rem;">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
-        <div style="font-size: 1.3rem; font-weight: bold; margin-bottom: 0.5rem;">2. Análise Automática</div>
-        <div style="color: #666;">
-            Sistema calcula parâmetros Weibull, gera gráficos e valida resultados estatisticamente.
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col3:
-    st.markdown("""
-    <div style="text-align: center; padding: 2rem;">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
-        <div style="font-size: 1.3rem; font-weight: bold; margin-bottom: 0.5rem;">3. Decisões Ótimas</div>
-        <div style="color: #666;">
-            Receba recomendações de intervalos PM, dimensionamento de estoque e ROI esperado.
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-# CTA - Call to Action
-st.markdown("""
-<div class="cta-box">
-    <div class="cta-title">🚀 Pronto para Começar?</div>
-    <div class="cta-subtitle">
-        Siga o fluxo recomendado abaixo ou acesse qualquer página diretamente pelo menu lateral
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-# Fluxo recomendado com botões
-st.markdown("### 📍 Fluxo Recomendado")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    if st.button("📚 1. Como Usar", use_container_width=True):
-        st.switch_page("pages/0_Como_Usar.py")
-    st.caption("📖 Tutorial completo + templates para download")
-
-with col2:
-    if st.button("📁 2. Carregar Dados", use_container_width=True):
-        st.switch_page("pages/1_Dados.py")
-    st.caption("📥 Upload CSV/Excel ou use dados de exemplo")
-
-with col3:
-    if st.button("🧼 3. Qualidade", use_container_width=True):
-        st.switch_page("pages/2_Qualidade.py")
-    st.caption("🔍 Limpeza e validação assistida por IA")
-
-col4, col5, col6 = st.columns(3)
-
-with col4:
-    if st.button("📈 4. Análise Weibull", use_container_width=True):
-        st.switch_page("pages/3_Weibull.py")
-    st.caption("📊 Ajuste de parâmetros e gráficos")
-
-with col5:
-    if st.button("🛠️ 5. Planejamento PM", use_container_width=True):
-        st.switch_page("pages/4_Planejamento.py")
-    st.caption("⚙️ Intervalos ótimos e gestão de estoque")
-
-with col6:
-    if st.button("📊 6. Relatórios", use_container_width=True):
-        st.switch_page("pages/6_Relatorio_IA.py")
-    st.caption("📑 Relatórios executivos automáticos")
-
-# Seção de aplicações
-st.markdown("---")
-st.markdown("## 🏭 Aplicações Industriais")
-
-col1, col2 = st.columns(2)
-
-with col1:
-    st.markdown("""
-    **🚗 Frotas de Veículos**
-    - Caminhões e ônibus comerciais
-    - Tratores agrícolas
-    - Equipamentos de construção
-    - Veículos de logística
+def create_overview_dashboard(df):
+    """Criar dashboard overview dos dados"""
     
-    **⚙️ Manufatura**
-    - Linhas de produção
-    - Robôs industriais
-    - Prensas e injetoras
-    - Sistemas de movimentação
+    col1, col2, col3, col4 = st.columns(4)
     
-    **⛏️ Mineração**
-    - Equipamentos pesados
-    - Correias transportadoras
-    - Britadores e peneiras
-    - Sistemas hidráulicos
-    """)
-
-with col2:
-    st.markdown("""
-    **🛢️ Oil & Gas**
-    - Compressores
-    - Turbinas a gás
-    - Bombas de processo
-    - Trocadores de calor
+    with col1:
+        st.markdown("""
+        <div class="metric-card">
+            <h3>📊 Total de Registros</h3>
+            <h2>{:,}</h2>
+        </div>
+        """.format(len(df)), unsafe_allow_html=True)
     
-    **⚡ Energia**
-    - Geradores elétricos
-    - Transformadores
-    - Turbinas eólicas
-    - Sistemas HVAC
+    with col2:
+        n_components = df['component'].nunique() if 'component' in df.columns else 0
+        st.markdown("""
+        <div class="metric-card">
+            <h3>⚙️ Componentes</h3>
+            <h2>{}</h2>
+        </div>
+        """.format(n_components), unsafe_allow_html=True)
     
-    **🏗️ Infraestrutura**
-    - Elevadores e escadas rolantes
-    - Sistemas de ar condicionado
-    - Motores e acionamentos
-    - Equipamentos de segurança
-    """)
+    with col3:
+        n_fleets = df['fleet'].nunique() if 'fleet' in df.columns else 0
+        st.markdown("""
+        <div class="metric-card">
+            <h3>🚛 Frotas</h3>
+            <h2>{}</h2>
+        </div>
+        """.format(n_fleets), unsafe_allow_html=True)
+    
+    with col4:
+        censoring_rate = df['censored'].mean() * 100 if 'censored' in df.columns else 0
+        st.markdown("""
+        <div class="metric-card">
+            <h3>📈 Taxa de Censura</h3>
+            <h2>{:.1f}%</h2>
+        </div>
+        """.format(censoring_rate), unsafe_allow_html=True)
 
-# Tecnologias utilizadas
-st.markdown("---")
-st.markdown("## 🔧 Tecnologias e Metodologias")
+def create_component_distribution_chart(df):
+    """Criar gráfico de distribuição de componentes"""
+    if 'component' not in df.columns:
+        return None
+    
+    component_counts = df['component'].value_counts().head(10)
+    
+    fig = px.bar(
+        x=component_counts.values,
+        y=component_counts.index,
+        orientation='h',
+        title="Top 10 Componentes por Número de Registros",
+        labels={'x': 'Número de Registros', 'y': 'Componente'}
+    )
+    
+    fig.update_layout(
+        height=400,
+        template='plotly_white',
+        title_font_size=16
+    )
+    
+    return fig
 
-col1, col2, col3, col4 = st.columns(4)
+def create_fleet_overview_chart(df):
+    """Criar gráfico overview por frota"""
+    if 'fleet' not in df.columns:
+        return None
+    
+    fleet_summary = df.groupby('fleet').agg({
+        'operating_hours': 'mean',
+        'censored': lambda x: (1-x).mean()  # Taxa de falha
+    }).round(2)
+    
+    fig = px.scatter(
+        fleet_summary,
+        x='operating_hours',
+        y='censored',
+        size=df['fleet'].value_counts(),
+        hover_name=fleet_summary.index,
+        title="Overview por Frota: Horas Médias vs Taxa de Falha",
+        labels={
+            'operating_hours': 'Horas Operacionais Médias',
+            'censored': 'Taxa de Falha',
+            'size': 'Número de Registros'
+        }
+    )
+    
+    fig.update_layout(
+        height=400,
+        template='plotly_white',
+        title_font_size=16
+    )
+    
+    return fig
 
-with col1:
+def main():
+    # Header principal
+    st.markdown('<h1 class="main-header">⚙️ Weibull Fleet Analytics</h1>', unsafe_allow_html=True)
+    
     st.markdown("""
-    **📊 Estatística**
-    - Distribuição Weibull
-    - Maximum Likelihood Estimation
-    - Análise de censura
-    - Testes de aderência
-    """)
+    <div style="text-align: center; margin-bottom: 2rem; font-size: 1.2rem; color: #64748b;">
+        Sistema avançado de análise de confiabilidade com IA assistiva para gestão de frotas industriais
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Sidebar com informações
+    with st.sidebar:
+        st.markdown("## 🎯 Navegação")
+        st.markdown("""
+        **Fluxo Recomendado:**
+        1. 📥 **Dados** - Upload e conexão
+        2. 🧼 **Qualidade** - Limpeza assistida por IA  
+        3. 📈 **Análise Weibull** - Ajuste e gráficos
+        4. 🛠️ **Planejamento** - PM e estoque
+        5. 🔍 **Comparativos** - Benchmarking
+        6. 🧠 **Relatório IA** - Insights automáticos
+        """)
+        
+        st.markdown("---")
+        st.markdown("## ⚡ Status do Sistema")
+        
+        # Verificar dependências
+        try:
+            import scipy
+            st.success("✅ SciPy disponível")
+        except:
+            st.error("❌ SciPy não encontrado")
+        
+        try:
+            sample_data = load_sample_data()
+            if sample_data is not None:
+                st.success("✅ Dados de exemplo carregados")
+            else:
+                st.warning("⚠️ Dados de exemplo não encontrados")
+        except:
+            st.error("❌ Erro ao carregar dados")
+    
+    # Seção de funcionalidades
+    st.markdown("## 🚀 Funcionalidades Principais")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+        <div class="feature-card">
+            <h3>📊 Análise Weibull Avançada</h3>
+            <ul>
+                <li>Ajuste por MLE com censura</li>
+                <li>Gráficos de probabilidade</li>
+                <li>Intervalos de confiança</li>
+                <li>Comparação de modelos</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div class="feature-card">
+            <h3>🤖 IA Assistiva</h3>
+            <ul>
+                <li>Limpeza automática de dados</li>
+                <li>Explicações em linguagem simples</li>
+                <li>Sugestões de estratégias</li>
+                <li>Relatórios executivos</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown("""
+        <div class="feature-card">
+            <h3>📋 Planejamento Inteligente</h3>
+            <ul>
+                <li>Intervalos ótimos de PM</li>
+                <li>Gestão de estoque</li>
+                <li>Análise de cenários</li>
+                <li>ROI de estratégias</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Dashboard overview se dados disponíveis
+    sample_data = load_sample_data()
+    if sample_data is not None:
+        st.markdown("---")
+        st.markdown("## 📈 Overview dos Dados de Exemplo")
+        
+        # Métricas gerais
+        create_overview_dashboard(sample_data)
+        
+        # Gráficos
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            fig1 = create_component_distribution_chart(sample_data)
+            if fig1:
+                st.plotly_chart(fig1, use_container_width=True)
+        
+        with col2:
+            fig2 = create_fleet_overview_chart(sample_data)
+            if fig2:
+                st.plotly_chart(fig2, use_container_width=True)
+        
+        # Quick analysis
+        st.markdown("### 🔍 Análise Rápida")
+        
+        # Componente com mais falhas
+        if 'component' in sample_data.columns and 'censored' in sample_data.columns:
+            failure_rate_by_component = sample_data.groupby('component')['censored'].apply(lambda x: (1-x).mean()).sort_values(ascending=False)
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("**🔴 Componentes Mais Críticos:**")
+                for i, (component, rate) in enumerate(failure_rate_by_component.head(3).items()):
+                    st.write(f"{i+1}. {component}: {rate:.1%} taxa de falha")
+            
+            with col2:
+                st.markdown("**✅ Componentes Mais Confiáveis:**")
+                for i, (component, rate) in enumerate(failure_rate_by_component.tail(3).items()):
+                    st.write(f"{i+1}. {component}: {rate:.1%} taxa de falha")
+    
+    # Seção de primeiros passos
+    st.markdown("---")
+    st.markdown("## 🎯 Primeiros Passos")
+    
+    with st.expander("📥 Como carregar seus dados", expanded=False):
+        st.markdown("""
+        **Formatos Suportados:**
+        - CSV, Excel (XLSX)
+        - Conexão SQL direta
+        - APIs de sistemas ERP/SAP
+        
+        **Colunas Requeridas:**
+        - `asset_id`: ID único do equipamento
+        - `component`: Nome do componente
+        - `install_date`: Data de instalação
+        - `operating_hours`: Horas de operação
+        - `failure_date`: Data de falha (opcional se censurado)
+        
+        **Colunas Opcionais:**
+        - `fleet`, `subsystem`, `environment`, `operator`, `cost`, `downtime_hours`
+        """)
 
-with col2:
+    with st.expander("📊 Exemplo de análise Weibull"):
+        st.markdown("""
+        **Processo Típico:**
+        1. **Upload de dados** → Validação automática
+        2. **Limpeza de dados** → IA identifica e corrige problemas
+        3. **Seleção de componente** → Escolher item para análise
+        4. **Ajuste Weibull** → Calcular β (forma) e η (escala)
+        5. **Interpretação** → IA explica resultados em linguagem simples
+        6. **Recomendações** → Intervalos de PM e estratégias
+        """)
+
+    with st.expander("🤖 Como a IA pode ajudar"):
+        st.markdown("""
+        **Limpeza de Dados:**
+        - Normalizar nomes de componentes e frotas
+        - Detectar e corrigir outliers
+        - Identificar dados inconsistentes
+        
+        **Análise Inteligente:**
+        - Explicar significado dos parâmetros Weibull
+        - Sugerir modelos alternativos (Exponencial, Lognormal)
+        - Recomendar estratégias de manutenção
+        
+        **Relatórios Automáticos:**
+        - Sumários executivos
+        - Análises comparativas
+        - Recomendações acionáveis
+        """)
+
+    # Footer
+    st.markdown("---")
     st.markdown("""
-    **🤖 IA / ML**
-    - Processamento de linguagem natural
-    - Detecção de anomalias
-    - Sistemas de recomendação
-    - AutoML para otimização
-    """)
+    <div style="text-align: center; color: #64748b; margin-top: 2rem;">
+        <strong>Weibull Fleet Analytics</strong> - Sistema de análise de confiabilidade com IA<br>
+        Desenvolvido para gestão inteligente de manutenção industrial
+    </div>
+    """, unsafe_allow_html=True)
 
-with col3:
-    st.markdown("""
-    **💻 Desenvolvimento**
-    - Python / Streamlit
-    - Pandas / NumPy
-    - SciPy / Plotly
-    - Pydantic validation
-    """)
-
-with col4:
-    st.markdown("""
-    **📚 Referências**
-    - ISO 14224 (Petroleum)
-    - MIL-HDBK-217 (Military)
-    - RCM (Reliability-Centered)
-    - SAE International
-    """)
-
-# Footer
-st.markdown("---")
-st.markdown("""
-<div style='text-align: center; color: #666; padding: 2rem;'>
-    <p style='font-size: 1.2rem; margin-bottom: 1rem;'>
-        <strong>Weibull Fleet Analytics</strong> | Sistema Profissional de Análise de Confiabilidade
-    </p>
-    <p style='font-size: 0.9rem; color: #999;'>
-        Desenvolvido com ❤️ usando Python + Streamlit + IA | Versão 1.0.0
-    </p>
-    <p style='font-size: 0.85rem; color: #aaa; margin-top: 1rem;'>
-        © 2024 | Otimização de Manutenção Industrial Baseada em Dados
-    </p>
-</div>
-""", unsafe_allow_html=True)
+if __name__ == "__main__":
+    main()
