@@ -19,6 +19,13 @@ st.set_page_config(
     layout="wide"
 )
 
+# === IMPORTS ===
+from utils.navigation import handle_navigation
+# ... outros imports ...
+
+# === PROCESSA NAVEGAÇÃO PENDENTE ===
+handle_navigation()
+
 # CSS customizado
 st.markdown("""
 <style>
