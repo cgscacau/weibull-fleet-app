@@ -312,7 +312,7 @@ if uploaded_file is not None:
         
         with col2:
             if st.button("📈 Ir Direto para Análise Weibull", use_container_width=True):
-                st.switch_page("pages/3_Weibull.py")
+                st.switch_page("pages/3_Ajuste_Weibull.py")
         
     except Exception as e:
         st.error(f"❌ Erro ao processar arquivo: {str(e)}")
@@ -374,7 +374,7 @@ elif st.session_state.df is not None:
     
     with col2:
         if st.button("📈 Ir Direto para Análise Weibull", use_container_width=True):
-            st.switch_page("pages/3_Weibull.py")
+            st.switch_page("pages/3_Ajuste_Weibull.py")
 
 # Footer
 st.markdown("---")
