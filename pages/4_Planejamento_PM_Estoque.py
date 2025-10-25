@@ -1,273 +1,431 @@
 """
-Página de planejamento de manutenção preventiva e gestão de estoque
-VERSÃO CORRIGIDA - Sem emojis no nome do arquivo
+🔧 Planejamento PM & Estoque - Versão Autônoma
+Otimização de intervalos de manutenção preventiva e gestão de peças de reposição
 """
+
 import streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.express as px
 import plotly.graph_objects as go
-from pathlib import Path
-import sys
-import os
+from plotly.subplots import make_subplots
 
-# Configurar página
+# ============================================================================
+# CONFIGURAÇÃO DA PÁGINA
+# ============================================================================
+
 st.set_page_config(
-    page_title="Planejamento PM & Estoque - Weibull Fleet Analytics",
-    page_icon="🛠️",
+    page_title="Planejamento PM & Estoque",
+    page_icon="🔧",
     layout="wide"
 )
 
-# Adicionar diretórios ao path de forma robusta
-try:
-    project_root = Path(__file__).parent.parent
-    if str(project_root) not in sys.path:
-        sys.path.insert(0, str(project_root))
-except Exception as e:
-    st.error(f"Erro ao configurar path: {e}")
-    project_root = Path.cwd()
+# ============================================================================
+# FUNÇÕES DE CÁLCULO WEIBULL
+# ============================================================================
 
-# Imports condicionais para evitar erros
-try:
-    from core.planner import MaintenancePlanner, SparePartsPlanner, create_maintenance_scenario_analysis
-    PLANNER_AVAILABLE = True
-except ImportError as e:
-    st.warning(f"⚠️ Módulo planner não disponível: {e}")
-    PLANNER_AVAILABLE = False
+def calcular_confiabilidade(t, eta, beta):
+    """
+    Calcula confiabilidade em tempo t usando distribuição Weibull
+    R(t) = exp(-(t/η)^β)
+    """
+    return np.exp(-((t / eta) ** beta))
 
-try:
-    from ai.ai_assistant import WeibullAIAssistant
-    AI_AVAILABLE = True
-except ImportError:
-    AI_AVAILABLE = False
+def calcular_intervalo_pm(eta, beta, confiabilidade_alvo):
+    """
+    Calcula intervalo PM para atingir confiabilidade alvo
+    t = η × (-ln(R))^(1/β)
+    """
+    if confiabilidade_alvo <= 0 or confiabilidade_alvo >= 1:
+        return None
+    intervalo = eta * ((-np.log(confiabilidade_alvo)) ** (1 / beta))
+    return intervalo
 
-import warnings
-warnings.filterwarnings('ignore')
+def calcular_mtbf(eta, beta):
+    """
+    Calcula MTBF usando função gamma
+    MTBF = η × Γ(1 + 1/β)
+    """
+    from scipy.special import gamma
+    mtbf = eta * gamma(1 + 1/beta)
+    return mtbf
 
-# Cabeçalho
-st.markdown("# 🛠️ Planejamento PM & Estoque")
-st.markdown("Otimização de intervalos de manutenção preventiva e gestão de peças de reposição")
+def interpretar_beta(beta):
+    """Interpreta o valor de β (parâmetro de forma)"""
+    if beta < 1:
+        return "⬇️ Mortalidade Infantil", "Falhas decrescem com o tempo"
+    elif beta == 1:
+        return "➡️ Taxa Constante", "Falhas aleatórias (exponencial)"
+    else:
+        return "⬆️ Desgaste", "Falhas aumentam com o tempo"
 
-# Verificar se há dados carregados
-if 'dataset' not in st.session_state or st.session_state.dataset is None:
-    st.info("📋 **Nenhum dado carregado**")
-    st.markdown("""
-    Para usar esta página, você precisa:
-    1. Ir para a página **🗂️ Dados**
-    2. Fazer upload de um arquivo CSV ou Excel
-    3. Verificar que os dados foram padronizados corretamente
-    4. Executar análise Weibull na página **📈 Ajuste Weibull**
+# ============================================================================
+# FUNÇÃO DE PLOTAGEM
+# ============================================================================
+
+def plotar_curva_confiabilidade(eta, beta, intervalo_pm, confiabilidade_alvo):
+    """Plota curva de confiabilidade com intervalo PM recomendado"""
     
-    Depois de ter resultados Weibull, você poderá usar esta página para planejamento.
+    # Gera pontos para a curva
+    t_max = min(eta * 3, intervalo_pm * 2.5)
+    t = np.linspace(0, t_max, 500)
+    R = calcular_confiabilidade(t, eta, beta)
+    
+    # Cria o gráfico
+    fig = go.Figure()
+    
+    # Curva de confiabilidade
+    fig.add_trace(go.Scatter(
+        x=t,
+        y=R * 100,
+        mode='lines',
+        name='Confiabilidade',
+        line=dict(color='#1f77b4', width=3),
+        hovertemplate='<b>Tempo:</b> %{x:.0f}h<br><b>Confiabilidade:</b> %{y:.1f}%<extra></extra>'
+    ))
+    
+    # Linha vertical do intervalo PM
+    fig.add_vline(
+        x=intervalo_pm,
+        line_dash="dash",
+        line_color="red",
+        line_width=2,
+        annotation_text=f"PM Recomendado: {intervalo_pm:.0f}h",
+        annotation_position="top"
+    )
+    
+    # Linha horizontal da confiabilidade alvo
+    fig.add_hline(
+        y=confiabilidade_alvo * 100,
+        line_dash="dot",
+        line_color="green",
+        line_width=2,
+        annotation_text=f"Alvo: {confiabilidade_alvo*100:.0f}%",
+        annotation_position="left"
+    )
+    
+    # Ponto de intersecção
+    fig.add_trace(go.Scatter(
+        x=[intervalo_pm],
+        y=[confiabilidade_alvo * 100],
+        mode='markers',
+        name='Ponto PM',
+        marker=dict(color='red', size=12, symbol='circle'),
+        hovertemplate=f'<b>Intervalo PM:</b> {intervalo_pm:.0f}h<br><b>Confiabilidade:</b> {confiabilidade_alvo*100:.0f}%<extra></extra>'
+    ))
+    
+    # Layout
+    fig.update_layout(
+        title=dict(
+            text='Curva de Confiabilidade Weibull',
+            font=dict(size=20, color='#2c3e50')
+        ),
+        xaxis_title='Tempo (horas)',
+        yaxis_title='Confiabilidade (%)',
+        hovermode='x unified',
+        template='plotly_white',
+        height=500,
+        showlegend=True,
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1
+        )
+    )
+    
+    fig.update_yaxis(range=[0, 105])
+    
+    return fig
+
+# ============================================================================
+# INTERFACE PRINCIPAL
+# ============================================================================
+
+st.title("🔧 Planejamento PM & Estoque")
+st.markdown("*Otimização de intervalos de manutenção preventiva e gestão de peças de reposição*")
+
+# ============================================================================
+# VERIFICAÇÃO DE DADOS
+# ============================================================================
+
+if 'weibull_data' not in st.session_state or st.session_state.weibull_data is None:
+    st.warning("⚠️ **Nenhum dado Weibull carregado!**")
+    st.info("""
+    📋 **Para usar esta página, você precisa:**
+    
+    1. Ir para a página **"Ajuste Weibull UNIFIED"**
+    2. Fazer upload dos dados
+    3. Executar a análise Weibull
+    4. Depois voltar para esta página
     """)
     st.stop()
 
-if 'weibull_results' not in st.session_state or not st.session_state.weibull_results:
-    st.info("📊 **Nenhuma análise Weibull encontrada**")
-    st.markdown("""
-    Para usar o planejamento de manutenção, você precisa:
-    1. Ter dados carregados na página **🗂️ Dados**
-    2. Executar análise Weibull na página **📈 Ajuste Weibull**
-    3. Gerar parâmetros β (beta) e η (eta) para seus componentes
-    
-    Depois disso, você poderá calcular intervalos ótimos de manutenção preventiva.
-    """)
+# ============================================================================
+# CARREGA DADOS
+# ============================================================================
+
+df_weibull = st.session_state.weibull_data.copy()
+
+# Valida colunas necessárias
+colunas_requeridas = ['identificador', 'eta', 'beta']
+if not all(col in df_weibull.columns for col in colunas_requeridas):
+    st.error(f"❌ **Erro:** Dados não contêm as colunas necessárias: {colunas_requeridas}")
     st.stop()
 
-# Dados disponíveis
-st.success("✅ Dados e resultados Weibull encontrados!")
+# Remove registros com valores inválidos
+df_weibull = df_weibull[
+    (df_weibull['eta'].notna()) & 
+    (df_weibull['beta'].notna()) &
+    (df_weibull['eta'] > 0) &
+    (df_weibull['beta'] > 0)
+].copy()
 
-# Tabs principais
-tab1, tab2, tab3 = st.tabs(["🔧 Planejamento PM", "📦 Gestão de Estoque", "📊 Análise de Cenários"])
+if len(df_weibull) == 0:
+    st.error("❌ **Erro:** Nenhum registro válido encontrado nos dados Weibull.")
+    st.stop()
+
+# ============================================================================
+# MENSAGEM DE SUCESSO
+# ============================================================================
+
+st.success(f"✅ **Dados e resultados Weibull encontrados!**")
+
+# ============================================================================
+# TABS
+# ============================================================================
+
+tab1, tab2, tab3 = st.tabs([
+    "🔧 Planejamento PM",
+    "📦 Gestão de Estoque", 
+    "📊 Análise de Cenários"
+])
+
+# ============================================================================
+# TAB 1: PLANEJAMENTO PM
+# ============================================================================
 
 with tab1:
-    st.markdown("## 🔧 Planejamento de Manutenção Preventiva")
+    st.header("🔧 Planejamento de Manutenção Preventiva")
     
-    if not PLANNER_AVAILABLE:
-        st.warning("⚠️ Módulo de planejamento não está disponível. Mostrando interface simplificada.")
+    col1, col2 = st.columns([1, 2])
+    
+    with col1:
+        st.subheader("⚙️ Parâmetros")
         
-        st.markdown("""
-        ### Cálculo de Intervalo de Manutenção Preventiva
+        # Seleção de equipamento/componente
+        identificador_selecionado = st.selectbox(
+            "Selecione o Equipamento/Componente:",
+            options=sorted(df_weibull['identificador'].unique()),
+            help="Escolha o equipamento ou componente para calcular o intervalo PM"
+        )
         
-        O intervalo ótimo de PM é calculado baseado nos parâmetros Weibull:
+        # Filtra dados do equipamento selecionado
+        registro = df_weibull[df_weibull['identificador'] == identificador_selecionado].iloc[0]
         
-        **Fórmula:**
-        ```
-        Intervalo PM = η × (-ln(Confiabilidade_Alvo))^(1/β)
-        ```
+        eta = registro['eta']
+        beta = registro['beta']
         
-        Onde:
-        - **η (eta)** = Vida característica (horas)
-        - **β (beta)** = Parâmetro de forma
-        - **Confiabilidade_Alvo** = Nível desejado (ex: 90% = 0.90)
-        """)
+        # Exibe parâmetros Weibull
+        st.markdown("---")
+        st.markdown("**📊 Parâmetros Weibull:**")
         
-        # Seletor de componente
-        components = list(st.session_state.weibull_results.keys())
-        if components:
-            selected_component = st.selectbox("Selecione o componente:", components)
+        param_col1, param_col2 = st.columns(2)
+        with param_col1:
+            st.metric("η (Escala)", f"{eta:.1f}h", help="Tempo característico")
+        with param_col2:
+            st.metric("β (Forma)", f"{beta:.2f}", help="Comportamento da falha")
+        
+        # Interpreta beta
+        tipo_falha, descricao = interpretar_beta(beta)
+        st.info(f"**{tipo_falha}**\n\n{descricao}")
+        
+        # MTBF
+        mtbf = calcular_mtbf(eta, beta)
+        st.metric("MTBF", f"{mtbf:.1f}h", help="Mean Time Between Failures")
+        
+        st.markdown("---")
+        
+        # Nível de confiabilidade desejado
+        confiabilidade_alvo = st.slider(
+            "Nível de Confiabilidade Alvo:",
+            min_value=0.80,
+            max_value=0.99,
+            value=0.90,
+            step=0.01,
+            format="%.0f%%",
+            help="Define o nível mínimo de confiabilidade desejado"
+        ) 
+        
+        # Calcula intervalo PM
+        intervalo_pm = calcular_intervalo_pm(eta, beta, confiabilidade_alvo)
+        
+        st.markdown("---")
+        
+        # Resultado principal
+        st.markdown("### 🎯 **Resultado:**")
+        st.metric(
+            label="Intervalo PM Recomendado",
+            value=f"{intervalo_pm:.0f} horas",
+            delta=f"{(intervalo_pm/mtbf - 1)*100:+.1f}% vs MTBF",
+            help=f"Executar PM a cada {intervalo_pm:.0f}h garante {confiabilidade_alvo*100:.0f}% de confiabilidade"
+        )
+        
+        # Informações adicionais
+        with st.expander("ℹ️ Como Interpretar"):
+            st.markdown(f"""
+            **Intervalo PM Calculado:** `{intervalo_pm:.0f} horas`
             
-            if selected_component in st.session_state.weibull_results:
-                results = st.session_state.weibull_results[selected_component]['results']
-                
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    st.markdown("### Parâmetros Weibull")
-                    st.metric("Beta (β)", f"{results['beta']:.2f}")
-                    st.metric("Eta (η)", f"{results['eta']:.0f} horas")
-                    st.metric("MTBF", f"{results['mtbf']:.0f} horas")
-                
-                with col2:
-                    st.markdown("### Configuração PM")
-                    target_reliability = st.slider(
-                        "Confiabilidade Alvo (%)",
-                        min_value=50,
-                        max_value=99,
-                        value=90,
-                        step=1
-                    ) / 100
-                    
-                    # Calcular intervalo PM
-                    beta = results['beta']
-                    eta = results['eta']
-                    pm_interval = eta * ((-np.log(target_reliability)) ** (1/beta))
-                    
-                    st.markdown("### Intervalo Recomendado")
-                    st.success(f"**{pm_interval:.0f} horas**")
-                    
-                    # Métricas adicionais
-                    st.metric("% da Vida Característica", f"{(pm_interval/eta*100):.1f}%")
-                    st.metric("% do MTBF", f"{(pm_interval/results['mtbf']*100):.1f}%")
-                
-                # Análise de risco
-                st.markdown("### 📊 Análise de Diferentes Intervalos")
-                
-                intervals_df = pd.DataFrame({
-                    'Confiabilidade (%)': [50, 60, 70, 80, 85, 90, 95, 99],
-                })
-                
-                intervals_df['Intervalo PM (h)'] = intervals_df['Confiabilidade (%)'].apply(
-                    lambda r: eta * ((-np.log(r/100)) ** (1/beta))
-                )
-                intervals_df['% do MTBF'] = (intervals_df['Intervalo PM (h)'] / results['mtbf'] * 100).round(1)
-                intervals_df['Risco de Falha (%)'] = 100 - intervals_df['Confiabilidade (%)']
-                
-                st.dataframe(intervals_df, use_container_width=True)
-                
-                # Gráfico
-                fig = go.Figure()
-                fig.add_trace(go.Scatter(
-                    x=intervals_df['Intervalo PM (h)'],
-                    y=intervals_df['Confiabilidade (%)'],
-                    mode='lines+markers',
-                    name='Confiabilidade',
-                    line=dict(color='#10B981', width=3),
-                    marker=dict(size=10)
-                ))
-                
-                fig.add_vline(
-                    x=pm_interval,
-                    line_dash="dash",
-                    line_color="red",
-                    annotation_text=f"Recomendado: {pm_interval:.0f}h"
-                )
-                
-                fig.update_layout(
-                    title="Confiabilidade vs Intervalo de Manutenção",
-                    xaxis_title="Intervalo PM (horas)",
-                    yaxis_title="Confiabilidade (%)",
-                    hovermode='x unified',
-                    height=500
-                )
-                
-                st.plotly_chart(fig, use_container_width=True)
-                
-        else:
-            st.warning("Nenhum resultado Weibull disponível")
+            Isso significa que você deve executar manutenção preventiva a cada **{intervalo_pm:.0f} horas** 
+            de operação para garantir que o equipamento/componente mantenha pelo menos 
+            **{confiabilidade_alvo*100:.0f}% de confiabilidade**.
+            
+            ---
+            
+            **Comparação com MTBF:**
+            - MTBF = {mtbf:.0f}h (tempo médio entre falhas)
+            - Intervalo PM = {intervalo_pm:.0f}h
+            - Razão PM/MTBF = {intervalo_pm/mtbf:.2f}
+            
+            {"✅ Intervalo PM **menor** que MTBF = Manutenção **proativa**" if intervalo_pm < mtbf else "⚠️ Intervalo PM **maior** que MTBF = Revise a estratégia"}
+            
+            ---
+            
+            **Fórmula Utilizada:**
+            ```
+            t_PM = η × (-ln(R))^(1/β)
+            ```
+            Onde:
+            - t_PM = Intervalo PM
+            - η = {eta:.1f} (parâmetro de escala)
+            - β = {beta:.2f} (parâmetro de forma)
+            - R = {confiabilidade_alvo:.2f} (confiabilidade alvo)
+            """)
     
-    else:
-        # Usar módulo planner completo
-        st.markdown("### Usando módulo de planejamento avançado")
-        # (código original continua aqui)
+    with col2:
+        st.subheader("📈 Análise Gráfica")
+        
+        # Plota curva de confiabilidade
+        fig = plotar_curva_confiabilidade(eta, beta, intervalo_pm, confiabilidade_alvo)
+        st.plotly_chart(fig, use_container_width=True)
+        
+        # Tabela de intervalos para diferentes confiabilidades
+        st.markdown("---")
+        st.markdown("### 📋 Tabela de Intervalos PM por Confiabilidade")
+        
+        confs = [0.80, 0.85, 0.90, 0.95, 0.99]
+        dados_tabela = []
+        
+        for conf in confs:
+            int_pm = calcular_intervalo_pm(eta, beta, conf)
+            conf_no_mtbf = calcular_confiabilidade(mtbf, eta, beta)
+            dados_tabela.append({
+                'Confiabilidade Alvo': f"{conf*100:.0f}%",
+                'Intervalo PM (h)': f"{int_pm:.0f}",
+                'Dias (24h/dia)': f"{int_pm/24:.1f}",
+                'Razão PM/MTBF': f"{int_pm/mtbf:.2f}",
+                'Status': '✅ Recomendado' if conf == confiabilidade_alvo else ''
+            })
+        
+        df_tabela = pd.DataFrame(dados_tabela)
+        st.dataframe(df_tabela, use_container_width=True, hide_index=True)
+        
+        # Recomendações
+        st.markdown("---")
+        st.markdown("### 💡 Recomendações")
+        
+        if beta < 1:
+            st.info("""
+            **🔍 Mortalidade Infantil Detectada (β < 1)**
+            
+            - Falhas ocorrem mais no início da vida útil
+            - **Recomendação:** Melhore o processo de instalação e burn-in
+            - Considere período de garantia estendido
+            """)
+        elif beta > 3:
+            st.warning("""
+            **⚠️ Desgaste Acelerado (β > 3)**
+            
+            - Taxa de falha aumenta rapidamente com o tempo
+            - **Recomendação:** Intervalos PM mais curtos são críticos
+            - Considere substituição preventiva antes do desgaste
+            """)
+        else:
+            st.success("""
+            **✅ Comportamento Normal de Desgaste**
+            
+            - Taxa de falha aumenta gradualmente
+            - Intervalos PM calculados são adequados
+            - Mantenha registro e monitore a efetividade
+            """)
+
+# ============================================================================
+# TAB 2: GESTÃO DE ESTOQUE
+# ============================================================================
 
 with tab2:
-    st.markdown("## 📦 Gestão de Estoque de Peças")
+    st.header("📦 Gestão de Estoque de Peças")
+    st.info("🚧 **Módulo em desenvolvimento**")
     
-    st.info("🚧 **Em desenvolvimento**")
     st.markdown("""
     ### Funcionalidades Planejadas:
     
-    - **Cálculo de Demanda:** Estimar quantidade de peças necessárias baseado em:
-      - Taxa de falha (parâmetros Weibull)
-      - Tamanho da frota
-      - Intervalo de manutenção
-    
-    - **Nível de Estoque Ótimo:**
-      - Estoque de segurança
-      - Ponto de reordenação
-      - Quantidade econômica de pedido (EOQ)
-    
-    - **Análise de Custos:**
-      - Custo de falta (downtime)
-      - Custo de armazenagem
-      - Custo de pedido
-      - Custo total otimizado
-    
-    - **Dashboard de Peças Críticas:**
-      - Componentes com maior risco de falta
-      - Lead time dos fornecedores
-      - Histórico de consumo
+    - 📊 Cálculo de estoque de segurança
+    - 🔄 Política de reposição automática
+    - 💰 Otimização de custos de estoque
+    - 📈 Previsão de demanda de peças
+    - 🎯 Análise ABC de peças críticas
     """)
+
+# ============================================================================
+# TAB 3: ANÁLISE DE CENÁRIOS
+# ============================================================================
 
 with tab3:
-    st.markdown("## 📊 Análise de Cenários")
+    st.header("📊 Análise de Cenários")
+    st.info("🚧 **Módulo em desenvolvimento**")
     
-    st.info("🚧 **Em desenvolvimento**")
     st.markdown("""
     ### Funcionalidades Planejadas:
     
-    - **Simulação de Estratégias:**
-      - Comparar diferentes intervalos de PM
-      - Avaliar impacto na confiabilidade
-      - Calcular custos vs benefícios
-    
-    - **Análise What-If:**
-      - "E se aumentarmos a frequência de PM?"
-      - "E se reduzirmos o estoque de peças?"
-      - "E se investirmos em componentes de melhor qualidade?"
-    
-    - **Otimização Multi-Objetivo:**
-      - Maximizar confiabilidade
-      - Minimizar custos
-      - Minimizar downtime
-      - Encontrar ponto de equilíbrio
-    
-    - **Relatórios Executivos:**
-      - ROI de diferentes estratégias
-      - Comparação com benchmarks
-      - Recomendações priorizadas
+    - 🔮 Simulação What-If
+    - 📉 Análise de sensibilidade
+    - ⚖️ Comparação de estratégias PM
+    - 💵 Análise custo-benefício
+    - 🎲 Simulação Monte Carlo
     """)
 
-# Sidebar com informações
+# ============================================================================
+# SIDEBAR COM DICAS
+# ============================================================================
+
 with st.sidebar:
+    st.markdown("---")
     st.markdown("### 💡 Dicas")
+    
     st.markdown("""
     **Para calcular PM ideal:**
+    
     1. Execute análise Weibull primeiro
     2. Defina confiabilidade alvo (geralmente 90%)
     3. Considere custos operacionais
     4. Ajuste baseado em experiência prática
+    """)
     
-    **Confiabilidade típica:**
+    st.markdown("---")
+    st.markdown("### 📚 Confiabilidade típica:")
+    
+    st.markdown("""
     - **Crítico:** 95-99%
     - **Importante:** 90-95%
     - **Normal:** 80-90%
     """)
     
-    st.markdown("### 📚 Recursos")
-    st.markdown("""
-    - [Documentação Weibull](https://en.wikipedia.org/wiki/Weibull_distribution)
-    - [Planejamento de Manutenção](https://www.reliabilityweb.com/articles/entry/preventive-maintenance-optimization)
-    - [Gestão de Estoque](https://en.wikipedia.org/wiki/Inventory_management)
-    """)
+    st.markdown("---")
+    
+    # Estatísticas dos dados
+    if len(df_weibull) > 0:
+        st.markdown("### 📊 Estatísticas dos Dados")
+        st.metric("Total de Equipamentos/Componentes", len(df_weibull))
+        st.metric("β Médio", f"{df_weibull['beta'].mean():.2f}")
+        st.metric("η Médio", f"{df_weibull['eta'].mean():.1f}h")
